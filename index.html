@@ -9,7 +9,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Noto+Sans:wght@600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="css/style.css">
@@ -25,21 +25,21 @@
                     <p class="text-xl leading-relaxed mb-8">
                         I am a PhD candidate at [Your University] with the 
                         <a href="#" target="_blank" class="link-inline">
-                            <span>[Name of Research Group]</span>
+                            <span data-content="[Name of Research Group]">[Name of Research Group]</span>
                         </a>, 
                         focusing on signal processing and machine learning.
                     </p>
                     
                     <div class="flex justify-center md:justify-start space-x-8">
-                        <a href="./research/" class="animated-link"><span>Research</span></a>
-                        <a href="./publications/" class="animated-link"><span>Publications</span></a>
+                        <a href="./research/" class="animated-link"><span data-content="Research">Research</span></a>
+                        <a href="./publications/" class="animated-link"><span data-content="Publications">Publications</span></a>
                     </div>
 
                     <div class="flex justify-center md:justify-start space-x-8 mt-6">
-                        <a href="mailto:your.email@university.edu" class="animated-link text-base"><span>Contact</span></a>
-                        <a href="#" title="LinkedIn" class="animated-link text-base"><span>LinkedIn</span></a>
-                        <a href="#" title="Google Scholar" class="animated-link text-base"><span>Google Scholar</span></a>
-                        <a href="#" title="ORCID" class="animated-link text-base"><span>ORCID</span></a>
+                        <a href="mailto:your.email@university.edu" class="animated-link text-base"><span data-content="Contact">Contact</span></a>
+                        <a href="#" title="LinkedIn" class="animated-link text-base"><span data-content="LinkedIn">LinkedIn</span></a>
+                        <a href="#" title="Google Scholar" class="animated-link text-base"><span data-content="Google Scholar">Google Scholar</span></a>
+                        <a href="#" title="ORCID" class="animated-link text-base"><span data-content="ORCID">ORCID</span></a>
                     </div>
                 </div>
 
@@ -49,7 +49,5 @@
             </section>
         </main>
     </div>
-
-    <script defer src="js/scripts.js"></script>
 </body>
 </html>
