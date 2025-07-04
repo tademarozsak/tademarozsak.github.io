@@ -1,54 +1,51 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[Your Name] | PhD Candidate</title>
-    <meta name="description" content="Personal academic website of [Your Name], a PhD candidate in Electrical Engineering.">
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Noto+Sans:wght@600&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[TADE Name] | PhD Candidate</title>
+  <meta name="description" content="Personal academic website of [Your Name], a PhD candidate in Electrical Engineering.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Noto+Sans:wght@600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="bg-gray-50 text-gray-800">
+  
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 grid min-h-screen grid-rows-[1fr]">
+    <main class="flex items-center py-12">
+      <section class="flex flex-col-reverse md:flex-row items-center w-full">
+        <div class="flex-grow text-center md:text-left mt-8 md:mt-0">
+          <h1 class="text-4xl md:text-5xl font-bold mb-4">[Your Name]</h1>
+          <p class="text-xl leading-relaxed mb-8">
+            I am a PhD candidate at [Your University] with the
+            <a href="#" target="_blank" class="link-inline">
+              <span data-content="[Name of Research Group]">[Name of Research Group]</span>
+            </a>,
+            focusing on signal processing and machine learning.
+          </p>
+          <div class="flex justify-center md:justify-start space-x-8">
+            <a href="./research/" class="animated-link"><span data-content="Research">Research</span></a>
+            <a href="./publications/" class="animated-link"><span data-content="Publications">Publications</span></a>
+          </div>
 
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 grid min-h-screen grid-rows-[1fr]">
-        <main class="flex items-center py-12">
-            <section class="flex flex-col-reverse md:flex-row items-center w-full">
-                
-                <div class="flex-grow text-center md:text-left mt-8 md:mt-0">
-                    <h1 class="text-4xl md:text-5xl font-bold mb-4">[Your Name]</h1>
-                    <p class="text-xl leading-relaxed mb-8">
-                        I am a PhD candidate at [Your University] with the 
-                        <a href="#" target="_blank" class="animated-link" style="font-size: 1.25rem;">
-                            <span data-content="[Name of Research Group]">[Name of Research Group]</span>
-                        </a>, 
-                        focusing on signal processing and machine learning.
-                    </p>
-                    
-                    <div class="flex justify-center md:justify-start space-x-8">
-                        <a href="./research/" class="animated-link"><span data-content="Research">Research</span></a>
-                        <a href="./publications/" class="animated-link"><span data-content="Publications">Publications</span></a>
-                    </div>
+          <div class="flex justify-center md:justify-start space-x-8 mt-6">
+            <a href="mailto:your.email@university.edu" class="animated-link text-base"><span data-content="Contact">Contact</span></a>
+            <a href="#" title="LinkedIn" class="animated-link text-base"><span data-content="LinkedIn">LinkedIn</span></a>
+            <a href="#" title="Google Scholar" class="animated-link text-base"><span data-content="Google Scholar">Google Scholar</span></a>
+            <a href="#" title="ORCID" class="animated-link text-base"><span data-content="ORCID">ORCID</span></a>
+          </div>
+        </div>
 
-                    <div class="flex justify-center md:justify-start space-x-8 mt-6">
-                        <a href="mailto:your.email@university.edu" class="animated-link text-base"><span data-content="Contact">Contact</span></a>
-                        <a href="#" title="LinkedIn" class="animated-link text-base"><span data-content="LinkedIn">LinkedIn</span></a>
-                        <a href="#" title="Google Scholar" class="animated-link text-base"><span data-content="Google Scholar">Google Scholar</span></a>
-                        <a href="#" title="ORCID" class="animated-link text-base"><span data-content="ORCID">ORCID</span></a>
-                    </div>
-                </div>
+        <div class="flex-shrink-0 md:ml-12">
+          <img class="w-36 h-36 md:w-48 md:h-48 rounded-full object-cover shadow-lg" src="https://picsum.photos/id/237/192/192" alt="Profile picture of [Your Name]">
+        </div>
 
-                <div class="flex-shrink-0 md:ml-12">
-                    <img class="w-36 h-36 md:w-48 md:h-48 rounded-full object-cover shadow-lg" src="https://picsum.photos/id/237/192/192" alt="Profile picture of [Your Name]">
-                </div>
-
-            </section>
-        </main>
-    </div>
+      </section>
+    </main>
+  </div>
 </body>
 </html>
