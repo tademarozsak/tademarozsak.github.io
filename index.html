@@ -4,55 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>[Your Name] | PhD Candidate</title>
-    <meta name="description" content="Personal academic website of [Your Name].">
+    <meta name="description" content="Personal academic website of [Your Name], a PhD candidate in Electrical Engineering.">
     
+    <script src="https://cdn.tailwindcss.com"></script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Noto+Sans:wght@600&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="./css/style.css">
+
+    <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="bg-gray-50 text-gray-800">
 
-    <div class="main-container home-layout">
-        <header class="site-header">
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="/" class="animated-link active-link"><span data-content="Home">Home</span></a></li>
-                    <li><a href="./research/" class="animated-link"><span data-content="Research">Research</span></a></li>
-                    <li><a href="./publications/" class="animated-link"><span data-content="Publications">Publications</span></a></li>
-                </ul>
-            </nav>
-        </header>
-
-        <main class="home-main">
-            <section class="hero-section">
-                <div class="profile-image">
-                    <img src="https://picsum.photos/id/237/128/128" alt="Profile picture of [Your Name]">
-                </div>
-                <div class="bio-content">
-                    <h1>[Your Name]</h1>
-                    <p>
-                        I am a PhD candidate in Electrical Engineering at [Your University], advised by 
-                        <a href="#" class="animated-link" style="font-size: 1.25rem;">
-                           <span data-content="[Professor's Name]">[Professor's Name]</span>
-                        </a>. 
-                        My research focuses on signal processing and machine learning.
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 grid min-h-screen grid-rows-[1fr]">
+        <main class="flex items-center py-12">
+            <section class="flex flex-col-reverse md:flex-row items-center w-full">
+                
+                <div class="flex-grow text-center md:text-left mt-8 md:mt-0">
+                    <h1 class="text-4xl md:text-5xl font-bold mb-4">[Your Name]</h1>
+                    <p class="text-xl leading-relaxed mb-8">
+                        I am a PhD candidate at [Your University] with the 
+                        <a href="#" target="_blank" class="link-inline">
+                            <span data-content="[Name of Research Group]">[Name of Research Group]</span>
+                        </a>, 
+                        focusing on signal processing and machine learning.
                     </p>
-                    <div class="icon-links">
-                        <a href="mailto:your.email@university.edu" title="Email">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" /></svg>
-                        </a>
-                        <a href="#" title="CV">
-                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg>
-                        </a>
-                        <a href="#" title="Google Scholar">
-                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M5.242 13.769L0 9.5L12 0l12 9.5l-5.242 4.269C17.548 11.249 14.978 9 12 9s-5.548 2.249-6.758 4.769zM12 10c1.381 0 2.5 1.119 2.5 2.5s-1.119 2.5-2.5 2.5S9.5 13.881 9.5 12.5S10.619 10 12 10zM12 15c3.313 0 6 2.687 6 6H6c0-3.313 2.687-6 6-6z"/></svg>
-                        </a>
-                        <a href="#" title="GitHub">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.3 24 12 24 5.373 18.627 0 12 0z"/></svg>
-                        </a>
+                    
+                    <div class="flex justify-center md:justify-start space-x-8">
+                        <a href="./research/" class="animated-link"><span data-content="Research">Research</span></a>
+                        <a href="./publications/" class="animated-link"><span data-content="Publications">Publications</span></a>
                     </div>
+
+                    <div class="flex justify-center md:justify-start space-x-8 mt-6">
+                        <a href="mailto:your.email@university.edu" class="animated-link text-base"><span data-content="Contact">Contact</span></a>
+                        <a href="#" title="LinkedIn" class="animated-link text-base"><span data-content="LinkedIn">LinkedIn</span></a>
+                        <a href="#" title="Google Scholar" class="animated-link text-base"><span data-content="Google Scholar">Google Scholar</span></a>
+                        <a href="#" title="ORCID" class="animated-link text-base"><span data-content="ORCID">ORCID</span></a>
+                    </div>
+                </div>
+
+                <div class="flex-shrink-0 md:ml-12">
+                    <img class="w-36 h-36 md:w-48 md:h-48 rounded-full object-cover shadow-lg" src="https://picsum.photos/id/237/192/192" alt="Profile picture of [Your Name]">
                 </div>
             </section>
         </main>
