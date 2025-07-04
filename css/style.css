@@ -11,66 +11,55 @@ body, h1, h2, h3, h4, h5, h6 {
 :root {
     --primary-color: #1F2937;
     --hovered-color: #2563EB;
-    --page-background: #F9FAFB;
 }
 
 /* --- Base Styling for Both Link Types --- */
 .animated-link, .link-inline {
     position: relative;
-    text-decoration: none;
     color: var(--primary-color);
+    text-decoration: none;
     cursor: pointer;
+    
+    /* --- NEW UNDERLINE TECHNIQUE --- */
+    /* We create two layered gradients for the underline and animate the size of the top one. */
+    background-image:
+        linear-gradient(var(--hovered-color), var(--hovered-color)), /* Top layer: Blue */
+        linear-gradient(var(--primary-color), var(--primary-color)); /* Bottom layer: Dark */
+    
+    background-size: 0% 2px, 100% 2px; /* Blue is 0% wide, Dark is 100% wide */
+    background-repeat: no-repeat;
+    background-position: left bottom; /* Position both at the bottom-left */
+    
+    /* Transition for the underline wipe */
+    transition: background-size 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* LAYER 1: The permanent, dark underline */
-.animated-link::after, .link-inline::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    left: 0;
-    background-color: var(--primary-color);
-}
-
-/* LAYER 2: The sliding, blue underline (starts hidden) */
-.animated-link::before, .link-inline::before {
-    content: '';
-    position: absolute;
-    width: 0; /* Animated on hover */
-    left: 0;
-    background-color: var(--hovered-color);
-    transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-    z-index: 1; 
-}
-
-/* The span that holds the text */
+/* --- The Text Wipe Effect --- */
 .animated-link span, .link-inline span {
     position: relative;
     color: var(--primary-color);
-    /* The background hides the underline running behind the text */
-    background: var(--page-background);
-    padding-left: 2px;
-    padding-right: 2px;
-    margin-left: -2px;
+    /* NO padding or margin hacks needed anymore */
 }
 
-/* LAYER 3: The sliding, blue text (starts hidden) */
+/* This is the sliding blue text layer (starts hidden) */
 .animated-link span::before, .link-inline span::before {
     content: attr(data-content);
     position: absolute;
     inset: 0;
-    padding-left: 2px;
-    padding-right: 2px;
     width: 0; /* Animated on hover */
     color: var(--hovered-color);
     overflow: hidden;
-    transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    /* Transition for the text wipe */
+    transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* --- HOVER STATE --- */
-/* On hover, animate the width of the blue layers */
-.animated-link:hover::before, .link-inline:hover::before,
+.animated-link:hover, .link-inline:hover {
+    background-size: 100% 2px, 100% 2px; /* Animate the underline to 100% width */
+}
+
 .animated-link:hover span::before, .link-inline:hover span::before {
-    width: 100%;
+    width: 100%; /* Animate the text wipe to 100% width */
 }
 
 
@@ -80,20 +69,17 @@ body, h1, h2, h3, h4, h5, h6 {
     align-items: center; 
     font-weight: 600;
     font-family: 'Noto Sans', sans-serif;
-}
-.animated-link::after, .animated-link::before {
-    bottom: -5px;
-    height: 2px;
+    padding-bottom: 5px; /* Space for the underline */
 }
 
 
 /* --- Specifics for In-Paragraph Links --- */
 .link-inline {
-    display: inline-block; /* FIX: ensures proper rendering */
-    padding-bottom: 0.2em; /* Makes space for the underline */
-    margin-bottom: -0.2em; /* Prevents increasing line-height */
-}
-.link-inline::after, .link-inline::before {
-    bottom: 0;
-    height: 0.12em; /* Scales with text size */
+    display: inline; /* Can be simple inline now */
+    background-position: left 100%; /* Position underline at the very bottom */
+    /* We adjust the thickness of the line to match the text size */
+    background-image:
+        linear-gradient(var(--hovered-color), var(--hovered-color)),
+        linear-gradient(var(--primary-color), var(--primary-color));
+    background-size: 0% 0.12em, 100% 0.12em;
 }
