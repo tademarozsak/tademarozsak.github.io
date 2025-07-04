@@ -1,79 +1,91 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Research | [Your Name]</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Research | [Your Name]</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['"DM Serif Text"', 'serif'],
+            sans: ['"Noto Sans"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Noto+Sans:wght@600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../css/style.css">
+  
+</head>
+<body class="bg-gray-50 text-gray-800 font-serif">
+  
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <header class="mb-12">
+      <a href="../" class="animated-link font-sans">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+        </svg>
+        <span data-content="Go Back" class="ml-2">Go Back</span>
+      </a>
+    </header>
     
-    <script src="https://cdn.tailwindcss.com"></script>
+    <main>
+      <h1 class="text-4xl font-bold mb-8 border-b pb-4">Research</h1>
+      
+      <article class="mt-8 space-y-6 text-lg leading-relaxed text-gray-800">
+        
+        <h2 class="text-3xl font-bold !mt-10 !mb-4">Core Research Theme: Bridging Signal Processing and Machine Learning</h2>
+        <p>
+          My doctoral research operates at the intersection of classical signal processing and modern machine learning. The primary goal is to develop robust, efficient, and interpretable algorithms for analyzing complex time-series data, with a special emphasis on biomedical applications such as electroencephalography (EEG) and electrocardiography (ECG). We aim to move beyond "black-box" models by integrating domain-specific knowledge into the learning process.
+        </p>
+        <p>
+          This involves exploring hybrid models that leverage the mathematical rigor of signal transforms (like Fourier or Wavelet transforms) as feature extractors for deep neural networks. By doing so, we can reduce the dimensionality of the input data, enforce invariances, and improve model generalization, especially in data-scarce environments.
+        </p>
+        
+        <figure class="!my-10">
+          <img class="rounded-lg shadow-md mx-auto" src="https://picsum.photos/id/12/800/400" alt="A placeholder diagram of a neural network architecture.">
+          <figcaption class="text-center text-base italic text-gray-600 mt-3">
+            Fig. 1: Conceptual diagram of a hybrid model integrating a wavelet scattering transform with a recurrent neural network for signal classification.
+          </figcaption>
+        </figure>
+        
+        <h3 class="text-2xl font-bold !mt-10 !mb-4">Methodology and Techniques</h3>
+        <p>
+          A significant part of my work focuses on creating models that are computationally efficient enough to run on low-power, wearable devices. This is critical for real-time health monitoring. To achieve this, I investigate techniques like model quantization, pruning, and knowledge distillation. An important theoretical tool in this process is the formulation of a loss function, such as the binary cross-entropy for a classification task, which we seek to minimize:
+          $$
+          \mathcal{L}(\theta) = -\frac{1}{N} \sum_{i=1}^{N} \left[ y_i \log(\hat{y}_i) + (1 - y_i) \log(1 - \hat{y}_i) \right]
+          $$
+          Here, $y_i$ is the true label and $\hat{y}_i$ is the predicted probability for the $i$-th sample. By optimizing this function, we train the model to make accurate predictions.
+        </p>
+        <p>Key contributions of this research include:</p>
+        <ul class="list-disc list-outside pl-5 space-y-2">
+          <li>The development of a novel time-frequency feature extraction method that is robust to non-stationarities in biomedical signals.</li>
+          <li>A framework for quantifying model uncertainty, allowing for more reliable clinical decision support.</li>
+          <li>An open-source software package implementing the proposed algorithms for the research community.</li>
+        </ul>
+        
+      </article>
+    </main>
+  </div>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Noto+Sans:wght@600&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="../css/style.css">
-
-    <script>
+  <script>
     MathJax = {
       tex: {
         inlineMath: [['$', '$'], ['\\(', '\\)']],
         displayMath: [['$$', '$$'], ['\\[', '\\]']]
       }
     };
-    </script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
-</head>
-<body class="bg-gray-50 text-gray-800">
-
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <header class="mb-12">
-             <a href="../" class="animated-link">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-                </svg>
-                <span data-content="Go Back" class="ml-2">Go Back</span>
-            </a>
-        </header>
-
-        <main>
-            <h1 class="text-4xl font-bold mb-8 border-b pb-4">Research</h1>
-
-            <article class="mt-8 space-y-6 text-lg leading-relaxed text-gray-800">
-
-                <h2 class="text-3xl font-bold !mt-10 !mb-4">Core Research Theme: Bridging Signal Processing and Machine Learning</h2>
-                <p>
-                    My doctoral research operates at the intersection of classical signal processing and modern machine learning. The primary goal is to develop robust, efficient, and interpretable algorithms for analyzing complex time-series data, with a special emphasis on biomedical applications such as electroencephalography (EEG) and electrocardiography (ECG). We aim to move beyond "black-box" models by integrating domain-specific knowledge into the learning process.
-                </p>
-                <p>
-                    This involves exploring hybrid models that leverage the mathematical rigor of signal transforms (like Fourier or Wavelet transforms) as feature extractors for deep neural networks. By doing so, we can reduce the dimensionality of the input data, enforce invariances, and improve model generalization, especially in data-scarce environments.
-                </p>
-
-                <figure class="!my-10">
-                    <img class="rounded-lg shadow-md mx-auto" src="https://picsum.photos/id/12/800/400" alt="A placeholder diagram of a neural network architecture.">
-                    <figcaption class="text-center text-base italic text-gray-600 mt-3">
-                        Fig. 1: Conceptual diagram of a hybrid model integrating a wavelet scattering transform with a recurrent neural network for signal classification.
-                    </figcaption>
-                </figure>
-
-                <h3 class="text-2xl font-bold !mt-10 !mb-4">Methodology and Techniques</h3>
-                <p>
-                    A significant part of my work focuses on creating models that are computationally efficient enough to run on low-power, wearable devices. This is critical for real-time health monitoring. To achieve this, I investigate techniques like model quantization, pruning, and knowledge distillation. An important theoretical tool in this process is the formulation of a loss function, such as the binary cross-entropy for a classification task, which we seek to minimize:
-                    $$
-                    \mathcal{L}(\theta) = -\frac{1}{N} \sum_{i=1}^{N} \left[ y_i \log(\hat{y}_i) + (1 - y_i) \log(1 - \hat{y}_i) \right]
-                    $$
-                    Here, $y_i$ is the true label and $\hat{y}_i$ is the predicted probability for the $i$-th sample. By optimizing this function, we train the model to make accurate predictions.
-                </p>
-                
-                <p>Key contributions of this research include:</p>
-                <ul class="list-disc list-outside pl-5 space-y-2">
-                    <li>The development of a novel time-frequency feature extraction method that is robust to non-stationarities in biomedical signals.</li>
-                    <li>A framework for quantifying model uncertainty, allowing for more reliable clinical decision support.</li>
-                    <li>An open-source software package implementing the proposed algorithms for the research community.</li>
-                </ul>
-
-            </article>
-            </main>
-    </div>
 </body>
 </html>
