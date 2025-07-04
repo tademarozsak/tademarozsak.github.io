@@ -1,55 +1,70 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Research - Your Name</title>
+    <title>Research | [Your Name]</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Lora:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400&display=swap" rel="stylesheet">
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        'sans': ['Inter', 'sans-serif'],
-                        'serif': ['Lora', 'serif'],
-                    }
-                }
-            }
+    <style>
+        body {
+            font-family: 'Source Serif 4', 'Libertinus Math', serif;
         }
-    </script>
-
-    <link rel="stylesheet" href="../css/style.css">
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Open Sans', sans-serif;
+        }
+        .link-style {
+            @apply text-blue-600 underline hover:text-blue-800 transition-colors;
+        }
+    </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans">
+<body class="bg-gray-50 text-gray-800">
 
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
-        <nav class="flex justify-center space-x-6 sm:space-x-8 md:space-x-10 mb-12">
-            <a href="../" class="text-gray-600 hover:text-blue-600 transition-colors">Home</a>
-            <a href="#" class="text-blue-600 font-semibold border-b-2 border-blue-600 pb-1">Research</a>
-            <a href="../publications/" class="text-gray-600 hover:text-blue-600 transition-colors">Publications</a>
+        <header class="mb-12">
+            <nav>
+                <ul class="flex justify-center space-x-6 sm:space-x-10 border-b pb-4">
+                    <li><a href="../" class="text-gray-600 hover:text-blue-600 transition-colors text-lg">Home</a></li>
+                    <li><a href="#" class="text-blue-600 font-bold text-lg">Research</a></li>
+                    <li><a href="../publications/" class="text-gray-600 hover:text-blue-600 transition-colors text-lg">Publications</a></li>
+                </ul>
             </nav>
+        </header>
 
         <main>
-            <h1 class="text-4xl font-serif font-bold text-gray-900 border-b pb-2 mb-8">Research</h1>
-            
-            <p class="text-lg text-gray-700">
-                This page is under construction. Here, you can detail your research interests, ongoing projects, and methodologies. You can use the "Card" component to showcase each research project individually.
-            </p>
-            
-            </main>
-        
-        <footer class="text-center text-gray-500 mt-16 text-sm">
-            <p>&copy; 2025 Your Name. All rights reserved.</p>
+            <h2 class="text-4xl font-bold mb-8">Research</h2>
+
+            <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow mb-6">
+                <h3 class="text-2xl font-bold mb-2">Project Title 1: Advanced Signal Processing for Brain-Computer Interfaces</h3>
+                <p class="text-gray-700 mb-4">
+                    This project explores novel deep learning architectures to decode neural signals with higher accuracy and lower latency. We aim to develop more intuitive and responsive BCI systems for assistive technologies. This work is supported by [Funding Agency].
+                </p>
+                <div class="space-x-4">
+                    <a href="#" class="link-style">Poster PDF</a>
+                    <a href="#" class="link-style">Source Code</a>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                <h3 class="text-2xl font-bold mb-2">Project Title 2: Low-Power Machine Learning for Wearable Health Sensors</h3>
+                <p class="text-gray-700">
+                    My work in this area focuses on creating energy-efficient algorithms for real-time health monitoring on resource-constrained devices. The goal is to enable long-term, continuous data analysis without frequent battery changes.
+                </p>
+            </div>
+
+        </main>
+
+        <footer class="text-center text-gray-500 mt-16">
+            <p>&copy; 2025 [Your Name].</p>
         </footer>
 
     </div>
-
 </body>
 </html>

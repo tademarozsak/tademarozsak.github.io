@@ -1,1 +1,81 @@
-<a href="/projects/">View My Projects</a>
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publications | [Your Name]</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Source Serif 4', 'Libertinus Math', serif;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Open Sans', sans-serif;
+        }
+        .link-style {
+            @apply text-blue-600 underline hover:text-blue-800 transition-colors;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+        <header class="mb-12">
+            <nav>
+                <ul class="flex justify-center space-x-6 sm:space-x-10 border-b pb-4">
+                    <li><a href="../" class="text-gray-600 hover:text-blue-600 transition-colors text-lg">Home</a></li>
+                    <li><a href="../research/" class="text-gray-600 hover:text-blue-600 transition-colors text-lg">Research</a></li>
+                    <li><a href="#" class="text-blue-600 font-bold text-lg">Publications</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <h2 class="text-4xl font-bold mb-8">Publications</h2>
+
+            <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow mb-6">
+                <h3 class="text-2xl font-bold mb-2">Title of the Publication Goes Here</h3>
+                <p class="text-gray-600 mb-3">
+                    <strong>[Your Name]</strong>, Co-author One, Co-author Two. (2025).
+                </p>
+                <p class="italic text-gray-700 mb-4">
+                    In Proceedings of the International Conference on Machine Learning (ICML).
+                </p>
+                <div class="space-x-4">
+                    <a href="#" class="link-style">PDF</a>
+                    <a href="#" class="link-style">DOI</a>
+                    <a href="#" class="link-style">BibTeX</a>
+                    <a href="#" class="link-style">Code</a>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+                <h3 class="text-2xl font-bold mb-2">Another Paper on a Different, Interesting Topic</h3>
+                 <p class="text-gray-600 mb-3">
+                    Co-author One, <strong>[Your Name]</strong>, Co-author Three. (2024).
+                </p>
+                <p class="italic text-gray-700 mb-4">
+                    Journal of Important Research, 12(3), 45-67.
+                </p>
+                <div class="space-x-4">
+                    <a href="#" class="link-style">PDF</a>
+                    <a href="#" class="link-style">DOI</a>
+                </div>
+            </div>
+        </main>
+
+        <footer class="text-center text-gray-500 mt-16">
+            <p>&copy; 2025 [Your Name].</p>
+        </footer>
+
+    </div>
+</body>
+</html>

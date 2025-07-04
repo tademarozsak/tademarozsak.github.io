@@ -1,20 +1,19 @@
 {
-  "personalInfo": {
-    "name": "Your Name",
-    "title": "PhD Candidate in Computer Science",
-    "university": "University of Cambridge",
-    "advisor": "Prof. Jane Doe"
+  "name": "[Your Name]",
+  "title": "PhD Candidate",
+  "university": "[Your University]",
+  "contact": {
+    "email": "your.email@university.edu"
   },
   "publications": [
     {
-      "title": "Scalable and Private Federated Learning for Medical Data",
-      "authors": "Your Name, Co Author, Jane Doe",
-      "venue": "Conference on Neural Information Processing Systems (NeurIPS)",
+      "title": "Title of the Publication Goes Here",
+      "authors": ["[Your Name]", "Co-author One", "Co-author Two"],
       "year": 2025,
+      "venue": "International Conference on Machine Learning (ICML)",
       "links": {
         "pdf": "#",
-        "code": "#",
-        "bibtex": "#"
+        "doi": "#"
       }
     }
   ]
