@@ -16,50 +16,55 @@ body, h1, h2, h3, h4, h5, h6 {
 /* --- Base Styling for Both Link Types --- */
 .animated-link, .link-inline {
     position: relative;
-    color: var(--primary-color);
     text-decoration: none;
     cursor: pointer;
     
-    /* --- NEW UNDERLINE TECHNIQUE --- */
+    /* --- Underline Wipe Animation --- */
     /* We create two layered gradients for the underline and animate the size of the top one. */
     background-image:
-        linear-gradient(var(--hovered-color), var(--hovered-color)), /* Top layer: Blue */
-        linear-gradient(var(--primary-color), var(--primary-color)); /* Bottom layer: Dark */
+        linear-gradient(to right, var(--hovered-color), var(--hovered-color)),
+        linear-gradient(to right, var(--primary-color), var(--primary-color));
     
-    background-size: 0% 2px, 100% 2px; /* Blue is 0% wide, Dark is 100% wide */
+    background-size: 0% 2px, 100% 2px;
     background-repeat: no-repeat;
-    background-position: left bottom; /* Position both at the bottom-left */
+    background-position: left bottom;
     
-    /* Transition for the underline wipe */
+    /* The transition for the underline wipe */
     transition: background-size 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* --- The Text Wipe Effect --- */
+/* --- The Text Wipe Animation (using background-clip) --- */
 .animated-link span, .link-inline span {
-    position: relative;
-    color: var(--primary-color);
-    /* NO padding or margin hacks needed anymore */
+    /* Make the actual font color transparent */
+    color: transparent;
+
+    /* Create two layered backgrounds: blue on top, dark on bottom */
+    background-image:
+        linear-gradient(to right, var(--hovered-color), var(--hovered-color)),
+        linear-gradient(to right, var(--primary-color), var(--primary-color));
+    
+    /* Blue starts at 0% width, dark is 100% width */
+    background-size: 0% 100%, 100% 100%;
+    
+    background-position: left;
+    background-repeat: no-repeat;
+
+    /* The magic part: clip the background to the text shape */
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    /* The transition for the text wipe */
+    transition: background-size 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* This is the sliding blue text layer (starts hidden) */
-.animated-link span::before, .link-inline span::before {
-    content: attr(data-content);
-    position: absolute;
-    inset: 0;
-    width: 0; /* Animated on hover */
-    color: var(--hovered-color);
-    overflow: hidden;
-    /* Transition for the text wipe */
-    transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-}
 
 /* --- HOVER STATE --- */
 .animated-link:hover, .link-inline:hover {
     background-size: 100% 2px, 100% 2px; /* Animate the underline to 100% width */
 }
 
-.animated-link:hover span::before, .link-inline:hover span::before {
-    width: 100%; /* Animate the text wipe to 100% width */
+.animated-link:hover span, .link-inline:hover span {
+    background-size: 100% 100%, 100% 100%; /* Animate the text wipe to 100% width */
 }
 
 
@@ -75,11 +80,11 @@ body, h1, h2, h3, h4, h5, h6 {
 
 /* --- Specifics for In-Paragraph Links --- */
 .link-inline {
-    display: inline; /* Can be simple inline now */
+    display: inline;
     background-position: left 100%; /* Position underline at the very bottom */
     /* We adjust the thickness of the line to match the text size */
     background-image:
-        linear-gradient(var(--hovered-color), var(--hovered-color)),
-        linear-gradient(var(--primary-color), var(--primary-color));
+        linear-gradient(to right, var(--hovered-color), var(--hovered-color)),
+        linear-gradient(to right, var(--primary-color), var(--primary-color));
     background-size: 0% 0.12em, 100% 0.12em;
 }
