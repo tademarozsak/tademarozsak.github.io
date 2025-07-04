@@ -7,85 +7,82 @@ body, h1, h2, h3, h4, h5, h6 {
     font-family: 'Noto Sans', sans-serif;
 }
 
-/* --- Base Reset for Buttons --- */
-button.animated-link {
-    padding: 0;
-    border: none;
-    background: none;
-    cursor: pointer;
-    text-align: left;
+/* --- Shared variables --- */
+:root {
+    --primary-color: #1F2937;
+    --hovered-color: #2563EB;
+    --page-background: #F9FAFB;
 }
 
-/* --- Animated Link Styling --- */
-.animated-link {
-    --primary-color: #1F2937; /* text-gray-800 */
-    --hovered-color: #2563EB; /* blue-600 */
-    --page-background: #F9FAFB; /* bg-gray-50 */
-
+/* --- Base Link Styling for both types --- */
+.animated-link, .link-inline {
     position: relative;
-    display: inline-flex;
-    align-items: center; /* Vertically align icon and text */
-    font-weight: 600;
-    font-size: 1.125rem;
-    color: var(--primary-color);
     text-decoration: none;
-    font-family: 'Noto Sans', sans-serif;
-}
-
-/* The visible text element inside the link */
-.animated-link span {
-    position: relative;
     color: var(--primary-color);
-    background: var(--page-background);
-    transition: color 0.3s ease-out;
 }
 
-/* The default underline, visible at all times */
-.animated-link::after {
+/* The permanent, dark underline layer */
+.animated-link::after, .link-inline::after {
+    content: '';
     position: absolute;
-    content: "";
     width: 100%;
     left: 0;
-    bottom: -5px;
-    height: 2px;
     background: var(--primary-color);
-    transition: background-color 0.3s ease-out;
 }
 
-/* The text-wipe effect, hidden by default */
-.animated-link span::before {
+/* The sliding, blue underline layer (starts hidden) */
+.animated-link::before, .link-inline::before {
+    content: '';
     position: absolute;
+    width: 0; /* Animated on hover */
+    left: 0;
+    background: var(--hovered-color);
+    transition: width 0.35s ease-out;
+    z-index: 1; /* Ensures it draws on top */
+}
+
+/* The span that holds the text */
+.animated-link span, .link-inline span {
+    position: relative;
+    color: var(--primary-color);
+    background: var(--page-background); /* Masks the underline layers */
+}
+
+/* The sliding, blue text layer (starts hidden) */
+.animated-link span::before, .link-inline span::before {
     content: attr(data-content);
-    width: 0%;
+    position: absolute;
     inset: 0;
+    width: 0; /* Animated on hover */
     color: var(--hovered-color);
     overflow: hidden;
-    transition: width 0.3s ease-out;
+    transition: width 0.35s ease-out;
 }
 
-/*
- * NEWLY ADDED FOR ICON STYLING
- * This targets any SVG inside our link.
- */
-.animated-link svg {
-    color: var(--primary-color); /* Ensures it starts with the correct color */
-    transition: color 0.3s ease-out; /* Makes the color change smooth */
-}
-
-
-/* --- HOVER EFFECTS --- */
-.animated-link:hover::after {
-    background-color: var(--hovered-color);
-}
-
-.animated-link:hover span::before {
+/* --- Hover State --- */
+.animated-link:hover::before, .link-inline:hover::before,
+.animated-link:hover span::before, .link-inline:hover span::before {
     width: 100%;
 }
 
-/*
- * NEWLY ADDED FOR ICON HOVER
- * This changes the SVG color when the parent link is hovered.
- */
-.animated-link:hover svg {
-    color: var(--hovered-color);
+/* --- Specifics for Standalone Button Links --- */
+.animated-link {
+    display: inline-flex;
+    align-items: center; 
+    font-weight: 600;
+    font-family: 'Noto Sans', sans-serif;
+}
+.animated-link::after, .animated-link::before {
+    bottom: -5px;
+    height: 2px;
+}
+
+/* --- Specifics for In-Paragraph Links --- */
+.link-inline {
+    /* Inherits font styles from parent */
+    padding-bottom: 0.1em; /* Space for the underline */
+}
+.link-inline::after, .link-inline::before {
+    bottom: 0; /* Aligns with the bottom of the padded space */
+    height: 0.1em; /* Scales with text size */
 }
