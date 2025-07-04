@@ -9,62 +9,71 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Noto+Sans:wght@600&display=swap" rel="stylesheet">
 
-    <style>
-        body {
-            font-family: 'Source Serif 4', 'Libertinus Math', serif;
-        }
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Open Sans', sans-serif;
-        }
-        .link-style {
-            @apply text-blue-600 underline hover:text-blue-800 transition-colors;
-        }
-    </style>
+    <link rel="stylesheet" href="../css/style.css">
+
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
 </head>
 <body class="bg-gray-50 text-gray-800">
 
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <header class="mb-12">
-            <nav>
-                <ul class="flex justify-center space-x-6 sm:space-x-10 border-b pb-4">
-                    <li><a href="../" class="text-gray-600 hover:text-blue-600 transition-colors text-lg">Home</a></li>
-                    <li><a href="#" class="text-blue-600 font-bold text-lg">Research</a></li>
-                    <li><a href="../publications/" class="text-gray-600 hover:text-blue-600 transition-colors text-lg">Publications</a></li>
-                </ul>
-            </nav>
+             <a href="../" class="animated-link">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                </svg>
+                <span data-content="Go Back" class="ml-2">Go Back</span>
+            </a>
         </header>
 
         <main>
-            <h2 class="text-4xl font-bold mb-8">Research</h2>
+            <h1 class="text-4xl font-bold mb-8 border-b pb-4">Research</h1>
 
-            <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow mb-6">
-                <h3 class="text-2xl font-bold mb-2">Project Title 1: Advanced Signal Processing for Brain-Computer Interfaces</h3>
-                <p class="text-gray-700 mb-4">
-                    This project explores novel deep learning architectures to decode neural signals with higher accuracy and lower latency. We aim to develop more intuitive and responsive BCI systems for assistive technologies. This work is supported by [Funding Agency].
+            <article class="mt-8 space-y-6 text-lg leading-relaxed text-gray-800">
+
+                <h2 class="text-3xl font-bold !mt-10 !mb-4">Core Research Theme: Bridging Signal Processing and Machine Learning</h2>
+                <p>
+                    My doctoral research operates at the intersection of classical signal processing and modern machine learning. The primary goal is to develop robust, efficient, and interpretable algorithms for analyzing complex time-series data, with a special emphasis on biomedical applications such as electroencephalography (EEG) and electrocardiography (ECG). We aim to move beyond "black-box" models by integrating domain-specific knowledge into the learning process.
                 </p>
-                <div class="space-x-4">
-                    <a href="#" class="link-style">Poster PDF</a>
-                    <a href="#" class="link-style">Source Code</a>
-                </div>
-            </div>
-
-            <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                <h3 class="text-2xl font-bold mb-2">Project Title 2: Low-Power Machine Learning for Wearable Health Sensors</h3>
-                <p class="text-gray-700">
-                    My work in this area focuses on creating energy-efficient algorithms for real-time health monitoring on resource-constrained devices. The goal is to enable long-term, continuous data analysis without frequent battery changes.
+                <p>
+                    This involves exploring hybrid models that leverage the mathematical rigor of signal transforms (like Fourier or Wavelet transforms) as feature extractors for deep neural networks. By doing so, we can reduce the dimensionality of the input data, enforce invariances, and improve model generalization, especially in data-scarce environments.
                 </p>
-            </div>
 
-        </main>
+                <figure class="!my-10">
+                    <img class="rounded-lg shadow-md mx-auto" src="https://picsum.photos/id/12/800/400" alt="A placeholder diagram of a neural network architecture.">
+                    <figcaption class="text-center text-base italic text-gray-600 mt-3">
+                        Fig. 1: Conceptual diagram of a hybrid model integrating a wavelet scattering transform with a recurrent neural network for signal classification.
+                    </figcaption>
+                </figure>
 
-        <footer class="text-center text-gray-500 mt-16">
-            <p>&copy; 2025 [Your Name].</p>
-        </footer>
+                <h3 class="text-2xl font-bold !mt-10 !mb-4">Methodology and Techniques</h3>
+                <p>
+                    A significant part of my work focuses on creating models that are computationally efficient enough to run on low-power, wearable devices. This is critical for real-time health monitoring. To achieve this, I investigate techniques like model quantization, pruning, and knowledge distillation. An important theoretical tool in this process is the formulation of a loss function, such as the binary cross-entropy for a classification task, which we seek to minimize:
+                    $$
+                    \mathcal{L}(\theta) = -\frac{1}{N} \sum_{i=1}^{N} \left[ y_i \log(\hat{y}_i) + (1 - y_i) \log(1 - \hat{y}_i) \right]
+                    $$
+                    Here, $y_i$ is the true label and $\hat{y}_i$ is the predicted probability for the $i$-th sample. By optimizing this function, we train the model to make accurate predictions.
+                </p>
+                
+                <p>Key contributions of this research include:</p>
+                <ul class="list-disc list-outside pl-5 space-y-2">
+                    <li>The development of a novel time-frequency feature extraction method that is robust to non-stationarities in biomedical signals.</li>
+                    <li>A framework for quantifying model uncertainty, allowing for more reliable clinical decision support.</li>
+                    <li>An open-source software package implementing the proposed algorithms for the research community.</li>
+                </ul>
 
+            </article>
+            </main>
     </div>
 </body>
 </html>
