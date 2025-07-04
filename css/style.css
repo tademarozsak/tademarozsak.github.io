@@ -11,14 +11,14 @@ body, h1, h2, h3, h4, h5, h6 {
 :root {
     --primary-color: #1F2937;
     --hovered-color: #2563EB;
-    --page-background: #F9FAFB;
 }
 
-/* --- Base Link Styling for both types --- */
+/* --- Base Styling for Both Link Types --- */
 .animated-link, .link-inline {
     position: relative;
     text-decoration: none;
     color: var(--primary-color);
+    cursor: pointer;
 }
 
 /* The permanent, dark underline layer */
@@ -41,31 +41,34 @@ body, h1, h2, h3, h4, h5, h6 {
     z-index: 1; /* Ensures it draws on top */
 }
 
-/* The span that holds the text */
-.animated-link span, .link-inline span {
+/* --- The new letter-by-letter animation styling --- */
+/* This targets the individual letter spans created by the JS */
+.letter {
+    display: inline-block; /* Important for transforms and stability */
     position: relative;
     color: var(--primary-color);
-    background: var(--page-background); /* Masks the underline layers */
-}
-
-/* The sliding, blue text layer (starts hidden) */
-.animated-link span::before, .link-inline span::before {
-    content: attr(data-content);
-    position: absolute;
-    inset: 0;
-    width: 0; /* Animated on hover */
-    color: var(--hovered-color);
-    overflow: hidden;
-    transition: width 0.35s ease-out;
+    transition: color 0.3s ease-out;
+    /* The transition-delay is set inline by the JavaScript */
 }
 
 /* --- Hover State --- */
-.animated-link:hover::before, .link-inline:hover::before,
-.animated-link:hover span::before, .link-inline:hover span::before {
+/* On hover, transition the color of each letter */
+.animated-link:hover .letter, .link-inline:hover .letter {
+    color: var(--hovered-color);
+}
+
+/* On hover, make the blue underline wipe in */
+.animated-link:hover::before, .link-inline:hover::before {
     width: 100%;
 }
 
-/* --- Specifics for Standalone Button Links --- */
+/* Make sure the icon also changes color on hover */
+.animated-link:hover svg {
+    color: var(--hovered-color);
+}
+
+
+/* --- Specifics for Standalone Button Links (.animated-link) --- */
 .animated-link {
     display: inline-flex;
     align-items: center; 
@@ -76,13 +79,17 @@ body, h1, h2, h3, h4, h5, h6 {
     bottom: -5px;
     height: 2px;
 }
+.animated-link svg {
+    transition: color 0.3s ease-out; /* Prepare icon for animation */
+}
 
-/* --- Specifics for In-Paragraph Links --- */
+
+/* --- Specifics for In-Paragraph Links (.link-inline) --- */
 .link-inline {
     /* Inherits font styles from parent */
-    padding-bottom: 0.1em; /* Space for the underline */
+    padding-bottom: 0.2em; /* Gives space for the underline */
 }
 .link-inline::after, .link-inline::before {
-    bottom: 0; /* Aligns with the bottom of the padded space */
-    height: 0.1em; /* Scales with text size */
+    bottom: 0;
+    height: 0.12em; /* Scales with text size */
 }
