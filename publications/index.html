@@ -5,111 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Publications | [Your Name]</title>
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Google Fonts: DM Serif Text and Noto Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Noto+Sans:wght@600&display=swap" rel="stylesheet">
 
-    <!-- Custom Styles -->
-    <style>
-        body, h1, h2, h3, h4, h5, h6 {
-            font-family: 'DM Serif Text', serif;
-        }
-        .font-sans {
-            font-family: 'Noto Sans', sans-serif;
-        }
-
-        /* --- Animated Link Styling --- */
-        .animated-link {
-            --primary-color: #1F2937; /* text-gray-800 */
-            --hovered-color: #2563EB; /* blue-600 */
-            --page-background: #F9FAFB; /* bg-gray-50 */
-
-            position: relative;
-            display: inline-flex;
-            font-weight: 600;
-            font-size: 1.125rem; /* 18px for better scaling */
-            color: var(--primary-color);
-            text-decoration: none;
-            font-family: 'Noto Sans', sans-serif;
-        }
-
-        .animated-link span {
-            position: relative;
-            color: var(--primary-color);
-            background: var(--page-background); /* Match page background */
-            transition: color 0.3s ease-out;
-        }
-
-        .animated-link::after {
-            position: absolute;
-            content: "";
-            width: 100%;
-            left: 0;
-            bottom: -5px;
-            height: 2px;
-            background: var(--primary-color);
-            transition: background-color 0.3s ease-out;
-        }
-
-        .animated-link span::before {
-            position: absolute;
-            content: attr(data-content); /* This text must match the span's text */
-            width: 0%;
-            inset: 0;
-            color: var(--hovered-color);
-            overflow: hidden;
-            transition: width 0.3s ease-out;
-        }
-
-        /* HOVER EFFECTS */
-        .animated-link:hover::after {
-            background-color: var(--hovered-color);
-        }
-
-        .animated-link:hover span::before {
-            width: 100%;
-        }
-
-        /* ACTIVE STATE for navigation */
-        .active-link span {
-            color: var(--hovered-color);
-        }
-        .active-link::after {
-            background: var(--hovered-color);
-        }
-    </style>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body class="bg-gray-50 text-gray-800">
 
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-
-        <!-- Header -->
         <header class="mb-12">
-            <nav>
-                <ul class="flex justify-center space-x-8 sm:space-x-12 border-b pb-4">
-                    <li><a href="../" class="animated-link"><span data-content="Home">Home</span></a></li>
-                    <li><a href="../research/" class="animated-link"><span data-content="Research">Research</span></a></li>
-                    <li><a href="#" class="animated-link active-link"><span data-content="Publications">Publications</span></a></li>
-                </ul>
-            </nav>
+             <a href="../" class="animated-link inline-flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                </svg>
+                <span data-content="Go Back" class="ml-2">Go Back</span>
+            </a>
         </header>
 
         <main>
-            <h2 class="text-4xl font-bold mb-8">Publications</h2>
+            <h1 class="text-4xl font-bold mb-8 border-b pb-4">Publications</h1>
 
-            <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow mb-6">
-                <h3 class="text-3xl font-bold mb-2">Title of the Publication Goes Here</h3>
+            <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow mb-6 mt-8">
+                <h2 class="text-3xl font-bold mb-2">Title of the Publication Goes Here</h2>
                 <p class="text-lg text-gray-700 mb-3">
                     <strong>[Your Name]</strong>, Co-author One, Co-author Two. (2025).
                 </p>
                 <p class="text-lg italic text-gray-800 mb-4 leading-relaxed">
                     In Proceedings of the International Conference on Machine Learning (ICML).
                 </p>
-                <div class="space-x-6">
+                <div class="flex flex-wrap gap-x-6 gap-y-2">
                     <a href="#" class="animated-link"><span data-content="PDF">PDF</span></a>
                     <a href="#" class="animated-link"><span data-content="DOI">DOI</span></a>
                     <a href="#" class="animated-link"><span data-content="BibTeX">BibTeX</span></a>
@@ -118,14 +45,14 @@
             </div>
 
             <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                <h3 class="text-3xl font-bold mb-2">Another Paper on a Different, Interesting Topic</h3>
+                <h2 class="text-3xl font-bold mb-2">Another Paper on a Different, Interesting Topic</h2>
                  <p class="text-lg text-gray-700 mb-3">
                     Co-author One, <strong>[Your Name]</strong>, Co-author Three. (2024).
                 </p>
                 <p class="text-lg italic text-gray-800 mb-4 leading-relaxed">
                     Journal of Important Research, 12(3), 45-67.
                 </p>
-                <div class="space-x-6">
+                <div class="flex flex-wrap gap-x-6 gap-y-2">
                     <a href="#" class="animated-link"><span data-content="PDF">PDF</span></a>
                     <a href="#" class="animated-link"><span data-content="DOI">DOI</span></a>
                 </div>

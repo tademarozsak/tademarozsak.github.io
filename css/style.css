@@ -1,0 +1,83 @@
+/* --- Global Font Definitions --- */
+body, h1, h2, h3, h4, h5, h6 {
+    font-family: 'DM Serif Text', serif;
+}
+
+.font-sans {
+    font-family: 'Noto Sans', sans-serif;
+}
+
+/* --- Base Reset for Buttons --- */
+/* Allows <button> elements to adopt the animated link style */
+button.animated-link {
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    text-align: left; /* Align with link styles */
+}
+
+/* --- Animated Link Styling --- */
+.animated-link {
+    /* Using the project's established color palette */
+    --primary-color: #1F2937; /* text-gray-800 */
+    --hovered-color: #2563EB; /* blue-600 */
+    --page-background: #F9FAFB; /* bg-gray-50 */
+
+    position: relative;
+    display: inline-flex;
+    font-weight: 600;
+    font-size: 1.125rem; /* 18px */
+    color: var(--primary-color);
+    text-decoration: none;
+    font-family: 'Noto Sans', sans-serif;
+}
+
+/* The visible text element inside the link */
+.animated-link span {
+    position: relative;
+    color: var(--primary-color);
+    background: var(--page-background); /* Match page background to mask the wipe effect */
+    transition: color 0.3s ease-out;
+}
+
+/* The default underline, visible at all times */
+.animated-link::after {
+    position: absolute;
+    content: "";
+    width: 100%;
+    left: 0;
+    bottom: -5px; /* Position the line below the text */
+    height: 2px;
+    background: var(--primary-color);
+    transition: background-color 0.3s ease-out;
+}
+
+/* The text-wipe effect, hidden by default */
+.animated-link span::before {
+    position: absolute;
+    content: attr(data-content); /* Text must match the span's text */
+    width: 0%;
+    inset: 0;
+    color: var(--hovered-color);
+    overflow: hidden;
+    transition: width 0.3s ease-out;
+}
+
+/* --- HOVER EFFECTS --- */
+.animated-link:hover::after {
+    background-color: var(--hovered-color);
+}
+
+.animated-link:hover span::before {
+    width: 100%;
+}
+
+/* --- ACTIVE STATE for navigation --- */
+/* This class is no longer used for navigation but can be kept for other uses if needed */
+.active-link span {
+    color: var(--hovered-color);
+}
+.active-link::after {
+    background: var(--hovered-color);
+}
