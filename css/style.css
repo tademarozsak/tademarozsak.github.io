@@ -13,83 +13,115 @@ body, h1, h2, h3, h4, h5, h6 {
     --hovered-color: #2563EB;
 }
 
-/* --- Base Styling for Both Link Types --- */
-.animated-link, .link-inline {
-    position: relative;
-    text-decoration: none;
-    color: var(--primary-color);
-    cursor: pointer;
-}
+/* ---
+--- STYLING FOR STANDALONE BUTTONS (.animated-link)
+--- */
 
-/* The permanent, dark underline layer */
-.animated-link::after, .link-inline::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    left: 0;
-    background: var(--primary-color);
-}
-
-/* The sliding, blue underline layer (starts hidden) */
-.animated-link::before, .link-inline::before {
-    content: '';
-    position: absolute;
-    width: 0; /* Animated on hover */
-    left: 0;
-    background: var(--hovered-color);
-    transition: width 0.35s ease-out;
-    z-index: 1; /* Ensures it draws on top */
-}
-
-/* --- The new letter-by-letter animation styling --- */
-/* This targets the individual letter spans created by the JS */
-.letter {
-    display: inline-block; /* Important for transforms and stability */
-    position: relative;
-    color: var(--primary-color);
-    transition: color 0.3s ease-out;
-    /* The transition-delay is set inline by the JavaScript */
-}
-
-/* --- Hover State --- */
-/* On hover, transition the color of each letter */
-.animated-link:hover .letter, .link-inline:hover .letter {
-    color: var(--hovered-color);
-}
-
-/* On hover, make the blue underline wipe in */
-.animated-link:hover::before, .link-inline:hover::before {
-    width: 100%;
-}
-
-/* Make sure the icon also changes color on hover */
-.animated-link:hover svg {
-    color: var(--hovered-color);
-}
-
-
-/* --- Specifics for Standalone Button Links (.animated-link) --- */
 .animated-link {
+    position: relative;
     display: inline-flex;
     align-items: center; 
     font-weight: 600;
     font-family: 'Noto Sans', sans-serif;
+    color: var(--primary-color);
+    text-decoration: none;
+    cursor: pointer;
 }
-.animated-link::after, .animated-link::before {
-    bottom: -5px;
+
+/* Permanent dark underline */
+.animated-link::after {
+    content: '';
+    position: absolute;
+    width: 100%;
     height: 2px;
+    background: var(--primary-color);
+    left: 0;
+    bottom: -5px;
 }
-.animated-link svg {
-    transition: color 0.3s ease-out; /* Prepare icon for animation */
+
+/* Sliding blue underline (starts hidden) */
+.animated-link::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background: var(--hovered-color);
+    left: 0;
+    bottom: -5px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1); /* Smooth easing */
+    z-index: 1;
+}
+
+/* Text animation for each letter */
+.animated-link .letter {
+    display: inline-block;
+    color: var(--primary-color);
+    transition: color 0.4s;
+    /* transition-delay is set by JS */
+}
+
+/* --- HOVER STATE for .animated-link --- */
+.animated-link:hover::before {
+    transform: scaleX(1); /* Animate the underline */
+}
+.animated-link:hover .letter {
+    color: var(--hovered-color); /* Animate the text */
 }
 
 
-/* --- Specifics for In-Paragraph Links (.link-inline) --- */
+/* ---
+--- STYLING FOR IN-PARAGRAPH LINKS (.link-inline)
+--- */
+
 .link-inline {
-    /* Inherits font styles from parent */
-    padding-bottom: 0.2em; /* Gives space for the underline */
+    position: relative;
+    display: inline-block; /* Crucial fix for underline visibility */
+    color: var(--primary-color);
+    text-decoration: none;
+    cursor: pointer;
+    padding-bottom: 0.2em; /* Makes space for the underline */
+    margin-bottom: -0.2em; /* Prevents increasing line-height */
 }
-.link-inline::after, .link-inline::before {
+
+/* Permanent dark underline for inline links */
+.link-inline::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 0.12em; /* Scales with text */
+    background: var(--primary-color);
+    left: 0;
     bottom: 0;
-    height: 0.12em; /* Scales with text size */
+}
+
+/* Sliding blue underline for inline links */
+.link-inline::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 0.12em;
+    background: var(--hovered-color);
+    left: 0;
+    bottom: 0;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 1;
+}
+
+/* Text animation for each letter in an inline link */
+.link-inline .letter {
+    display: inline-block;
+    color: var(--primary-color);
+    transition: color 0.4s;
+}
+
+/* --- HOVER STATE for .link-inline --- */
+.link-inline:hover::before {
+    transform: scaleX(1); /* Animate the underline */
+}
+.link-inline:hover .letter {
+    color: var(--hovered-color); /* Animate the text */
 }
