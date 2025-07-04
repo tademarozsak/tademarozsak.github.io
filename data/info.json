@@ -1,0 +1,21 @@
+{
+  "personalInfo": {
+    "name": "Your Name",
+    "title": "PhD Candidate in Computer Science",
+    "university": "University of Cambridge",
+    "advisor": "Prof. Jane Doe"
+  },
+  "publications": [
+    {
+      "title": "Scalable and Private Federated Learning for Medical Data",
+      "authors": "Your Name, Co Author, Jane Doe",
+      "venue": "Conference on Neural Information Processing Systems (NeurIPS)",
+      "year": 2025,
+      "links": {
+        "pdf": "#",
+        "code": "#",
+        "bibtex": "#"
+      }
+    }
+  ]
+}
