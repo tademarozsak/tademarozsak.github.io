@@ -5,22 +5,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Publications | [Your Name]</title>
     
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
+    <!-- Google Fonts: DM Serif Text and Noto Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Noto+Sans:wght@600&display=swap" rel="stylesheet">
 
+    <!-- Custom Styles -->
     <style>
-        body {
-            font-family: 'Source Serif 4', 'Libertinus Math', serif;
+        body, h1, h2, h3, h4, h5, h6 {
+            font-family: 'DM Serif Text', serif;
         }
-        h1, h2, h3, h4, h5, h6, .font-sans {
-            font-family: 'Open Sans', sans-serif;
+        .font-sans {
+            font-family: 'Noto Sans', sans-serif;
         }
-        .link-style {
-            @apply text-blue-600 underline hover:text-blue-800 transition-colors;
+
+        /* --- Animated Link Styling --- */
+        .animated-link {
+            --primary-color: #1F2937; /* text-gray-800 */
+            --hovered-color: #2563EB; /* blue-600 */
+            --page-background: #F9FAFB; /* bg-gray-50 */
+
+            position: relative;
+            display: inline-flex;
+            font-weight: 600;
+            font-size: 1.125rem; /* 18px for better scaling */
+            color: var(--primary-color);
+            text-decoration: none;
+            font-family: 'Noto Sans', sans-serif;
+        }
+
+        .animated-link span {
+            position: relative;
+            color: var(--primary-color);
+            background: var(--page-background); /* Match page background */
+            transition: color 0.3s ease-out;
+        }
+
+        .animated-link::after {
+            position: absolute;
+            content: "";
+            width: 100%;
+            left: 0;
+            bottom: -5px;
+            height: 2px;
+            background: var(--primary-color);
+            transition: background-color 0.3s ease-out;
+        }
+
+        .animated-link span::before {
+            position: absolute;
+            content: attr(data-content); /* This text must match the span's text */
+            width: 0%;
+            inset: 0;
+            color: var(--hovered-color);
+            overflow: hidden;
+            transition: width 0.3s ease-out;
+        }
+
+        /* HOVER EFFECTS */
+        .animated-link:hover::after {
+            background-color: var(--hovered-color);
+        }
+
+        .animated-link:hover span::before {
+            width: 100%;
+        }
+
+        /* ACTIVE STATE for navigation */
+        .active-link span {
+            color: var(--hovered-color);
+        }
+        .active-link::after {
+            background: var(--hovered-color);
         }
     </style>
 </head>
@@ -28,12 +87,13 @@
 
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
+        <!-- Header -->
         <header class="mb-12">
             <nav>
-                <ul class="flex justify-center space-x-6 sm:space-x-10 border-b pb-4 font-sans">
-                    <li><a href="../" class="text-gray-600 hover:text-blue-600 transition-colors text-lg">Home</a></li>
-                    <li><a href="../research/" class="text-gray-600 hover:text-blue-600 transition-colors text-lg">Research</a></li>
-                    <li><a href="#" class="text-blue-600 font-bold text-lg">Publications</a></li>
+                <ul class="flex justify-center space-x-8 sm:space-x-12 border-b pb-4">
+                    <li><a href="../" class="animated-link"><span data-content="Home">Home</span></a></li>
+                    <li><a href="../research/" class="animated-link"><span data-content="Research">Research</span></a></li>
+                    <li><a href="#" class="animated-link active-link"><span data-content="Publications">Publications</span></a></li>
                 </ul>
             </nav>
         </header>
@@ -42,36 +102,35 @@
             <h2 class="text-4xl font-bold mb-8">Publications</h2>
 
             <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow mb-6">
-                <h3 class="text-2xl font-bold mb-2">Title of the Publication Goes Here</h3>
-                <p class="text-gray-600 mb-3">
+                <h3 class="text-3xl font-bold mb-2">Title of the Publication Goes Here</h3>
+                <p class="text-lg text-gray-700 mb-3">
                     <strong>[Your Name]</strong>, Co-author One, Co-author Two. (2025).
                 </p>
-                <p class="italic text-gray-700 mb-4 leading-relaxed">
+                <p class="text-lg italic text-gray-800 mb-4 leading-relaxed">
                     In Proceedings of the International Conference on Machine Learning (ICML).
                 </p>
-                <div class="space-x-4">
-                    <a href="#" class="link-style">PDF</a>
-                    <a href="#" class="link-style">DOI</a>
-                    <a href="#" class="link-style">BibTeX</a>
-                    <a href="#" class="link-style">Code</a>
+                <div class="space-x-6">
+                    <a href="#" class="animated-link"><span data-content="PDF">PDF</span></a>
+                    <a href="#" class="animated-link"><span data-content="DOI">DOI</span></a>
+                    <a href="#" class="animated-link"><span data-content="BibTeX">BibTeX</span></a>
+                    <a href="#" class="animated-link"><span data-content="Code">Code</span></a>
                 </div>
             </div>
 
             <div class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                <h3 class="text-2xl font-bold mb-2">Another Paper on a Different, Interesting Topic</h3>
-                 <p class="text-gray-600 mb-3">
+                <h3 class="text-3xl font-bold mb-2">Another Paper on a Different, Interesting Topic</h3>
+                 <p class="text-lg text-gray-700 mb-3">
                     Co-author One, <strong>[Your Name]</strong>, Co-author Three. (2024).
                 </p>
-                <p class="italic text-gray-700 mb-4 leading-relaxed">
+                <p class="text-lg italic text-gray-800 mb-4 leading-relaxed">
                     Journal of Important Research, 12(3), 45-67.
                 </p>
-                <div class="space-x-4">
-                    <a href="#" class="link-style">PDF</a>
-                    <a href="#" class="link-style">DOI</a>
+                <div class="space-x-6">
+                    <a href="#" class="animated-link"><span data-content="PDF">PDF</span></a>
+                    <a href="#" class="animated-link"><span data-content="DOI">DOI</span></a>
                 </div>
             </div>
         </main>
-        
     </div>
 </body>
 </html>
