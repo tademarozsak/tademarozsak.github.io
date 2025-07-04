@@ -3,7 +3,6 @@
    ========================================================================== */
 
 /* --- 1. Global Variable Definitions --- */
-/* Define the color palette and animation speed for easy customization. */
 :root {
   --primary-color: #1F2937; /* Default dark charcoal */
   --hovered-color: #2563EB; /* Accent blue on hover */
@@ -12,40 +11,27 @@
 }
 
 /* --- 2. Base Styles for ALL Animated Links --- */
-/* This shared selector targets both link classes. */
 .animated-link,
 .link-inline {
-  /* Set position to relative to act as a positioning container for the span. */
   position: relative;
-  /* Remove the default browser underline. We will create a custom one. */
   text-decoration: none;
-  /* The link's color will be the primary charcoal color by default. */
   color: var(--primary-color);
-  /* Using inline-block allows for proper layout and positioning context */
-  /* without taking up the full width like a block element. */
-  display: inline-block;
-  /* Ensures any SVG icons inside the <a> tag but outside the <span> align nicely. */
-  vertical-align: middle;
 }
 
 /* --- 3. The Core Animation Mechanism (Applied to the Inner Span) --- */
-/* This is where the magic happens for both text and underline. */
 .animated-link > span,
 .link-inline > span {
   display: inline-block;
-  position: relative; /* Crucial for positioning the ::before pseudo-element */
-
-  /* The Underline Wipe Effect */
+  position: relative; 
   background-image:
-    linear-gradient(var(--hovered-color), var(--hovered-color)), /* Top layer: Accent blue */
-    linear-gradient(var(--primary-color), var(--primary-color)); /* Bottom layer: Charcoal */
+    linear-gradient(var(--hovered-color), var(--hovered-color)),
+    linear-gradient(var(--primary-color), var(--primary-color));
   background-repeat: no-repeat;
   background-position: 0% 100%, 0% 100%;
   background-size: 0% var(--underline-thickness), 100% var(--underline-thickness);
   transition: background-size var(--animation-duration) ease-in-out;
 }
 
-/* The Text Wipe Effect */
 .animated-link > span::before,
 .link-inline > span::before {
   content: attr(data-content);
@@ -76,21 +62,18 @@
 
 /* For .animated-link (Button Style) */
 .animated-link {
-  /*
-   * Use the sans-serif font for navigation links.
-   * This is defined in the Tailwind config and overrides the
-   * body's default serif font.
-  */
-  font-family: 'Noto Sans', sans-serif;
+  /* Use inline-flex and align-items to vertically center contents like icons and text. */
+  display: inline-flex;
+  align-items: center;
+  /* Font is now handled by the `font-sans` utility class in the HTML. */
   font-weight: 600;
   --underline-thickness: 2px;
 }
 
 /* For .link-inline (In-Paragraph Style) */
 .link-inline {
-  /* Explicitly inherit all font properties from the parent (e.g., a <p> tag). */
+  display: inline-block;
   font: inherit;
   letter-spacing: inherit;
-  /* Define a proportional underline that scales with the text size. */
   --underline-thickness: 0.08em;
 }
