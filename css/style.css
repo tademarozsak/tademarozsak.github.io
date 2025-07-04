@@ -8,26 +8,25 @@ body, h1, h2, h3, h4, h5, h6 {
 }
 
 /* --- Base Reset for Buttons --- */
-/* Allows <button> elements to adopt the animated link style */
 button.animated-link {
     padding: 0;
     border: none;
     background: none;
     cursor: pointer;
-    text-align: left; /* Align with link styles */
+    text-align: left;
 }
 
 /* --- Animated Link Styling --- */
 .animated-link {
-    /* Using the project's established color palette */
     --primary-color: #1F2937; /* text-gray-800 */
     --hovered-color: #2563EB; /* blue-600 */
     --page-background: #F9FAFB; /* bg-gray-50 */
 
     position: relative;
     display: inline-flex;
+    align-items: center; /* Vertically align icon and text */
     font-weight: 600;
-    font-size: 1.125rem; /* 18px */
+    font-size: 1.125rem;
     color: var(--primary-color);
     text-decoration: none;
     font-family: 'Noto Sans', sans-serif;
@@ -37,7 +36,7 @@ button.animated-link {
 .animated-link span {
     position: relative;
     color: var(--primary-color);
-    background: var(--page-background); /* Match page background to mask the wipe effect */
+    background: var(--page-background);
     transition: color 0.3s ease-out;
 }
 
@@ -47,7 +46,7 @@ button.animated-link {
     content: "";
     width: 100%;
     left: 0;
-    bottom: -5px; /* Position the line below the text */
+    bottom: -5px;
     height: 2px;
     background: var(--primary-color);
     transition: background-color 0.3s ease-out;
@@ -56,13 +55,23 @@ button.animated-link {
 /* The text-wipe effect, hidden by default */
 .animated-link span::before {
     position: absolute;
-    content: attr(data-content); /* Text must match the span's text */
+    content: attr(data-content);
     width: 0%;
     inset: 0;
     color: var(--hovered-color);
     overflow: hidden;
     transition: width 0.3s ease-out;
 }
+
+/*
+ * NEWLY ADDED FOR ICON STYLING
+ * This targets any SVG inside our link.
+ */
+.animated-link svg {
+    color: var(--primary-color); /* Ensures it starts with the correct color */
+    transition: color 0.3s ease-out; /* Makes the color change smooth */
+}
+
 
 /* --- HOVER EFFECTS --- */
 .animated-link:hover::after {
@@ -73,11 +82,10 @@ button.animated-link {
     width: 100%;
 }
 
-/* --- ACTIVE STATE for navigation --- */
-/* This class is no longer used for navigation but can be kept for other uses if needed */
-.active-link span {
+/*
+ * NEWLY ADDED FOR ICON HOVER
+ * This changes the SVG color when the parent link is hovered.
+ */
+.animated-link:hover svg {
     color: var(--hovered-color);
-}
-.active-link::after {
-    background: var(--hovered-color);
 }
