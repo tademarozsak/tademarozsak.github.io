@@ -11,25 +11,28 @@
   --animation-duration: 0.35s; /* Controls speed of the wipe effect */
 }
 
+/* --- 1.B. Global Body Styles --- */
+/* Set the default font for the entire site. */
+/* Headings and paragraphs will inherit this, fulfilling the design spec. */
+body {
+  font-family: 'DM Serif Text', serif;
+}
+
 /* --- 2. Base Styles for ALL Animated Links --- */
 /* This shared selector targets both link classes. */
 .animated-link,
 .link-inline {
   /* Set position to relative to act as a positioning container for the span. */
-  position: relative; 
-  
+  position: relative;
   /* Remove the default browser underline. We will create a custom one. */
-  text-decoration: none; 
-  
+  text-decoration: none;
   /* The link's color will be the primary charcoal color by default. */
   color: var(--primary-color);
-  
   /* Using inline-block allows for proper layout and positioning context */
   /* without taking up the full width like a block element. */
   display: inline-block;
-  
   /* Ensures any SVG icons inside the <a> tag but outside the <span> align nicely. */
-  vertical-align: middle; 
+  vertical-align: middle;
 }
 
 /* --- 3. The Core Animation Mechanism (Applied to the Inner Span) --- */
@@ -40,23 +43,20 @@
   position: relative; /* Crucial for positioning the ::before pseudo-element */
 
   /*
-   * The Underline Wipe Effect:
-   * We use two linear gradients as a background-image. The bottom layer is the
-   * permanent, primary-colored underline. The top layer is the hovered-color
-   * underline, which is initially hidden (0% width) and animates to 100% on hover.
+  * The Underline Wipe Effect:
+  * We use two linear gradients as a background-image. The bottom layer is the
+  * permanent, primary-colored underline. The top layer is the hovered-color
+  * underline, which is initially hidden (0% width) and animates to 100% on hover.
   */
   background-image:
     linear-gradient(var(--hovered-color), var(--hovered-color)), /* Top layer: Accent blue */
     linear-gradient(var(--primary-color), var(--primary-color)); /* Bottom layer: Charcoal */
-  
   background-repeat: no-repeat;
-  
   /* Position both gradients starting from the left edge and at the bottom. */
   background-position: 0% 100%, 0% 100%;
-  
   /* * [initial width of blue underline, initial width of charcoal underline]
-   * The blue underline starts at 0% width, while the charcoal is fully visible at 100%.
-   * The var(--underline-thickness) is defined per-class below.
+  * The blue underline starts at 0% width, while the charcoal is fully visible at 100%.
+  * The var(--underline-thickness) is defined per-class below.
   */
   background-size: 0% var(--underline-thickness), 100% var(--underline-thickness);
 
@@ -65,31 +65,25 @@
 }
 
 /*
- * The Text Wipe Effect:
- * We use the ::before pseudo-element to create a colored copy of the text
- * that is layered directly on top of the original.
+* The Text Wipe Effect:
+* We use the ::before pseudo-element to create a colored copy of the text
+* that is layered directly on top of the original.
 */
 .animated-link > span::before,
 .link-inline > span::before {
   /* This pulls the text from the span's 'data-content' attribute. */
-  content: attr(data-content); 
-  
+  content: attr(data-content);
   position: absolute;
   top: 0;
   left: 0;
-  
   /* This is the text that will be revealed. */
-  color: var(--hovered-color); 
-  
+  color: var(--hovered-color);
   /* The wipe effect is created by animating the width from 0% to 100%. */
   width: 0%;
-  
   /* Hide the overflowing text as the width animates. */
-  overflow: hidden; 
-  
+  overflow: hidden;
   /* Prevents the text inside the pseudo-element from wrapping. */
-  white-space: nowrap; 
-  
+  white-space: nowrap;
   /* Smoothly transition the width property. This must match the underline transition. */
   transition: width var(--animation-duration) ease-in-out;
 }
@@ -114,11 +108,9 @@
 
 /* For .animated-link (Button Style) */
 .animated-link {
-  /* NOTE: To use 'Noto Sans', you must import it into your project, */
-  /* for example, from Google Fonts. */
+  /* Apply the sans-serif font for navigation links, overriding the body font. */
   font-family: 'Noto Sans', sans-serif;
   font-weight: 600;
-  
   /* Define a fixed, thicker underline for button-style links. */
   --underline-thickness: 2px;
 }
@@ -126,32 +118,8 @@
 /* For .link-inline (In-Paragraph Style) */
 .link-inline {
   /* Explicitly inherit all font properties from the parent (e.g., a <p> tag). */
-  font: inherit; 
+  font: inherit;
   letter-spacing: inherit;
-  
   /* Define a proportional underline that scales with the text size. */
-  --underline-thickness: 0.08em; 
-}
-
-/* --- 6. (Optional) Demo Page Styles --- */
-/* These styles are just to demonstrate the links in a clean layout. */
-body {
-  font-family: 'Georgia', serif;
-  background-color: var(--page-background);
-  color: var(--primary-color);
-  line-height: 1.6;
-  padding: 2rem;
-  font-size: 18px;
-}
-
-.demo-container {
-  max-width: 650px;
-  margin: 2rem auto;
-}
-
-nav {
-  display: flex;
-  gap: 2rem;
-  margin-bottom: 3rem;
-  font-size: 1.2rem;
+  --underline-thickness: 0.08em;
 }
