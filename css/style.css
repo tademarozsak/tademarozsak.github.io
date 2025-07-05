@@ -10,7 +10,7 @@
   --animation-duration: 0.35s; /* Controls speed of the wipe effect */
 }
 
-/* --- 2. Base Styles for ALL Animated Links --- */
+/* --- 2. Base Styles for ALL Link Types --- */
 .animated-link,
 .link-inline {
   position: relative;
@@ -18,11 +18,11 @@
   color: var(--primary-color);
 }
 
-/* --- 3. The Core Animation Mechanism (Applied to the Inner Span) --- */
+/* --- 3. Core Animation Mechanism (Shared by Both Link Types) --- */
+/* The setup for the inner span and the ::before pseudo-element */
 .animated-link > span,
 .link-inline > span {
-  display: inline-block;
-  position: relative; 
+  position: relative;
   background-image:
     linear-gradient(var(--hovered-color), var(--hovered-color)),
     linear-gradient(var(--primary-color), var(--primary-color));
@@ -41,12 +41,10 @@
   color: var(--hovered-color);
   width: 0%;
   overflow: hidden;
-  white-space: nowrap;
   transition: width var(--animation-duration) ease-in-out;
 }
 
-
-/* --- 4. Hover State Trigger --- */
+/* --- 4. Hover State Trigger (Shared by Both Link Types) --- */
 .animated-link:hover > span,
 .link-inline:hover > span {
   background-size: 100% var(--underline-thickness), 100% var(--underline-thickness);
@@ -58,21 +56,38 @@
 }
 
 
-/* --- 5. Class-Specific Styling --- */
+/* ==========================================================================
+   Class-Specific Styling
+   ========================================================================== */
 
-/* For .animated-link (Button Style) */
+/* --- 5.A. For .animated-link (Button Style) --- */
 .animated-link {
-  /* Use inline-flex and align-items to vertically center contents like icons and text. */
   display: inline-flex;
   align-items: center;
-  /* Font is now handled by the `font-sans` utility class in the HTML. */
   font-weight: 600;
   --underline-thickness: 2px;
 }
+.animated-link > span {
+  display: inline-block;
+}
+.animated-link > span::before {
+  white-space: nowrap; /* Keep buttons on one line */
+}
 
-/* For .link-inline (In-Paragraph Style) */
+
+/* --- 5.B. For .link-inline (In-Paragraph Style) --- */
 .link-inline {
   font: inherit;
   letter-spacing: inherit;
   --underline-thickness: 0.08em;
+}
+.link-inline > span {
+  display: inline; /* Allows natural text flow */
+  /* This is the key: it applies styles to each line of a wrapped element */
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+/* By not including `white-space: nowrap`, the blue text will wrap too */
+.link-inline > span::before {
+  /* Inherits wrapping behavior */
 }
