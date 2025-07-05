@@ -72,7 +72,6 @@
 
 /* For .link-inline (In-Paragraph Style) */
 .link-inline {
-  display: inline-block;
   font: inherit;
   letter-spacing: inherit;
   --underline-thickness: 0.08em;
