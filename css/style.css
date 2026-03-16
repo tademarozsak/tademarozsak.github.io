@@ -5,7 +5,7 @@
 /* --- 1. Global Variable Definitions --- */
 :root {
   --primary-color: #374151; /* Softer dark gray (gray-700) instead of harsh charcoal */
-  --hovered-color: #4F46E5; /* Sophisticated Indigo (indigo-600) instead of bright blue */
+  --hovered-color: #2563EB; /* Accent blue on hover */
   --page-background: #F9FAFB; /* For demo body background */
   --animation-duration: 0.35s; /* Controls speed of the wipe effect */
 }
