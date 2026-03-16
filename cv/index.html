@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tade Marozsak | CV</title>
+  <meta name="description" content="Curriculum Vitae of Tade Marozsak, a PhD candidate at MIT.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['"DM Serif Text"', 'serif'],
+            sans: ['"Noto Sans"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Noto+Sans:wght@600&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans h-screen flex flex-col overflow-hidden">
+  
+  <!-- Navigation Header -->
+  <header class="bg-white shadow-sm flex-none py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300 ease-in-out z-10 relative">
+    <a href="../" class="group flex items-center text-gray-600 hover:text-black transition-colors z-20">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 transform group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+      </svg>
+      <span class="font-semibold text-sm tracking-wide uppercase">Back</span>
+    </a>
+    
+    <div class="absolute inset-x-0 mx-auto text-center font-serif text-xl md:text-2xl font-bold hidden sm:block pointer-events-none">
+      Curriculum Vitae
+    </div>
+
+
+  </header>
+
+  <!-- PDF Native Viewer Container -->
+  <main class="flex-grow w-full relative border-t border-gray-200" style="-webkit-overflow-scrolling: touch;">
+    <object data="CV.pdf" type="application/pdf" class="absolute inset-0 w-full h-full">
+        <!-- Fallback if Native Viewer is not supported (e.g. some mobile devices) -->
+        <div class="absolute inset-0 flex flex-col items-center justify-center p-8 bg-gray-50 text-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <h3 class="text-xl font-bold text-gray-800 mb-2">Native PDF Viewer Not Supported</h3>
+          <p class="text-gray-600 mb-6 max-w-md">Your device or browser does not support inline PDFs. You can download the file to view it.</p>
+          <a href="CV.pdf" download="Tade_Marozsak_CV.pdf" class="inline-block bg-gray-800 hover:bg-black text-white font-semibold py-3 px-8 rounded-lg transition-colors shadow-md">Download CV</a>
+        </div>
+    </object>
+  </main>
+
+</body>
+</html>
