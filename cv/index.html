@@ -43,19 +43,38 @@
   </header>
 
   <!-- PDF Native Viewer Container -->
-  <main class="flex-grow w-full relative border-t border-gray-200" style="-webkit-overflow-scrolling: touch;">
-    <object data="CV.pdf" type="application/pdf" class="absolute inset-0 w-full h-full">
-        <!-- Fallback if Native Viewer is not supported (e.g. some mobile devices) -->
-        <div class="absolute inset-0 flex flex-col items-center justify-center p-8 bg-gray-50 text-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-          </svg>
-          <h3 class="text-xl font-bold text-gray-800 mb-2">Native PDF Viewer Not Supported</h3>
-          <p class="text-gray-600 mb-6 max-w-md">Your device or browser does not support inline PDFs. You can download the file to view it.</p>
-          <a href="CV.pdf" download="Tade_Marozsak_CV.pdf" class="inline-block bg-gray-800 hover:bg-black text-white font-semibold py-3 px-8 rounded-lg transition-colors shadow-md">Download CV</a>
-        </div>
-    </object>
+  <main class="flex-grow w-full relative border-t border-gray-200" style="-webkit-overflow-scrolling: touch;" id="pdf-container">
+    <div class="absolute inset-0 flex flex-col items-center justify-center p-8 bg-gray-50 text-center">
+      <svg class="animate-spin h-8 w-8 text-gray-400 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+      </svg>
+      <p class="text-gray-500">Loading document...</p>
+    </div>
   </main>
+
+  <script>
+    // Append a timestamp cache-buster to the PDF URL to bypass aggressive browser caching
+    // so returning visitors always see the most recent version of the CV.
+    document.addEventListener("DOMContentLoaded", () => {
+      const pdfUrl = "CV.pdf?v=" + new Date().getTime();
+      const container = document.getElementById("pdf-container");
+      
+      container.innerHTML = `
+        <object data="${pdfUrl}" type="application/pdf" class="absolute inset-0 w-full h-full">
+            <!-- Fallback if Native Viewer is not supported (e.g. some mobile devices) -->
+            <div class="absolute inset-0 flex flex-col items-center justify-center p-8 bg-gray-50 text-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              <h3 class="text-xl font-bold text-gray-800 mb-2">Native PDF Viewer Not Supported</h3>
+              <p class="text-gray-600 mb-6 max-w-md">Your device or browser does not support inline PDFs. You can download the file to view it.</p>
+              <a href="${pdfUrl}" download="Tade_Marozsak_CV.pdf" class="inline-block bg-gray-800 hover:bg-black text-white font-semibold py-3 px-8 rounded-lg transition-colors shadow-md">Download CV</a>
+            </div>
+        </object>
+      `;
+    });
+  </script>
 
 </body>
 </html>
