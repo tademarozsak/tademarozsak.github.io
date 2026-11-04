@@ -1,0 +1,21 @@
+{%- comment -%}
+  One publication entry. Usage: {% include publication.html pub=item %}
+  where item has: title, authors (list), year, venue, links (list of {label, url}).
+{%- endcomment -%}
+{%- assign pub = include.pub -%}
+<li class="publication">
+  <h2 class="publication__title">{{ pub.title }}</h2>
+  <p class="publication__authors">
+    {%- for author in pub.authors -%}
+      {%- if author == site.author %}<strong>{{ author }}</strong>{% else %}{{ author }}{% endif -%}
+      {%- unless forloop.last %}, {% endunless -%}
+    {%- endfor %} ({{ pub.year }}).
+  </p>
+  <p class="publication__venue">{{ pub.venue }}</p>
+  {% if pub.links %}
+  <div class="cluster publication__links">
+    {% for link in pub.links %}<a href="{{ link.url }}" class="link">{{ link.label }}</a>
+    {% endfor %}
+  </div>
+  {% endif %}
+</li>

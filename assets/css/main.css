@@ -1,0 +1,9 @@
+---
+# Jekyll joins the partials in _includes/css/ into this one file, in this order.
+# Edit the partials, not the built file. Order: tokens -> base -> layout -> components -> pages.
+---
+{% include css/tokens.css %}
+{% include css/base.css %}
+{% include css/layout.css %}
+{% include css/components.css %}
+{% include css/pages.css %}

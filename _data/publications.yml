@@ -1,0 +1,12 @@
+# Publications, newest first. Each entry renders on /publications/.
+# To go live: add entries, remove `published: false` from publications.html,
+# and uncomment the Publications link in _data/links.yml.
+#
+# - title: Title of the paper
+#   authors: [Tade Marozsak, Co-author One]   # the name matching `author` in _config.yml is bolded
+#   year: 2026
+#   venue: Journal of Something, 12(3), 45–67
+#   links:
+#     - { label: PDF, url: https://example.org/paper.pdf }
+#     - { label: DOI, url: https://doi.org/10.0000/example }
+[]

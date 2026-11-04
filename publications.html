@@ -1,0 +1,12 @@
+---
+layout: page
+title: Publications
+description: Selected publications by Tade Marozsak.
+permalink: /publications/
+published: false   # not built until _data/publications.yml has entries; delete this line to go live
+---
+<ul class="publication-list">
+  {% for pub in site.data.publications %}
+    {% include publication.html pub=pub %}
+  {% endfor %}
+</ul>

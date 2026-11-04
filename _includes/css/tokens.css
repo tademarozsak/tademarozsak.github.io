@@ -1,0 +1,83 @@
+/* ==========================================================================
+   tokens.css: every colour, size, font and timing on the site.
+   Components use the semantic names below, never raw values or primitives.
+   ========================================================================== */
+
+:root {
+  /* Primitive palette (only referenced from this file) */
+  --gray-0: #ffffff;
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-700: #374151;
+  --gray-800: #1f2937;
+  --gray-900: #111827;
+  --brand-500: #2563eb;
+
+  /* Semantic colours */
+  --color-canvas: var(--gray-50);
+  --color-surface: var(--gray-0);
+  --color-text: var(--gray-800);
+  --color-text-muted: var(--gray-700);
+  --color-text-subtle: var(--gray-500);
+  --color-border: var(--gray-200);
+  --color-accent: var(--brand-500);
+  --color-button: var(--gray-800);
+  --color-button-hover: var(--gray-900);
+  --color-button-text: var(--gray-0);
+
+  /* Spacing scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+
+  /* Typography */
+  --font-serif: "DM Serif Text", Georgia, serif;   /* body + headings (400 only, plus italic) */
+  --font-sans: "Noto Sans", system-ui, sans-serif; /* UI: links, buttons (600 only) */
+  --font-weight-heading: 400; /* DM Serif Text has no bold; 700 makes the browser fake one */
+  --font-weight-ui: 600;
+
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+
+  --leading-tight: 1.2;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+  --leading-loose: 1.8;
+
+  /* Shape and depth */
+  --radius-md: 0.5rem;
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 2px rgb(15 23 42 / 0.08);
+  --shadow-photo: 0 20px 25px -5px rgb(229 231 235 / 0.6);
+
+  /* Sizing */
+  --tap-target: 2.75rem;  /* minimum height of anything clickable */
+  --icon-size: 1.25rem;
+  --icon-size-xl: 4rem;
+
+  /* Layout */
+  --content-width: 72rem;
+  --content-width-narrow: 56rem;
+  --reading-width: 42rem;
+  --page-gutter: clamp(1rem, 3vw, 2rem);
+
+  /* Motion */
+  --duration-fast: 120ms;
+  --duration-link: 350ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-in-out: ease-in-out;
+}

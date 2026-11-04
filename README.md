@@ -1,0 +1,70 @@
+# tademarozsak.github.io
+
+Personal academic website. Plain Jekyll, built automatically by GitHub Pages on every push to `main`. No theme, no JavaScript, no Sass.
+
+## Where things live
+
+| To change…                         | Edit                                   |
+| ---------------------------------- | -------------------------------------- |
+| Name, tagline, site description    | `_config.yml`                          |
+| Bio and photo on the home page     | `index.html`, `assets/img/profile.jpg` |
+| Home page links (order, add, hide) | `_data/links.yml`                      |
+| Research text                      | `research.md` (Markdown)               |
+| Publications                       | `_data/publications.yml`               |
+| CV                                 | replace `cv/CV.pdf`                    |
+| `<head>` (fonts, meta, CSS)        | `_includes/head.html`                  |
+| Back link / inner page frame       | `_includes/back-link.html`, `_layouts/page.html` |
+| Icons                              | `_includes/icons/*.svg`                |
+| Styles                             | `_includes/css/*.css` (see below)      |
+
+```
+_config.yml          site settings
+_layouts/            base.html (every page) → page.html (inner pages)
+_includes/           head, back link, publication entry, icons/, css/
+_data/               links.yml, publications.yml
+assets/              css/main.css (joins the partials), img/
+index.html  research.md  publications.html  cv/  404.html  styleguide.html
+```
+
+## Adding a page
+
+Create `something.md` (or `.html`) at the root:
+
+```yaml
+---
+layout: page
+title: Something          # also becomes "Something | Tade Marozsak" in the tab
+description: One sentence for search results.
+permalink: /something/
+prose: true               # for long-form text
+---
+```
+
+Then add it to `_data/links.yml` if it should appear on the home page.
+
+## Previewing locally
+
+One-time setup: `brew install ruby@3.3`, then `bundle install`.
+
+```bash
+PATH="/opt/homebrew/opt/ruby@3.3/bin:$PATH" bundle exec jekyll serve --livereload
+```
+
+Open http://localhost:4000. After any CSS change, check **/styleguide/** (not linked from the site, not indexed). It shows every component on one page.
+
+## Style rules
+
+1. **Tokens only.** Every colour, size, font, radius, shadow and duration is a custom property in `_includes/css/tokens.css`. Components use the semantic names (`--color-text-muted`, `--space-5`), never hex values, raw `rem`s, or the `--gray-*` primitives. `px` only for 1px borders.
+2. **CSS files and order:** `tokens` → `base` (element defaults) → `layout` (`.page`, `.stack`, `.cluster`, `.prose`) → `components` (reused anywhere) → `pages` (one section per page). If a style is used on two pages, it moves to `components`.
+3. **Naming:** `block__element--modifier` (e.g. `.publication__title`, `.icon--xl`). Style with classes, not IDs or tag chains.
+4. **One component per job:**
+   - `.link`: UI links (navigation, actions, back link). Sans, 44px tap target, wipe on hover.
+   - `.link-inline`: links inside sentences. Plain `<a>` in Markdown pages gets this automatically.
+   - `.button`: the only filled control.
+   - `.page-title`, `.page-header`: provided by the `page` layout.
+   Don't make one-off variants. Add a modifier, and add it to the style guide.
+5. **Icons:** Heroicons outline, 24px viewBox, `stroke-width="2"`, one file each in `_includes/icons/`, included with `{% include icons/name.svg %}`. They inherit text colour and are sized by `.icon` (or `.icon--xl`). One meaning per icon: arrow-left = back.
+6. **Fonts:** DM Serif Text (400 + italic) for text and headings, Noto Sans 600 for UI. Load only weights that are used. DM Serif Text has no bold, so headings are 400 (`--font-weight-heading`).
+7. **Motion:** only via `--duration-*` / `--ease-*`. Reduced-motion users get no animation (handled globally in `base.css`).
+8. **Links:** everything opens in the same tab. Internal URLs start with `/` and go through `relative_url` in templates.
+9. **Pages:** every page uses a layout, so the `<head>` and title format are never written by hand.

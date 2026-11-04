@@ -1,0 +1,156 @@
+/* ==========================================================================
+   components.css: reusable pieces. One class per job; see /styleguide/.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Links: there are exactly two.
+     .link         UI links (nav, actions, back link). Sans, 44px tap target.
+     .link-inline  links inside running text. Inherits the surrounding font.
+                   Plain <a> inside .prose gets this style automatically.
+   On hover the accent colour wipes across the text, left to right.
+   -------------------------------------------------------------------------- */
+
+.link,
+.link-inline,
+.prose a {
+  color: var(--color-text-muted);
+  text-decoration-line: underline;
+  text-decoration-color: var(--color-text-muted);
+  text-decoration-thickness: var(--underline-thickness);
+  text-underline-offset: var(--underline-offset);
+  transition: text-decoration-color var(--duration-link) var(--ease-in-out);
+}
+
+.link:hover,
+.link:focus-visible,
+.link-inline:hover,
+.link-inline:focus-visible,
+.prose a:hover,
+.prose a:focus-visible {
+  text-decoration-color: var(--color-accent);
+}
+
+/* The wipe: text is painted with a half-accent, half-muted gradient that slides across. */
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+  .link,
+  .link-inline,
+  .prose a {
+    color: transparent;
+    background-image: linear-gradient(to right, var(--color-accent) 50%, var(--color-text-muted) 50%);
+    background-size: 200% 100%;
+    background-position: 100% 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+    transition:
+      background-position var(--duration-link) var(--ease-in-out),
+      text-decoration-color var(--duration-link) var(--ease-in-out);
+  }
+
+  .link:hover,
+  .link:focus-visible,
+  .link-inline:hover,
+  .link-inline:focus-visible,
+  .prose a:hover,
+  .prose a:focus-visible {
+    background-position: 0 0;
+  }
+}
+
+.link {
+  --underline-thickness: 2px;
+  --underline-offset: 0.35em;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--tap-target);
+  font-family: var(--font-sans);
+  font-weight: var(--font-weight-ui);
+}
+
+/* Icons inside a link keep a solid colour (the text is transparent). */
+.link .icon {
+  color: var(--color-text-muted);
+}
+
+.link-inline,
+.prose a {
+  --underline-thickness: 0.08em;
+  --underline-offset: 0.2em;
+}
+
+/* --------------------------------------------------------------------------
+   Button: the only filled control.
+   -------------------------------------------------------------------------- */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--tap-target);
+  padding: var(--space-3) var(--space-6);
+  border: 0;
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-ui);
+  line-height: 1;
+  text-decoration: none;
+  color: var(--color-button-text);
+  background-color: var(--color-button);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    transform var(--duration-fast) var(--ease-standard);
+}
+
+.button:hover {
+  background-color: var(--color-button-hover);
+}
+
+.button:active {
+  transform: translateY(1px);
+}
+
+/* --------------------------------------------------------------------------
+   Icons: SVGs from _includes/icons/. Colour follows the text (currentColor).
+   Modifier: .icon--xl.
+   -------------------------------------------------------------------------- */
+
+.icon {
+  width: var(--icon-size);
+  height: var(--icon-size);
+  flex-shrink: 0;
+}
+
+.icon--xl {
+  width: var(--icon-size-xl);
+  height: var(--icon-size-xl);
+}
+
+.spinner {
+  width: var(--space-6);
+  height: var(--space-6);
+  animation: spin 800ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Page header and title (used by _layouts/page.html).
+   -------------------------------------------------------------------------- */
+
+.page-header {
+  margin-bottom: var(--space-7);
+}
+
+.page-title {
+  font-size: clamp(var(--text-2xl), 4vw, var(--text-4xl));
+  margin: 0 0 var(--space-6);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}

@@ -1,0 +1,21 @@
+---
+layout: base
+---
+{%- comment -%}
+  Standard inner page: back link, page title, content.
+  Front matter: title (required), description, prose: true for long-form text.
+{%- endcomment -%}
+<div class="page page--narrow">
+  <header class="page-header">
+    {% include back-link.html %}
+  </header>
+
+  <main>
+    <h1 class="page-title">{{ page.title }}</h1>
+    {% if page.prose %}
+      <article class="prose">{{ content }}</article>
+    {% else %}
+      {{ content }}
+    {% endif %}
+  </main>
+</div>

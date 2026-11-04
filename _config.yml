@@ -1,0 +1,17 @@
+# Site-wide settings. Restart `jekyll serve` after editing this file.
+title: Tade Marozsak
+tagline: PhD Candidate            # used in the home page <title>
+author: Tade Marozsak             # bolded in publication author lists
+description: Personal academic website of Tade Marozsak, a PhD student at MIT.
+url: https://tademarozsak.github.io
+lang: en
+
+markdown: kramdown
+theme: null                       # GitHub Pages otherwise injects its default "primer" theme
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+  - .venv

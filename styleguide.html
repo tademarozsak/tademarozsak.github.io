@@ -1,0 +1,69 @@
+---
+layout: page
+title: Style guide
+description: Every component on the site, on one page. Check here after changing CSS.
+permalink: /styleguide/
+noindex: true
+sample_publication:
+  title: Sample publication title
+  authors: [Co-author One, Tade Marozsak]
+  year: 2026
+  venue: Journal of Examples, 1(1), 1–10
+  links:
+    - { label: PDF, url: "#" }
+    - { label: DOI, url: "#" }
+---
+{%- comment -%}
+  Not linked from the site. Every component should appear here exactly as pages use it.
+  When you add a component, add it here too.
+{%- endcomment -%}
+
+<section class="sg-section">
+  <h2>Colours</h2>
+  <div class="stack">
+    <span class="sg-swatch" style="--swatch: var(--color-canvas)">--color-canvas</span>
+    <span class="sg-swatch" style="--swatch: var(--color-surface)">--color-surface</span>
+    <span class="sg-swatch" style="--swatch: var(--color-text)">--color-text</span>
+    <span class="sg-swatch" style="--swatch: var(--color-text-muted)">--color-text-muted</span>
+    <span class="sg-swatch" style="--swatch: var(--color-text-subtle)">--color-text-subtle</span>
+    <span class="sg-swatch" style="--swatch: var(--color-border)">--color-border</span>
+    <span class="sg-swatch" style="--swatch: var(--color-accent)">--color-accent</span>
+    <span class="sg-swatch" style="--swatch: var(--color-button)">--color-button</span>
+  </div>
+</section>
+
+<section class="sg-section">
+  <h2>Typography</h2>
+  <p class="hero__name">Hero name (.hero__name)</p>
+  <p class="hero__bio">Hero bio (.hero__bio) with an <a href="#" class="link-inline">inline link that is long enough to wrap onto a second line on narrow screens</a>.</p>
+  <article class="prose">
+    <h2>Prose heading (.prose h2)</h2>
+    <p>Prose paragraph. Plain Markdown links like <a href="#">this one</a> pick up the inline link style automatically.</p>
+  </article>
+</section>
+
+<section class="sg-section">
+  <h2>Links and buttons</h2>
+  <div class="cluster">
+    <a href="#" class="link">UI link (.link)</a>
+    {% include back-link.html %}
+    <a href="#" class="button">Button (.button)</a>
+  </div>
+</section>
+
+<section class="sg-section">
+  <h2>Icons</h2>
+  <div class="cluster">
+    {% include icons/arrow-left.svg %}
+    {% include icons/document.svg %}
+    {% include icons/spinner.svg %}
+    {% include icons/document.svg class="icon--xl" %}
+  </div>
+</section>
+
+<section class="sg-section">
+  <h2>Publication entry</h2>
+  <ul class="publication-list">
+    {% include publication.html pub=page.sample_publication %}
+  </ul>
+</section>
