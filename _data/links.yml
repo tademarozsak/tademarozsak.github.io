@@ -1,5 +1,5 @@
 # Links in the home page navigation, in display order.
-# Internal pages start with "/"; everything opens in the same tab.
+# Internal pages start with "/" and open in the same tab; external sites (https://) open in a new tab.
 - label: Research
   url: /research/
 # - label: Publications        # uncomment once _data/publications.yml has entries

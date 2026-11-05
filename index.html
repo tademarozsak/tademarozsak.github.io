@@ -14,7 +14,7 @@ description: Personal academic website of Tade Marozsak, a PhD candidate in Elec
         </p>
         <nav class="cluster hero__nav" aria-label="Primary">
           {%- for link in site.data.links %}
-          <a href="{{ link.url | relative_url }}" class="link">{{ link.label }}</a>
+          <a href="{{ link.url | relative_url }}" class="link"{% if link.url contains "://" %} target="_blank" rel="noopener"{% endif %}>{{ link.label }}</a>
           {%- endfor %}
         </nav>
       </div>
