@@ -3,13 +3,16 @@ layout: base
 ---
 {%- comment -%}
   Every inner page: sticky bar, large title, content.
-    Bar      left: the page title once it has shrunk into place (see below).
+    Bar      left: the page title, compact. On wide screens that is the large
+             title itself, shrunk into place (see below); on phones a small
+             copy (.page-bar__title--phone) fades in once the large title has
+             scrolled under the bar.
              right: Home and the site's other pages (internal links, URLs
              starting with "/", in _data/links.yml). The section you're in is
              left out (e.g. Research on any project page): the title says it.
     Title    large, on the left. On wide screens it sits in the bar's left
              slot from the start and shrinks in place as you scroll, its top
-             fixed (script below). On phones it scrolls away.
+             fixed (script below). On phones it scrolls away under the bar.
   Front matter:
     title        required; shown as the h1 and in the browser tab
     description  one sentence for search results
@@ -21,9 +24,7 @@ layout: base
 <div class="page-frame{% if page.fill %} page-frame--fill{% endif %}">
   <header class="page-bar{% if page.fill %} is-compact{% endif %}">
     <div class="page page--narrow page-bar__inner">
-      {%- if page.fill %}
-      <p class="page-bar__title" aria-hidden="true">{{ page.title }}</p>
-      {%- endif %}
+      <p class="page-bar__title{% unless page.fill %} page-bar__title--phone{% endunless %}" aria-hidden="true">{{ page.title }}</p>
       <nav class="page-bar__nav" aria-label="Pages">
         <a href="{{ '/' | relative_url }}" class="link">Home</a>
         {%- for link in site.data.links %}

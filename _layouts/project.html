@@ -5,7 +5,9 @@ layout: page
   A research project page (one per file in _projects/).
     Cards     every project, in `order`; the current one is highlighted.
     Toggle    Introductory / Technical. Works without JavaScript (CSS :has);
-              the script only adds shareable links: …/#technical.
+              the script adds shareable links (…/#technical), remembers the
+              choice, and docks the toggle while you read: in the bar on wide
+              screens, in a strip under it on phones (.levels__bar).
     Heading   the project's `heading` (front matter), drawn here once for both
               versions, so they always share one title. The texts must not
               have their own: a `##` heading in them shows a warning on the
@@ -22,11 +24,13 @@ layout: page
 </nav>
 
 <div class="levels">
-  <div class="segmented" role="radiogroup" aria-label="Level of detail">
-    <input class="segmented__input" type="radio" name="level" id="level-introductory" value="introductory" checked>
-    <label class="segmented__option" for="level-introductory">Introductory</label>
-    <input class="segmented__input" type="radio" name="level" id="level-technical" value="technical">
-    <label class="segmented__option" for="level-technical">Technical</label>
+  <div class="levels__bar">
+    <div class="segmented" role="radiogroup" aria-label="Level of detail">
+      <input class="segmented__input" type="radio" name="level" id="level-introductory" value="introductory" checked>
+      <label class="segmented__option" for="level-introductory">Introductory</label>
+      <input class="segmented__input" type="radio" name="level" id="level-technical" value="technical">
+      <label class="segmented__option" for="level-technical">Technical</label>
+    </div>
   </div>
 
   <div class="prose">
@@ -72,9 +76,34 @@ layout: page
         if (!location.hash) history.replaceState(null, '', '#' + radio.value);
       }
     }
+    // Docking (CSS in pages.css): the toggle sticks in the bar (wide screens)
+    // or in a strip under it (phones, .levels__bar). It counts as docked once
+    // it has reached its sticky position.
+    const strip = document.querySelector('.levels__bar');
+    const toggle = strip.querySelector('.segmented');
+    const heading = document.querySelector('.levels .prose h2');
+    const stuck = () => [strip, toggle].find((el) => getComputedStyle(el).position === 'sticky');
+    const docked = () => {
+      const el = stuck();
+      return Boolean(el) && el.getBoundingClientRect().top <= parseFloat(getComputedStyle(el).top) + 0.5;
+    };
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      strip.classList.toggle('is-docked', stuck() === strip && docked());
+    };
+    addEventListener('scroll', () => {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    }, { passive: true });
+    addEventListener('resize', update);
+    update();
+
     window.addEventListener('hashchange', showFromUrl);
     for (const radio of document.querySelectorAll('input[name="level"]')) {
       radio.addEventListener('change', () => {
+        // Switching while reading further down: start the other version from
+        // its beginning instead of at a random point in it.
+        if (docked()) heading.scrollIntoView({ block: 'start', behavior: 'instant' });
         history.replaceState(null, '', '#' + radio.value);
         remember(radio.value);
       });

@@ -161,20 +161,57 @@
   color: var(--color-text-muted);
 }
 
-/* The toggle sits centred under the title. On wide screens it sticks once it
-   reaches the bar, centred between the docked title and the menu. On phones
-   the bar is too narrow to hold it, so it scrolls away with the text. */
-.levels > .segmented {
+/* The toggle sits centred under the cards and stays reachable while you read.
+   Wide screens: it sticks once it reaches the bar, centred between the
+   docked title and the menu (its strip, .levels__bar, has no box there).
+   Phones: the bar is too narrow to hold it, so the strip docks just under
+   the bar instead, full width, and continues the bar's background
+   (.is-docked, set by the script in _layouts/project.html). */
+.levels__bar > .segmented {
   display: flex;
   width: fit-content;
-  margin: 0 auto var(--space-6);
+  margin: 0 auto;
+}
+
+@media (max-width: 47.99rem) {
+  .levels__bar {
+    position: sticky;
+    top: var(--page-bar-height);
+    z-index: 9;  /* under the bar */
+    margin: 0 calc(-1 * var(--page-gutter)) calc(var(--space-6) - var(--space-2));
+    padding: var(--space-2) var(--page-gutter);
+    border-bottom: 1px solid transparent;
+    transition:
+      background-color var(--duration-bar) var(--ease-standard),
+      border-color var(--duration-bar) var(--ease-standard);
+  }
+
+  .levels__bar.is-docked {
+    background-color: var(--color-surface);
+    border-bottom-color: var(--color-border);
+  }
+
+  /* Bar and strip read as one: the line moves to the strip's bottom edge. */
+  .page-frame:has(.levels__bar.is-docked) .page-bar {
+    border-bottom-color: transparent;
+  }
+
+  /* Links to footnotes and headings land below both. */
+  html:has(.levels__bar) {
+    scroll-padding-top: calc(var(--page-bar-height) + var(--levels-bar-height) + var(--space-4));
+  }
 }
 
 @media (min-width: 48rem) {
-  .levels > .segmented {
+  .levels__bar {
+    display: contents;
+  }
+
+  .levels__bar > .segmented {
     position: sticky;
     top: calc((var(--page-bar-height) - var(--tap-target)) / 2 - 1px);  /* centred in the bar */
     z-index: 11;  /* above the bar */
+    margin-bottom: var(--space-6);
   }
 }
 

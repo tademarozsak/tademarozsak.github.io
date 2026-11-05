@@ -233,7 +233,9 @@
      .page-title   the large title. On wide screens it is sticky and the
                    layout's script scales it down as you scroll, so it ends up
                    small in the bar's left slot. On phones it scrolls away.
-     .page-bar__title  the compact title for pages without a large one (fill).
+     .page-bar__title  the compact title: always shown on pages without a large
+                   one (fill); on phones (--phone) it fades in once the large
+                   title has scrolled away.
    -------------------------------------------------------------------------- */
 
 .page-bar {
@@ -260,10 +262,31 @@
 }
 
 .page-bar__title {
+  min-width: 0;
   margin: 0;
+  overflow: hidden;
   font-size: var(--text-xl);
   line-height: var(--leading-tight);
   white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Phones: the large title scrolls away, so this small copy fades in once it
+   has gone under the bar. Wide screens don't need it: the large title itself
+   docks in the bar. */
+.page-bar__title--phone {
+  opacity: 0;
+  transition: opacity var(--duration-bar) var(--ease-standard);
+}
+
+.page-bar.is-compact .page-bar__title--phone {
+  opacity: 1;
+}
+
+@media (min-width: 48rem) {
+  .page-bar__title--phone {
+    display: none;
+  }
 }
 
 .page-bar__nav {
