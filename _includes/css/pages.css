@@ -136,53 +136,15 @@
 }
 
 /* --------------------------------------------------------------------------
-   CV viewer (cv/index.html): full-height header + embedded PDF.
+   CV viewer (cv/index.html): embedded PDF filling the rest of the window.
    -------------------------------------------------------------------------- */
-
-.viewer-page {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  min-height: 100dvh;
-  overflow: hidden;
-}
-
-.viewer-header {
-  display: grid;
-  grid-template-columns: 1fr;
-  align-items: center;
-  gap: var(--space-2) var(--space-5);
-  flex: 0 0 auto;
-  padding: var(--space-3) var(--page-gutter);
-  background-color: var(--color-surface);
-  border-bottom: 1px solid var(--color-border);
-}
-
-.viewer-header .link {
-  justify-self: start;
-}
-
-.viewer-header__title {
-  margin: 0;
-  font-size: clamp(var(--text-xl), 3vw, var(--text-2xl));
-}
-
-@media (min-width: 40rem) {
-  .viewer-header {
-    grid-template-columns: 1fr auto 1fr;
-  }
-
-  .viewer-header__title {
-    grid-column: 2;
-    justify-self: center;
-    pointer-events: none;
-  }
-}
 
 .pdf-viewer {
   position: relative;
   flex: 1 1 auto;
-  min-height: 0;
+  min-height: var(--viewer-min-height);
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-canvas);
 }
 
 /* Shown behind the PDF while it loads; the PDF covers it once rendered. */

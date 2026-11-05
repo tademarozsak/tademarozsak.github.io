@@ -12,7 +12,26 @@
 
 .page--narrow {
   --content-width: var(--content-width-narrow);
-  padding-block: var(--space-7);
+}
+
+/* Inner page frame (_layouts/page.html): header, then main. */
+.page-main {
+  padding-bottom: var(--space-7);
+}
+
+/* fill: true. Main spans the full width and reaches the bottom of the window. */
+.page-frame--fill {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.page-frame--fill > .page-main {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  padding-bottom: 0;
 }
 
 .page--hero {

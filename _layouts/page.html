@@ -2,16 +2,21 @@
 layout: base
 ---
 {%- comment -%}
-  Standard inner page: back link, page title, content.
-  Front matter: title (required), description, prose: true for long-form text.
+  Every inner page: back link and title (identical everywhere), then content.
+  Front matter:
+    title        required; shown as the h1 and in the browser tab
+    description  one sentence for search results
+    prose: true  long-form text styling for the content
+    fill: true   content spans the full width and reaches the bottom of the
+                 window, like a document viewer (the CV)
 {%- endcomment -%}
-<div class="page page--narrow">
-  <header class="page-header">
+<div class="page-frame{% if page.fill %} page-frame--fill{% endif %}">
+  <header class="page page--narrow page-header">
     {% include back-link.html %}
+    <h1 class="page-title">{{ page.title }}</h1>
   </header>
 
-  <main>
-    <h1 class="page-title">{{ page.title }}</h1>
+  <main class="page-main{% unless page.fill %} page page--narrow{% endunless %}">
     {% if page.prose %}
       <article class="prose">{{ content }}</article>
     {% else %}

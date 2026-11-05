@@ -198,16 +198,23 @@
 }
 
 /* --------------------------------------------------------------------------
-   Page header and title (used by _layouts/page.html).
+   Page header: back link + title. Provided by _layouts/page.html, so every
+   inner page has the same header. Don't rebuild it inside a page.
    -------------------------------------------------------------------------- */
 
 .page-header {
-  margin-bottom: var(--space-7);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-7);
+  padding-top: var(--space-7);
+  margin-bottom: var(--space-6);
 }
 
 .page-title {
+  align-self: stretch;
   font-size: clamp(var(--text-2xl), 4vw, var(--text-4xl));
-  margin: 0 0 var(--space-6);
+  margin: 0;
   padding-bottom: var(--space-4);
   border-bottom: 1px solid var(--color-border);
 }

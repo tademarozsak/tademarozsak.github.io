@@ -76,6 +76,7 @@
   --content-width: 72rem;
   --content-width-narrow: 56rem;
   --reading-width: 42rem;
+  --viewer-min-height: 32rem;     /* embedded documents (CV) never get shorter than this */
   --page-gutter: clamp(1rem, 3vw, 2rem);
 
   /* Motion */
