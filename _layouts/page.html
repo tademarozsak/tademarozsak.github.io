@@ -3,16 +3,14 @@ layout: base
 ---
 {%- comment -%}
   Every inner page: sticky bar, large title, content.
-    Bar      left: the page title, compact. On wide screens that is the large
-             title itself, shrunk into place (see below); on phones a small
-             copy (.page-bar__title--phone) fades in once the large title has
-             scrolled under the bar.
+    Bar      left: the page title, compact (the large title, shrunk into
+             place; see below).
              right: Home and the site's other pages (internal links, URLs
              starting with "/", in _data/links.yml). The section you're in is
              left out (e.g. Research on any project page): the title says it.
-    Title    large, on the left. On wide screens it sits in the bar's left
-             slot from the start and shrinks in place as you scroll, its top
-             fixed (script below). On phones it scrolls away under the bar.
+    Title    large, on the left. It sits in the bar's left slot from the
+             start, its top level with the menu, and shrinks in place as you
+             scroll (script below). Same on phones and wide screens.
   Front matter:
     title        required; shown as the h1 and in the browser tab
     description  one sentence for search results
@@ -24,7 +22,9 @@ layout: base
 <div class="page-frame{% if page.fill %} page-frame--fill{% endif %}">
   <header class="page-bar{% if page.fill %} is-compact{% endif %}">
     <div class="page page--narrow page-bar__inner">
-      <p class="page-bar__title{% unless page.fill %} page-bar__title--phone{% endunless %}" aria-hidden="true">{{ page.title }}</p>
+      {%- if page.fill %}
+      <p class="page-bar__title" aria-hidden="true">{{ page.title }}</p>
+      {%- endif %}
       <nav class="page-bar__nav" aria-label="Pages">
         <a href="{{ '/' | relative_url }}" class="link">Home</a>
         {%- for link in site.data.links %}
@@ -58,45 +58,45 @@ layout: base
 {%- unless page.fill %}
 <script>
   // Large title -> compact title in the bar, tied to the scroll position.
-  // Wide screens: the title is position: sticky (CSS) and is pulled up into
-  // the bar's left slot, so it never moves; scrolling only scales it down
-  // (from its top-left corner) to the compact size. The scroll distance equals
-  // the height it loses, so the text below follows its bottom edge. The bar
-  // gains its background once it is compact.
-  // Phones (below 48rem): the title scrolls away (CSS), and the bar gains its
-  // background once the title has passed under it.
+  // The title is position: sticky (CSS) and is pulled up into the bar's left
+  // slot, its top level with the menu, so it never moves; scrolling only
+  // scales it down (from its top-left corner) to the compact size. The scroll
+  // distance equals the height it loses, so the text below follows its bottom
+  // edge. The bar gains its background once the title is compact.
+  // Narrow screens: if the title is too wide to sit beside the menu, it
+  // starts at the largest size that fits (its lost height is taken back with
+  // a negative bottom margin, so the text below still follows it).
   (() => {
     const bar = document.querySelector('.page-bar');
+    const nav = bar.querySelector('.page-bar__nav');
     const title = document.querySelector('.page-title');
     const main = title.parentElement;
-    const wide = matchMedia('(min-width: 48rem)');
-    let range = 1, scaleMin = 1, ticking = false;
+    let range = 1, scaleStart = 1, scaleMin = 1, ticking = false;
 
     const measure = () => {
-      title.style.transform = title.style.marginTop = title.style.top = '';
+      title.style.transform = title.style.marginTop = title.style.marginBottom = title.style.top = '';
       const height = title.offsetHeight;
       const naturalTop = main.getBoundingClientRect().top + scrollY
         + parseFloat(getComputedStyle(main).paddingTop);
-      if (wide.matches) {
-        const rootSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
-        const compactSize = 1.25 * rootSize;                   // --text-xl
-        scaleMin = compactSize / parseFloat(getComputedStyle(title).fontSize);
-        const top = (bar.offsetHeight - height * scaleMin) / 2; // compact title centred in the bar
-        title.style.top = top + 'px';
-        title.style.marginTop = (top - naturalTop) + 'px';
-        range = height * (1 - scaleMin);
-      } else {
-        scaleMin = 1;
-        range = naturalTop + height - bar.offsetHeight;
-      }
-      range = Math.max(1, range);
+      const root = getComputedStyle(document.documentElement);
+      const rootSize = parseFloat(root.fontSize);
+      scaleMin = 1.25 * rootSize / parseFloat(getComputedStyle(title).fontSize);   // --text-xl
+      const room = nav.getBoundingClientRect().left - title.getBoundingClientRect().left
+        - 1.5 * rootSize;                                                            // --space-5 gap
+      scaleStart = Math.max(scaleMin, Math.min(1, room / title.offsetWidth));
+      const top = (bar.offsetHeight - height * scaleMin) / 2;   // compact title centred in the bar
+      title.style.top = top + 'px';
+      title.style.marginTop = (top - naturalTop) + 'px';
+      title.style.marginBottom = (-height * (1 - scaleStart)) + 'px';
+      range = Math.max(1, height * (scaleStart - scaleMin));
       update();
     };
 
     const update = () => {
       ticking = false;
       const progress = Math.min(1, Math.max(0, scrollY / range));
-      title.style.transform = scaleMin < 1 ? `scale(${1 - (1 - scaleMin) * progress})` : '';
+      const scale = scaleStart - (scaleStart - scaleMin) * progress;
+      title.style.transform = scale < 1 ? `scale(${scale})` : '';
       bar.classList.toggle('is-compact', progress >= 1);
     };
 
