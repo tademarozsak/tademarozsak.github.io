@@ -127,8 +127,3 @@
   overflow-y: hidden;
   padding-block: var(--space-1);
 }
-
-/* Leave room above a footnote or citation when jumping to it. */
-.prose [id^="fn"] {
-  scroll-margin-top: var(--space-6);
-}

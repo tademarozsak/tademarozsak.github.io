@@ -2,19 +2,27 @@
 layout: base
 ---
 {%- comment -%}
-  Every inner page: back link and title (identical everywhere), then content.
+  Every inner page: sticky bar (back link + compact title), large title, content.
+  The large title scrolls away under the bar and the compact title fades in.
   Front matter:
     title        required; shown as the h1 and in the browser tab
     description  one sentence for search results
     prose: true  long-form text styling for the content
     fill: true   content spans the full width and reaches the bottom of the
-                 window, like a document viewer (the CV)
+                 window, like a document viewer (the CV). The bar starts
+                 compact, as there is no page scroll to collapse it.
 {%- endcomment -%}
 <div class="page-frame{% if page.fill %} page-frame--fill{% endif %}">
-  <header class="page page--narrow page-header">
-    {% include back-link.html %}
-    <h1 class="page-title">{{ page.title }}</h1>
+  <header class="page-bar{% if page.fill %} is-compact{% endif %}">
+    <div class="page page--narrow page-bar__inner">
+      {% include back-link.html %}
+      <p class="page-bar__title" aria-hidden="true">{{ page.title }}</p>
+    </div>
   </header>
+
+  <div class="page page--narrow page-intro{% if page.fill %} visually-hidden{% endif %}">
+    <h1 class="page-title">{{ page.title }}</h1>
+  </div>
 
   <main class="page-main{% unless page.fill %} page page--narrow{% endunless %}">
     {% if page.prose %}
@@ -24,3 +32,18 @@ layout: base
     {% endif %}
   </main>
 </div>
+
+{%- unless page.fill %}
+<script>
+  // Compact bar once the large title has scrolled under it. The observer only
+  // fires when the title crosses the bar edge, so nothing runs while scrolling.
+  (() => {
+    const bar = document.querySelector('.page-bar');
+    const title = document.querySelector('.page-title');
+    new IntersectionObserver(
+      ([entry]) => bar.classList.toggle('is-compact', !entry.isIntersecting),
+      { rootMargin: `-${bar.offsetHeight}px 0px 0px 0px` }
+    ).observe(title);
+  })();
+</script>
+{%- endunless %}

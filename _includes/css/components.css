@@ -198,22 +198,67 @@
 }
 
 /* --------------------------------------------------------------------------
-   Page header: back link + title. Provided by _layouts/page.html, so every
-   inner page has the same header. Don't rebuild it inside a page.
+   Page bar + title. Drawn only by _layouts/page.html, so every inner page has
+   the same header. Don't rebuild it inside a page.
+   The bar is sticky. .is-compact (set by the layout's script once the large
+   title has scrolled under it) gives it a background and fades in the compact
+   title. Only opacity, transform and colours animate: no layout work per frame.
    -------------------------------------------------------------------------- */
 
-.page-header {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-7);
-  padding-top: var(--space-7);
+.page-bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: var(--color-canvas);
+  border-bottom: 1px solid transparent;
+  transition:
+    background-color var(--duration-bar) var(--ease-standard),
+    border-color var(--duration-bar) var(--ease-standard);
+}
+
+.page-bar__inner {
+  display: grid;
+  grid-template-columns: 1fr minmax(0, auto) 1fr;
+  align-items: center;
+  gap: var(--space-4);
+  height: var(--page-bar-height);
+}
+
+.page-bar .link {
+  justify-self: start;
+}
+
+.page-bar__title {
+  margin: 0;
+  font-size: var(--text-xl);
+  line-height: var(--leading-tight);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0;
+  transform: translateY(0.4em);
+  transition:
+    opacity var(--duration-bar) var(--ease-standard),
+    transform var(--duration-bar) var(--ease-standard);
+}
+
+.page-bar.is-compact {
+  background-color: var(--color-surface);
+  border-bottom-color: var(--color-border);
+}
+
+.page-bar.is-compact .page-bar__title {
+  opacity: 1;
+  transform: none;
+}
+
+.page-intro {
+  padding-top: var(--space-4);
   margin-bottom: var(--space-6);
 }
 
 .page-title {
-  align-self: stretch;
-  font-size: clamp(var(--text-2xl), 4vw, var(--text-4xl));
+  font-size: clamp(var(--text-3xl), 5vw, var(--text-5xl));
   margin: 0;
   padding-bottom: var(--space-4);
   border-bottom: 1px solid var(--color-border);

@@ -13,7 +13,7 @@ Personal academic website. Plain Jekyll, built automatically by GitHub Pages on 
 | Publications                       | `_data/publications.yml`               |
 | CV                                 | replace `cv/CV.pdf`                    |
 | `<head>` (fonts, meta, CSS)        | `_includes/head.html`                  |
-| Inner page frame (back link, title) | `_layouts/page.html`, `_includes/back-link.html` |
+| Inner page frame (sticky bar, title) | `_layouts/page.html`, `_includes/back-link.html` |
 | Icons                              | `_includes/icons/*.svg`                |
 | Styles                             | `_includes/css/*.css` (see below)      |
 
@@ -71,11 +71,11 @@ Open http://localhost:4000. After any CSS change, check **/styleguide/** (not li
    - `.link-inline`: links inside sentences. Plain `<a>` in Markdown pages gets this automatically.
    - `.button`: the only filled control.
    - `.segmented`: a pill of mutually exclusive options (radio buttons), e.g. the research toggle.
-   - `.page-header` (back link + `.page-title`): only ever drawn by the `page` layout.
+   - `.page-bar` (sticky back link + compact title) and `.page-title` (large title): only ever drawn by the `page` layout. The bar turns compact once the large title scrolls under it.
    Don't make one-off variants. Add a modifier, and add it to the style guide.
 5. **Focus:** every focusable thing shows `--focus-ring` when reached by keyboard.
 6. **Icons:** Heroicons outline, 24px viewBox, `stroke-width="2"`, one file each in `_includes/icons/`, included with `{% include icons/name.svg %}`. They inherit text colour and are sized by `.icon` (or `.icon--xl`). One meaning per icon: arrow-left = back.
 7. **Fonts:** DM Serif Text (400 + italic) for text and headings, Noto Sans 600 for UI. Load only weights that are used. DM Serif Text has no bold, so headings are 400 (`--font-weight-heading`).
 8. **Motion:** only via `--duration-*` / `--ease-*`. Reduced-motion users get no animation (handled globally in `base.css`).
 9. **Links:** everything opens in the same tab. Internal URLs start with `/` and go through `relative_url` in templates.
-10. **Pages:** every inner page uses `layout: page` (the home page uses `base`), so the `<head>`, back link and title are never written by hand. If a page needs a different frame, add a front-matter option to `page.html` (like `prose` or `fill`) rather than a new header.
+10. **Pages:** every inner page uses `layout: page` (the home page uses `base`), so the `<head>`, sticky bar and title are never written by hand. If a page needs a different frame, add a front-matter option to `page.html` (like `prose` or `fill`) rather than a new header.

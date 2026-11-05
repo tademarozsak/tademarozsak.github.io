@@ -1,5 +1,5 @@
 /* ==========================================================================
-   base.css: element defaults. No classes here.
+   base.css: element defaults, plus the .visually-hidden utility.
    ========================================================================== */
 
 *,
@@ -10,6 +10,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--page-bar-height) + var(--space-4)); /* anchors land below the sticky bar */
 }
 
 body {
@@ -39,6 +40,16 @@ img {
 :focus-visible {
   outline: var(--focus-ring);
   outline-offset: 2px;
+}
+
+/* Hidden visually, still read by screen readers. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 @media (prefers-reduced-motion: reduce) {
