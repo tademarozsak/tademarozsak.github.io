@@ -7,6 +7,8 @@ url: https://tademarozsak.github.io
 lang: en
 
 markdown: kramdown
+kramdown:
+  footnote_backlink: "&#8617;&#xfe0e;"  # text-style ↩ (stops iOS drawing it as an emoji)
 theme: null                       # GitHub Pages otherwise injects its default "primer" theme
 
 exclude:

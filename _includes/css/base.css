@@ -37,7 +37,7 @@ img {
 }
 
 :focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--color-accent) 55%, transparent);
+  outline: var(--focus-ring);
   outline-offset: 2px;
 }
 

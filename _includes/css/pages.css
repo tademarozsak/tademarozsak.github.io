@@ -79,6 +79,20 @@
 }
 
 /* --------------------------------------------------------------------------
+   Research (research.html): introductory / technical versions.
+   Without :has() support both versions simply show one after the other.
+   -------------------------------------------------------------------------- */
+
+.levels .segmented {
+  margin-bottom: var(--space-6);
+}
+
+.levels:has(#level-technical:checked) .levels__view--introductory,
+.levels:has(#level-introductory:checked) .levels__view--technical {
+  display: none;
+}
+
+/* --------------------------------------------------------------------------
    Publications (publications.html, _includes/publication.html)
    -------------------------------------------------------------------------- */
 

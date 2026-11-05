@@ -59,3 +59,57 @@
 .prose p:last-child {
   margin-bottom: 0;
 }
+
+.prose h3 {
+  font-size: var(--text-xl);
+  margin: var(--space-7) 0 var(--space-4);
+}
+
+/* Citations: Markdown footnotes ([^name]) rendered by kramdown. */
+.prose sup {
+  font-size: 0.7em;
+  line-height: 0;
+}
+
+.prose .footnote,
+.prose .reversefootnote {
+  text-decoration: none;
+}
+
+.prose .footnote {
+  padding-left: 0.05em;
+}
+
+.prose .footnotes {
+  font-size: var(--text-base);
+  color: var(--color-text-muted);
+}
+
+.prose .footnotes ol {
+  margin: 0;
+  padding-left: var(--space-5);
+}
+
+.prose .footnotes li + li {
+  margin-top: var(--space-3);
+}
+
+.prose .footnotes p {
+  margin: 0;
+}
+
+.prose .reversefootnote {
+  margin-left: var(--space-1);
+}
+
+/* Display maths (KaTeX): scroll sideways on narrow screens instead of overflowing. */
+.prose .katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-block: var(--space-1);
+}
+
+/* Leave room above a footnote or citation when jumping to it. */
+.prose [id^="fn"] {
+  scroll-margin-top: var(--space-6);
+}

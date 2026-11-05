@@ -64,6 +64,9 @@
   --shadow-sm: 0 1px 2px rgb(15 23 42 / 0.08);
   --shadow-photo: 0 20px 25px -5px rgb(229 231 235 / 0.6);
 
+  /* Focus */
+  --focus-ring: 3px solid color-mix(in srgb, var(--color-accent) 55%, transparent);
+
   /* Sizing */
   --tap-target: 2.75rem;  /* minimum height of anything clickable */
   --icon-size: 1.25rem;

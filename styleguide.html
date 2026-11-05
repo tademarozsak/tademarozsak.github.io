@@ -38,7 +38,13 @@ sample_publication:
   <p class="hero__bio">Hero bio (.hero__bio) with an <a href="#" class="link-inline">inline link that is long enough to wrap onto a second line on narrow screens</a>.</p>
   <article class="prose">
     <h2>Prose heading (.prose h2)</h2>
-    <p>Prose paragraph. Plain Markdown links like <a href="#">this one</a> pick up the inline link style automatically.</p>
+    <p>Prose paragraph. Plain Markdown links like <a href="#">this one</a> pick up the inline link style automatically. A citation looks like this.<sup id="fnref:sg" role="doc-noteref"><a href="#fn:sg" class="footnote" rel="footnote">1</a></sup></p>
+    <h3>References (.prose h3)</h3>
+    <div class="footnotes" role="doc-endnotes">
+      <ol>
+        <li id="fn:sg" role="doc-endnote"><p>Author, A. <em>et al.</em> Sample reference. <em>Journal</em> <strong>1</strong>, 1–10 (2026). <a href="#">doi:10.0000/example</a> <a href="#fnref:sg" class="reversefootnote" role="doc-backlink">&#8617;&#xfe0e;</a></p></li>
+      </ol>
+    </div>
   </article>
 </section>
 
@@ -48,6 +54,12 @@ sample_publication:
     <a href="#" class="link">UI link (.link)</a>
     {% include back-link.html %}
     <a href="#" class="button">Button (.button)</a>
+    <div class="segmented" role="radiogroup" aria-label="Example">
+      <input class="segmented__input" type="radio" name="sg-segmented" id="sg-seg-a" checked>
+      <label class="segmented__option" for="sg-seg-a">Segmented</label>
+      <input class="segmented__input" type="radio" name="sg-segmented" id="sg-seg-b">
+      <label class="segmented__option" for="sg-seg-b">(.segmented)</label>
+    </div>
   </div>
 </section>
 

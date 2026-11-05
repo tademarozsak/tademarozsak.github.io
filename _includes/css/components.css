@@ -113,6 +113,63 @@
 }
 
 /* --------------------------------------------------------------------------
+   Segmented control: a pill of mutually exclusive options (radio buttons).
+     <div class="segmented" role="radiogroup" aria-label="…">
+       <input class="segmented__input" type="radio" name="x" id="x-a" checked>
+       <label class="segmented__option" for="x-a">A</label> …
+   Arrow keys move between options (native radio behaviour).
+   -------------------------------------------------------------------------- */
+
+.segmented {
+  display: inline-flex;
+  gap: var(--space-1);
+  padding: var(--space-1);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  background-color: var(--color-surface);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-ui);
+}
+
+/* Visually hidden but still focusable and announced. */
+.segmented__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.segmented__option {
+  display: inline-flex;
+  align-items: center;
+  min-height: calc(var(--tap-target) - 2 * var(--space-1));
+  padding-inline: var(--space-4);
+  border-radius: var(--radius-full);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard);
+}
+
+.segmented__option:hover {
+  color: var(--color-text);
+}
+
+.segmented__input:checked + .segmented__option {
+  color: var(--color-button-text);
+  background-color: var(--color-button);
+}
+
+.segmented__input:focus-visible + .segmented__option {
+  outline: var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------
    Icons: SVGs from _includes/icons/. Colour follows the text (currentColor).
    Modifier: .icon--xl.
    -------------------------------------------------------------------------- */
