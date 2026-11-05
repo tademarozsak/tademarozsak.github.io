@@ -2,48 +2,109 @@
 layout: base
 ---
 {%- comment -%}
-  Every inner page: sticky bar (back link + compact title), large title, content.
-  The large title scrolls away under the bar and the compact title fades in.
+  Every inner page: sticky bar, large title, content.
+    Bar      left: the page title once it has shrunk into place (see below).
+             right: Home and the site's other pages (internal links, URLs
+             starting with "/", in _data/links.yml). The section you're in is
+             left out (e.g. Research on any project page): the title says it.
+    Title    large, on the left. On wide screens it sits in the bar's left
+             slot from the start and shrinks in place as you scroll, its top
+             fixed (script below). On phones it scrolls away.
   Front matter:
     title        required; shown as the h1 and in the browser tab
     description  one sentence for search results
     prose: true  long-form text styling for the content
     fill: true   content spans the full width and reaches the bottom of the
-                 window, like a document viewer (the CV). The bar starts
-                 compact, as there is no page scroll to collapse it.
+                 window, like a document viewer (the CV). There is no large
+                 title: the bar shows the compact title from the start.
 {%- endcomment -%}
 <div class="page-frame{% if page.fill %} page-frame--fill{% endif %}">
   <header class="page-bar{% if page.fill %} is-compact{% endif %}">
     <div class="page page--narrow page-bar__inner">
-      {% include back-link.html %}
+      {%- if page.fill %}
       <p class="page-bar__title" aria-hidden="true">{{ page.title }}</p>
+      {%- endif %}
+      <nav class="page-bar__nav" aria-label="Pages">
+        <a href="{{ '/' | relative_url }}" class="link">Home</a>
+        {%- for link in site.data.links %}
+        {%- assign first_char = link.url | slice: 0 %}
+        {%- unless first_char != "/" or page.url contains link.url %}
+        <a href="{{ link.url | relative_url }}" class="link">{{ link.label }}</a>
+        {%- endunless %}
+        {%- endfor %}
+      </nav>
     </div>
   </header>
 
-  <div class="page page--narrow page-intro{% if page.fill %} visually-hidden{% endif %}">
+  {%- if page.fill %}
+  <h1 class="visually-hidden">{{ page.title }}</h1>
+  <main class="page-main">
+    {{ content }}
+  </main>
+  {%- else %}
+  <main class="page-main page page--narrow">
     <h1 class="page-title">{{ page.title }}</h1>
-  </div>
-
-  <main class="page-main{% unless page.fill %} page page--narrow{% endunless %}">
+    <hr class="page-rule">
     {% if page.prose %}
       <article class="prose">{{ content }}</article>
     {% else %}
       {{ content }}
     {% endif %}
   </main>
+  {%- endif %}
 </div>
 
 {%- unless page.fill %}
 <script>
-  // Compact bar once the large title has scrolled under it. The observer only
-  // fires when the title crosses the bar edge, so nothing runs while scrolling.
+  // Large title -> compact title in the bar, tied to the scroll position.
+  // Wide screens: the title is position: sticky (CSS) and is pulled up into
+  // the bar's left slot, so it never moves; scrolling only scales it down
+  // (from its top-left corner) to the compact size. The scroll distance equals
+  // the height it loses, so the text below follows its bottom edge. The bar
+  // gains its background once it is compact.
+  // Phones (below 48rem): the title scrolls away (CSS), and the bar gains its
+  // background once the title has passed under it.
   (() => {
     const bar = document.querySelector('.page-bar');
     const title = document.querySelector('.page-title');
-    new IntersectionObserver(
-      ([entry]) => bar.classList.toggle('is-compact', !entry.isIntersecting),
-      { rootMargin: `-${bar.offsetHeight}px 0px 0px 0px` }
-    ).observe(title);
+    const main = title.parentElement;
+    const wide = matchMedia('(min-width: 48rem)');
+    let range = 1, scaleMin = 1, ticking = false;
+
+    const measure = () => {
+      title.style.transform = title.style.marginTop = title.style.top = '';
+      const height = title.offsetHeight;
+      const naturalTop = main.getBoundingClientRect().top + scrollY
+        + parseFloat(getComputedStyle(main).paddingTop);
+      if (wide.matches) {
+        const rootSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
+        const compactSize = 1.25 * rootSize;                   // --text-xl
+        scaleMin = compactSize / parseFloat(getComputedStyle(title).fontSize);
+        const top = (bar.offsetHeight - height * scaleMin) / 2; // compact title centred in the bar
+        title.style.top = top + 'px';
+        title.style.marginTop = (top - naturalTop) + 'px';
+        range = height * (1 - scaleMin);
+      } else {
+        scaleMin = 1;
+        range = naturalTop + height - bar.offsetHeight;
+      }
+      range = Math.max(1, range);
+      update();
+    };
+
+    const update = () => {
+      ticking = false;
+      const progress = Math.min(1, Math.max(0, scrollY / range));
+      title.style.transform = scaleMin < 1 ? `scale(${1 - (1 - scaleMin) * progress})` : '';
+      bar.classList.toggle('is-compact', progress >= 1);
+    };
+
+    addEventListener('scroll', () => {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    }, { passive: true });
+    addEventListener('resize', measure);
+    document.fonts.ready.then(measure);
+    measure();
   })();
 </script>
 {%- endunless %}

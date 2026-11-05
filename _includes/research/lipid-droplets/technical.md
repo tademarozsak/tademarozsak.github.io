@@ -1,10 +1,9 @@
 {%- comment -%}
-  Technical version of /research/ (for fellow scientists). Markdown.
+  Lipid droplet imaging, technical version (for fellow scientists). Markdown.
   Citations: [^t-name] after a sentence, [^t-name]: ... at the bottom.
   Maths (KaTeX): inline $$x$$ inside a sentence; display maths as $$...$$ in its own paragraph.
+  No title here: both versions share the project's `heading` in _projects/lipid-droplets.md.
 {%- endcomment -%}
-## Differentiable modelling for quantitative THG microscopy
-
 I am developing a differentiable electromagnetic framework for predicting and fitting THG microscope scans of spherical particles in nonlinear media. The objective is to distinguish particle size and material response from illumination and collection effects, supporting quantitative measurements of controlled beads and, ultimately, approximately spherical lipid droplets.[^t-debarre]
 
 Green-function formulations established how focused excitation and coherent source interference determine THG image contrast.[^t-cheng] Experiments showed that the signal from a homogeneous sphere depends on its size relative to the focal volume, and that this dependence can be tuned through the excitation Rayleigh length.[^t-debarre2005] FDTD studies subsequently demonstrated that local refractive-index discontinuities can distort the excitation field sufficiently to alter experimental images substantially, including polarization-resolved contrast.[^t-morizet]<sup>,</sup>[^t-morizet2023] Nonlinear Mie theories have characterised multipolar THG from spherical particles, largely for plane-wave excitation, from micrometre-scale droplets[^t-kasparian] to resonant high-index nanoparticles.[^t-smirnova] Meanwhile, lipid-droplet diameters have been estimated from THG images by particle analysis and image correlation spectroscopy, without a model of image formation.[^t-pajic] My work combines focused nonlinear-sphere scattering, an unbounded nonlinear host, and parameter derivatives within a framework designed for complete scan prediction and inverse fitting.

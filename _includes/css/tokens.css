@@ -15,6 +15,7 @@
   --gray-800: #1f2937;
   --gray-900: #111827;
   --brand-500: #2563eb;
+  --red-700: #b91c1c;
 
   /* Semantic colours */
   --color-canvas: var(--gray-50);
@@ -23,7 +24,9 @@
   --color-text-muted: var(--gray-700);
   --color-text-subtle: var(--gray-500);
   --color-border: var(--gray-200);
-  --color-accent: var(--brand-500);
+  --color-accent: var(--brand-500);   /* links on hover, current page */
+  --color-danger: var(--red-700);     /* authoring warnings */
+  --color-link: var(--gray-800);      /* links: same as the text; blue only on hover */
   --color-button: var(--gray-800);
   --color-button-hover: var(--gray-900);
   --color-button-text: var(--gray-0);
@@ -39,10 +42,8 @@
   --space-8: 4rem;
 
   /* Typography */
-  --font-serif: "DM Serif Text", Georgia, serif;   /* body + headings (400 only, plus italic) */
-  --font-sans: "Noto Sans", system-ui, sans-serif; /* UI: links, buttons (600 only) */
+  --font-serif: "DM Serif Text", Georgia, serif;   /* the only font: text, headings, links, controls (400 + italic) */
   --font-weight-heading: 400; /* DM Serif Text has no bold; 700 makes the browser fake one */
-  --font-weight-ui: 600;
 
   --text-sm: 0.875rem;
   --text-base: 1rem;
@@ -59,6 +60,7 @@
   --leading-loose: 1.8;
 
   /* Shape and depth */
+  --radius-sm: 0.25rem;
   --radius-md: 0.5rem;
   --radius-full: 9999px;
   --shadow-sm: 0 1px 2px rgb(15 23 42 / 0.08);
@@ -74,8 +76,9 @@
 
   /* Layout */
   --content-width: 72rem;
-  --content-width-narrow: 56rem;
+  --content-width-narrow: 56rem;  /* inner pages: bar, title and text share this width */
   --reading-width: 42rem;
+  --project-image-size: 4.5rem;  /* picture on a research project card */
   --viewer-min-height: 32rem;     /* embedded documents (CV) never get shorter than this */
   --page-gutter: clamp(1rem, 3vw, 2rem);
   --page-bar-height: calc(var(--tap-target) + 2 * var(--space-3));  /* sticky bar on inner pages */
@@ -83,7 +86,8 @@
   /* Motion */
   --duration-fast: 120ms;
   --duration-link: 350ms;
-  --duration-bar: 250ms;   /* page bar turning compact */
+  --duration-bar: 250ms;   /* page bar gaining its background */
+  --duration-page: 200ms;  /* cross-fade between pages */
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --ease-in-out: ease-in-out;
 }

@@ -1,0 +1,83 @@
+---
+layout: page
+---
+{%- comment -%}
+  A research project page (one per file in _projects/).
+    Cards     every project, in `order`; the current one is highlighted.
+    Toggle    Introductory / Technical. Works without JavaScript (CSS :has);
+              the script only adds shareable links: …/#technical.
+    Heading   the project's `heading` (front matter), drawn here once for both
+              versions, so they always share one title. The texts must not
+              have their own: a `##` heading in them shows a warning on the
+              page instead of a second title.
+    Texts     _includes/research/<project file name>/introductory.md and
+              technical.md (Markdown, citations, maths). `###` subheadings
+              (like References) are fine.
+{%- endcomment -%}
+{%- assign projects = site.projects | sort: "order" -%}
+<nav class="project-cards" aria-label="Projects">
+  {%- for project in projects %}
+  {% include project-card.html project=project %}
+  {%- endfor %}
+</nav>
+
+<div class="levels">
+  <div class="segmented" role="radiogroup" aria-label="Level of detail">
+    <input class="segmented__input" type="radio" name="level" id="level-introductory" value="introductory" checked>
+    <label class="segmented__option" for="level-introductory">Introductory</label>
+    <input class="segmented__input" type="radio" name="level" id="level-technical" value="technical">
+    <label class="segmented__option" for="level-technical">Technical</label>
+  </div>
+
+  <div class="prose">
+    <h2 id="{{ page.heading | slugify }}">{{ page.heading }}</h2>
+  </div>
+
+  {%- assign levels = "introductory,technical" | split: "," %}
+  {%- for level in levels %}
+  <article class="prose levels__view levels__view--{{ level }}">
+    {%- capture text %}{% include research/{{ page.slug }}/{{ level }}.md %}{% endcapture %}
+    {%- assign html = text | markdownify %}
+    {%- if html contains "<h2" %}
+    <p class="build-warning">_includes/research/{{ page.slug }}/{{ level }}.md has its own ## heading. Remove it: the title comes from <code>heading</code> in _projects/{{ page.slug }}.md.</p>
+    {%- endif %}
+    {{ html }}
+  </article>
+  {%- endfor %}
+</div>
+
+<script>
+  // Which version shows:
+  //   1. …/#technical or …/#introductory in the URL (shareable links), else
+  //   2. the version this visitor last chose, on any project (remembered in
+  //      their browser), else
+  //   3. introductory.
+  // Switching keeps the URL in sync and remembers the choice.
+  (() => {
+    const KEY = 'research-level';
+    const remember = (level) => { try { localStorage.setItem(KEY, level); } catch (e) {} };
+    const remembered = () => { try { return localStorage.getItem(KEY); } catch (e) { return null; } };
+    const radioFor = (level) => document.getElementById('level-' + level);
+
+    const showFromUrl = () => {
+      const radio = radioFor(location.hash.slice(1));
+      if (radio) { radio.checked = true; remember(radio.value); }
+      return Boolean(radio);
+    };
+
+    if (!showFromUrl()) {
+      const radio = radioFor(remembered());
+      if (radio && !radio.checked) {
+        radio.checked = true;
+        if (!location.hash) history.replaceState(null, '', '#' + radio.value);
+      }
+    }
+    window.addEventListener('hashchange', showFromUrl);
+    for (const radio of document.querySelectorAll('input[name="level"]')) {
+      radio.addEventListener('change', () => {
+        history.replaceState(null, '', '#' + radio.value);
+        remember(radio.value);
+      });
+    }
+  })();
+</script>

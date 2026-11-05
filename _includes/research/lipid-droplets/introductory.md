@@ -1,10 +1,9 @@
 {%- comment -%}
-  Introductory version of /research/ (for a general audience). Markdown.
+  Lipid droplet imaging, introductory version (for a general audience). Markdown.
   Citations: [^name] after a sentence, [^name]: ... at the bottom; numbered automatically.
   Footnote names must not clash with technical.md (that file prefixes its names with t-).
+  No title here: both versions share the project's `heading` in _projects/lipid-droplets.md.
 {%- endcomment -%}
-## Third-harmonic generation for lipid droplet imaging
-
 Cells continually balance storing energy with using it. Part of that balance takes place in *lipid droplets*: small compartments that hold reserves of fat. Found in animals, plants and fungi alike, these droplets release fatty acids that cells can draw on for energy and for building membranes as their needs change.
 
 The amount of stored fat tells only part of the story. How it is distributed among droplets, and how their sizes change, can reveal how cells organise and mobilise their reserves. Droplet size is linked to the pathways cells use to break down stored fat: in liver cells, larger droplets are targeted by enzymes that break down fat at the droplet surface (lipolysis), whereas only smaller droplets are engulfed and digested by autophagy (lipophagy).[^schott] Following these changes could help us understand how cells respond to shifting energy demands, and how fat accumulates when metabolism is disrupted.

@@ -52,7 +52,23 @@ img {
   white-space: nowrap;
 }
 
+/* Moving between pages of the site cross-fades instead of flashing. Nothing
+   slides. Browsers without cross-document view transitions just change page. */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: var(--duration-page);
+  animation-timing-function: var(--ease-in-out);
+}
+
 @media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+
   html {
     scroll-behavior: auto;
   }

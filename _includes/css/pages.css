@@ -79,12 +79,112 @@
 }
 
 /* --------------------------------------------------------------------------
-   Research (research.html): introductory / technical versions.
-   Without :has() support both versions simply show one after the other.
+   Research (_layouts/project.html): project cards, then the introductory /
+   technical versions. Without :has() support both versions simply show one
+   after the other.
    -------------------------------------------------------------------------- */
 
-.levels .segmented {
+/* Project cards: picture + name + one sentence. As many per row as fit. */
+.project-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+  gap: var(--space-4);
   margin-bottom: var(--space-6);
+}
+
+.project-card {
+  display: grid;
+  grid-template-columns: var(--project-image-size) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  text-decoration: none;
+  transition:
+    border-color var(--duration-fast) var(--ease-standard),
+    box-shadow var(--duration-fast) var(--ease-standard);
+}
+
+@media (hover: hover) {
+  .project-card:hover {
+    border-color: var(--color-text-subtle);
+  }
+}
+
+/* The project you're reading: accent outline and name. */
+.project-card[aria-current="page"] {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 1px var(--color-accent);
+}
+
+.project-card[aria-current="page"] .project-card__title {
+  color: var(--color-accent);
+}
+
+.project-card__image {
+  display: block;
+  width: var(--project-image-size);
+  height: var(--project-image-size);
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+}
+
+/* No image yet: a quiet tile in its place. */
+.project-card__image--empty {
+  background: linear-gradient(135deg, var(--color-border), var(--color-canvas));
+}
+
+.project-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.project-card__title {
+  font-size: var(--text-base);
+  line-height: var(--leading-tight);
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+
+/* Up to three lines, then an ellipsis. */
+.project-card__summary {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-muted);
+}
+
+/* The toggle sits centred under the title. On wide screens it sticks once it
+   reaches the bar, centred between the docked title and the menu. On phones
+   the bar is too narrow to hold it, so it scrolls away with the text. */
+.levels > .segmented {
+  display: flex;
+  width: fit-content;
+  margin: 0 auto var(--space-6);
+}
+
+@media (min-width: 48rem) {
+  .levels > .segmented {
+    position: sticky;
+    top: calc((var(--page-bar-height) - var(--tap-target)) / 2 - 1px);  /* centred in the bar */
+    z-index: 11;  /* above the bar */
+  }
+}
+
+/* Shown only when a research text breaks the one-title rule (see project.html). */
+.build-warning {
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid currentColor;
+  border-radius: var(--radius-md);
+  color: var(--color-danger);
+  font-size: var(--text-sm);
 }
 
 .levels:has(#level-technical:checked) .levels__view--introductory,
@@ -199,7 +299,6 @@
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  font-family: var(--font-sans);
   font-size: var(--text-sm);
 }
 

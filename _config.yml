@@ -11,6 +11,22 @@ kramdown:
   footnote_backlink: "&#8617;&#xfe0e;"  # text-style ↩ (stops iOS drawing it as an emoji)
 theme: null                       # GitHub Pages otherwise injects its default "primer" theme
 
+# Research projects: one file each in _projects/ (card text, image, order).
+# Each becomes a page at /research/<file name>/, drawn by _layouts/project.html.
+collections:
+  projects:
+    output: true
+    permalink: /research/:name/
+
+defaults:
+  - scope:
+      path: ""
+      type: projects
+    values:
+      layout: project
+      title: Research
+      math: true
+
 exclude:
   - README.md
   - Gemfile

@@ -4,78 +4,107 @@
 
 /* --------------------------------------------------------------------------
    Links: there are exactly two.
-     .link         UI links (nav, actions, back link). Sans, 44px tap target.
+     .link         UI links (nav, actions, back link). 44px tap target.
      .link-inline  links inside running text. Inherits the surrounding font.
                    Plain <a> inside .prose gets this style automatically.
-   On hover the accent colour wipes across the text, left to right.
+   Same colour as the text, no underline. On hover (mouse) or keyboard focus
+   the accent blue wipes across the text, left to right, with a soft edge.
+   A link inside a sentence that leaves the site ends with the same ↩︎ mark
+   the references use (.link-inline__arrow), so it reads as a link.
    -------------------------------------------------------------------------- */
 
 .link,
 .link-inline,
 .prose a {
-  color: var(--color-text-muted);
-  text-decoration-line: underline;
-  text-decoration-color: var(--color-text-muted);
-  text-decoration-thickness: var(--underline-thickness);
-  text-underline-offset: var(--underline-offset);
-  transition: text-decoration-color var(--duration-link) var(--ease-in-out);
+  color: var(--color-link);
+  text-decoration: none;
+  transition: color var(--duration-link) var(--ease-in-out);
 }
 
-.link:hover,
 .link:focus-visible,
-.link-inline:hover,
 .link-inline:focus-visible,
-.prose a:hover,
 .prose a:focus-visible {
-  text-decoration-color: var(--color-accent);
+  color: var(--color-accent);
 }
 
-/* The wipe: text is painted with a half-accent, half-muted gradient that slides across. */
+/* Hover only where there is a pointer that can hover, so a tap on a phone
+   doesn't leave the link stuck in the hover colour. */
+@media (hover: hover) {
+  .link:hover,
+  .link-inline:hover,
+  .prose a:hover {
+    color: var(--color-accent);
+  }
+}
+
+/* The wipe: the text is painted with a gradient (accent | soft edge | link
+   blue) that is wider than the link and slides across it.
+   Sizes: the gradient is 225% of the link and the soft edge runs from 45% to
+   55%, so at rest only link blue shows and on hover only accent.
+   A link that wraps onto several lines is treated as one strip
+   (box-decoration-break: slice), so the colour sweeps through the lines in
+   reading order: the first line fills, then the next. */
 @supports (background-clip: text) or (-webkit-background-clip: text) {
   .link,
   .link-inline,
   .prose a {
     color: transparent;
-    background-image: linear-gradient(to right, var(--color-accent) 50%, var(--color-text-muted) 50%);
-    background-size: 200% 100%;
+    background-image: linear-gradient(to right, var(--color-accent) 45%, var(--color-link) 55%);
+    background-size: 225% 100%;
     background-position: 100% 0;
     -webkit-background-clip: text;
     background-clip: text;
-    transition:
-      background-position var(--duration-link) var(--ease-in-out),
-      text-decoration-color var(--duration-link) var(--ease-in-out);
+    -webkit-box-decoration-break: slice;
+    box-decoration-break: slice;
+    transition: background-position var(--duration-link) var(--ease-in-out);
   }
 
-  .link:hover,
   .link:focus-visible,
-  .link-inline:hover,
   .link-inline:focus-visible,
-  .prose a:hover,
   .prose a:focus-visible {
+    color: transparent;
     background-position: 0 0;
+  }
+
+  @media (hover: hover) {
+    .link:hover,
+    .link-inline:hover,
+    .prose a:hover {
+      color: transparent;
+      background-position: 0 0;
+    }
   }
 }
 
 .link {
-  --underline-thickness: 2px;
-  --underline-offset: 0.35em;
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
   min-height: var(--tap-target);
-  font-family: var(--font-sans);
-  font-weight: var(--font-weight-ui);
 }
 
-/* Icons inside a link keep a solid colour (the text is transparent). */
+/* Icons inside a link have a solid colour (the text is transparent) and turn
+   accent with the text. */
 .link .icon {
-  color: var(--color-text-muted);
+  color: var(--color-link);
+  transition: color var(--duration-link) var(--ease-in-out);
 }
 
-.link-inline,
-.prose a {
-  --underline-thickness: 0.08em;
-  --underline-offset: 0.2em;
+.link:focus-visible .icon {
+  color: var(--color-accent);
+}
+
+@media (hover: hover) {
+  .link:hover .icon {
+    color: var(--color-accent);
+  }
+}
+
+/* The ↩︎ after an in-text link that leaves the site: the same character as
+   the reference backlinks, right after the word and a little smaller than the
+   text around it. */
+.link-inline__arrow {
+  font-size: 0.75em;
 }
 
 /* --------------------------------------------------------------------------
@@ -90,9 +119,8 @@
   padding: var(--space-3) var(--space-6);
   border: 0;
   border-radius: var(--radius-md);
-  font-family: var(--font-sans);
+  font-family: inherit;
   font-size: var(--text-base);
-  font-weight: var(--font-weight-ui);
   line-height: 1;
   text-decoration: none;
   color: var(--color-button-text);
@@ -127,9 +155,8 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-full);
   background-color: var(--color-surface);
-  font-family: var(--font-sans);
+  font-family: inherit;
   font-size: var(--text-sm);
-  font-weight: var(--font-weight-ui);
 }
 
 /* Visually hidden but still focusable and announced. */
@@ -199,10 +226,14 @@
 
 /* --------------------------------------------------------------------------
    Page bar + title. Drawn only by _layouts/page.html, so every inner page has
-   the same header. Don't rebuild it inside a page.
-   The bar is sticky. .is-compact (set by the layout's script once the large
-   title has scrolled under it) gives it a background and fades in the compact
-   title. Only opacity, transform and colours animate: no layout work per frame.
+   the same header. Don't rebuild it inside a page. The home page has no bar.
+     .page-bar     sticky; the page's other pages on the right (.page-bar__nav).
+                   .is-compact (set by the layout's script once the title has
+                   docked) gives it a white background and a bottom border.
+     .page-title   the large title. On wide screens it is sticky and the
+                   layout's script scales it down as you scroll, so it ends up
+                   small in the bar's left slot. On phones it scrolls away.
+     .page-bar__title  the compact title for pages without a large one (fill).
    -------------------------------------------------------------------------- */
 
 .page-bar {
@@ -216,16 +247,16 @@
     border-color var(--duration-bar) var(--ease-standard);
 }
 
-.page-bar__inner {
-  display: grid;
-  grid-template-columns: 1fr minmax(0, auto) 1fr;
-  align-items: center;
-  gap: var(--space-4);
-  height: var(--page-bar-height);
+.page-bar.is-compact {
+  background-color: var(--color-surface);
+  border-bottom-color: var(--color-border);
 }
 
-.page-bar .link {
-  justify-self: start;
+.page-bar__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  height: var(--page-bar-height);
 }
 
 .page-bar__title {
@@ -233,33 +264,32 @@
   font-size: var(--text-xl);
   line-height: var(--leading-tight);
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  opacity: 0;
-  transform: translateY(0.4em);
-  transition:
-    opacity var(--duration-bar) var(--ease-standard),
-    transform var(--duration-bar) var(--ease-standard);
 }
 
-.page-bar.is-compact {
-  background-color: var(--color-surface);
-  border-bottom-color: var(--color-border);
+.page-bar__nav {
+  display: flex;
+  gap: var(--space-6);
+  margin-left: auto;
 }
 
-.page-bar.is-compact .page-bar__title {
-  opacity: 1;
-  transform: none;
-}
-
-.page-intro {
-  padding-top: var(--space-4);
-  margin-bottom: var(--space-6);
-}
-
-.page-title {
-  font-size: clamp(var(--text-3xl), 5vw, var(--text-5xl));
+.page-main > .page-title {
   margin: 0;
-  padding-bottom: var(--space-4);
-  border-bottom: 1px solid var(--color-border);
+  font-size: clamp(var(--text-3xl), 5vw, var(--text-5xl));
+  line-height: var(--leading-tight);
+  white-space: nowrap;
+}
+
+.page-rule {
+  margin: var(--space-4) 0 var(--space-6);
+  border: 0;
+  border-top: 1px solid var(--color-border);
+}
+
+@media (min-width: 48rem) {
+  .page-main > .page-title {
+    position: sticky;     /* top is set by the script: centred in the bar */
+    z-index: 11;          /* above the bar */
+    width: fit-content;
+    transform-origin: left top;
+  }
 }

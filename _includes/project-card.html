@@ -1,0 +1,16 @@
+{%- comment -%}
+  One research project card. Usage: {% include project-card.html project=doc %}
+  where doc is an entry of site.projects (name, description, image, url).
+  The card for the page you're on gets aria-current="page".
+{%- endcomment -%}
+<a href="{{ include.project.url | relative_url }}" class="project-card"{% if include.project.url == page.url %} aria-current="page"{% endif %}>
+  {%- if include.project.image %}
+  <img class="project-card__image" src="{{ include.project.image | relative_url }}" alt="" width="72" height="72" loading="lazy">
+  {%- else %}
+  <span class="project-card__image project-card__image--empty" aria-hidden="true"></span>
+  {%- endif %}
+  <span class="project-card__body">
+    <span class="project-card__title">{{ include.project.name }}</span>
+    <span class="project-card__summary">{{ include.project.description }}</span>
+  </span>
+</a>

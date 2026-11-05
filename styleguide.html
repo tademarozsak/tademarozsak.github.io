@@ -12,6 +12,10 @@ sample_publication:
   links:
     - { label: PDF, url: "#" }
     - { label: DOI, url: "#" }
+sample_project:
+  name: Sample project
+  description: One sentence about the project, shown on its card above the research text.
+  url: "#"
 ---
 {%- comment -%}
   Not linked from the site. Every component should appear here exactly as pages use it.
@@ -27,6 +31,7 @@ sample_publication:
     <span class="sg-swatch" style="--swatch: var(--color-text-muted)">--color-text-muted</span>
     <span class="sg-swatch" style="--swatch: var(--color-text-subtle)">--color-text-subtle</span>
     <span class="sg-swatch" style="--swatch: var(--color-border)">--color-border</span>
+    <span class="sg-swatch" style="--swatch: var(--color-link)">--color-link</span>
     <span class="sg-swatch" style="--swatch: var(--color-accent)">--color-accent</span>
     <span class="sg-swatch" style="--swatch: var(--color-button)">--color-button</span>
   </div>
@@ -35,7 +40,7 @@ sample_publication:
 <section class="sg-section">
   <h2>Typography</h2>
   <p class="hero__name">Hero name (.hero__name)</p>
-  <p class="hero__bio">Hero bio (.hero__bio) with an <a href="#" class="link-inline">inline link that is long enough to wrap onto a second line on narrow screens</a>.</p>
+  <p class="hero__bio">Hero bio (.hero__bio) with an <a href="#" class="link-inline">inline link (external) that is long enough to wrap onto a second line on narrow screens<span class="link-inline__arrow" aria-hidden="true">&#8617;&#xfe0e;</span></a>.</p>
   <article class="prose">
     <h2>Prose heading (.prose h2)</h2>
     <p>Prose paragraph. Plain Markdown links like <a href="#">this one</a> pick up the inline link style automatically. A citation looks like this.<sup id="fnref:sg" role="doc-noteref"><a href="#fn:sg" class="footnote" rel="footnote">1</a></sup></p>
@@ -52,7 +57,6 @@ sample_publication:
   <h2>Links and buttons</h2>
   <div class="cluster">
     <a href="#" class="link">UI link (.link)</a>
-    {% include back-link.html %}
     <a href="#" class="button">Button (.button)</a>
     <div class="segmented" role="radiogroup" aria-label="Example">
       <input class="segmented__input" type="radio" name="sg-segmented" id="sg-seg-a" checked>
@@ -66,11 +70,17 @@ sample_publication:
 <section class="sg-section">
   <h2>Icons</h2>
   <div class="cluster">
-    {% include icons/arrow-left.svg %}
     {% include icons/document.svg %}
     {% include icons/spinner.svg %}
     {% include icons/document.svg class="icon--xl" %}
   </div>
+</section>
+
+<section class="sg-section">
+  <h2>Project card</h2>
+  <nav class="project-cards" aria-label="Sample projects">
+    {% include project-card.html project=page.sample_project %}
+  </nav>
 </section>
 
 <section class="sg-section">
