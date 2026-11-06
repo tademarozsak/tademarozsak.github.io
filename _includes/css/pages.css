@@ -160,6 +160,59 @@
   color: var(--color-text-muted);
 }
 
+/* Animated figure in a project summary (polarization-multiplexing): the
+   animation, labels under its panels (--x: panel centre as a share of the
+   image width) and a caption. Made by animate.py in the Oxford archive.
+   Full width on phones; from 48rem it floats right and the text wraps round it. */
+.pol-figure {
+  margin: var(--space-5) 0;
+}
+
+@media (min-width: 48rem) {
+  .pol-figure {
+    float: right;
+    width: 42%;
+    margin: var(--space-2) 0 var(--space-4) var(--space-5);
+  }
+
+  .prose:has(.pol-figure) {
+    display: flow-root;   /* keep the float inside the summary */
+  }
+}
+
+.pol-figure picture,
+.pol-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.pol-figure__labels {
+  position: relative;
+  height: calc(var(--leading-normal) * 1em);
+  font-size: var(--text-sm);   /* same size as the caption */
+  color: var(--color-text-subtle);
+}
+
+.pol-figure__labels span {
+  position: absolute;
+  left: var(--x);
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.pol-figure__caption {
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-muted);
+}
+
+.pol-figure__caption strong {
+  font-weight: inherit;   /* DM Serif Text has no bold: set apart by colour */
+  color: var(--color-text);
+}
+
 
 /* --------------------------------------------------------------------------
    Publications (publications.html, _includes/publication.html)
