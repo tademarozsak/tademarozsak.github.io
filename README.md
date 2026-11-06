@@ -11,7 +11,7 @@ Personal academic website. Plain Jekyll, built automatically by GitHub Pages on 
 | Home page links (order, add, hide; `copy: true` makes Email copy the address) | `_data/links.yml` |
 | Research projects                  | `_projects/<name>.md`: card, title, paper, and the summary below the front matter |
 | Publications                       | run `_tools/publications.rb` (see below); hand edits in `_data/publications.yml` |
-| CV                                 | replace `cv/CV.pdf`                    |
+| CV                                 | replace `cv/CV.pdf` (the site draws its pages itself, see below) |
 | `<head>` (fonts, meta, CSS)        | `_includes/head.html`                  |
 | Inner page frame (sticky bar, title) | `_layouts/page.html` |
 | Icons                              | `_includes/icons/*.svg`                |
@@ -39,8 +39,8 @@ title: Something          # also becomes "Something | Tade Marozsak" in the tab
 description: One sentence for search results.
 permalink: /something/
 prose: true               # for long-form text
-fill: true                # instead, for full-width content that reaches the bottom of the window (like the CV)
-short_title: Something    # fill pages: shown in the bar when the title doesn't fit (e.g. CV on phones)
+fill: true                # instead, for full-width content that reaches the bottom of the window, with no large title (e.g. a document viewer)
+short_title: Something    # used instead of the title where the title can't fit beside the menu (e.g. CV on phones)
 ---
 ```
 
@@ -54,6 +54,7 @@ Then add it to `_data/links.yml` if it should appear on the home page.
 - **Maths:** add `math: true` to the page's front matter (loads KaTeX). Inline: `$$3\omega$$` inside a sentence. Display: `$$ … $$` as its own paragraph. Plain `\( \)` doesn't work in Markdown because the backslash is eaten.
 - **Research projects:** one file per project in `_projects/`, for first-author work. Front matter: the card's `name`, one-sentence `description` and `image`, its `order`, the page's title (`heading`), and `paper`: the paper's arXiv id or DOI, in quotes (`paper: '2512.22980'`). Below the front matter goes a short summary in Markdown (a few paragraphs; the paper has the details). Each project gets its own page at `/research/<name>/` and a card on every project page. The first project uses `permalink: /research/`. Card images: square, at least 200×200 px, in `assets/img/projects/`.
 - **Publications:** after a new paper appears on ORCID, run `/opt/homebrew/opt/ruby@3.3/bin/ruby _tools/publications.rb`. It reads your works from ORCID and their authors, journal, volume and article number from Crossref, rewrites `_data/publications.yml` (newest first) and prints what changed. Check the diff and commit. In that file you can add `equal: N` (the first N authors contributed equally, marked †), which survives a re-run. A paper that isn't on ORCID yet (e.g. accepted) can be written in by hand without a `doi`, with `status: accepted`; it stays until ORCID lists a paper with the same title, which then replaces it. Papers are grouped by year, and the years are listed in the margin on wide screens. Titles link to the article once it has a DOI. Long author lists are shortened to the first three, you, and the last author.
+- **CV:** `cv/CV.pdf` is drawn by the site with PDF.js (Mozilla's PDF library, from cdnjs, pinned to 3.11.174 with an integrity check): white pages on the site's grey, the width of the column, the same in every browser and on phones. Text can be selected and searched, the PDF's links work, and the page has the usual large title and a docked Download PDF button. Without JavaScript it offers the download.
 - **Paper button:** a project's `paper` is looked up in `_data/publications.yml` (by `arxiv` or `doi`), so add the paper there first. The button docks while you read and goes to the journal once the entry has a DOI (after `_tools/publications.rb` picks it up from ORCID), or to arXiv until then. No `paper`, no button.
 
 ## Previewing locally
@@ -75,7 +76,7 @@ Open http://localhost:4000. After any CSS change, check **/styleguide/** (not li
    - `.link`: UI links (navigation, actions). 44px tap target, wipe on hover.
    - `.link-inline`: links inside sentences. Plain `<a>` in Markdown pages gets this automatically. When a link in a sentence leaves the site, end it with `<span class="link-inline__arrow" aria-hidden="true">&#8617;&#xfe0e;</span>` inside the `<a>` (the same ↩︎ as the references), like the lab in the home intro.
    - `.button`: the only filled control.
-   - `.segmented`: a pill of options: radio buttons, or links that fill in on hover (the paper button on Research, the profiles on Publications).
+   - `.segmented`: a pill of options: radio buttons, or links that fill in on hover (the paper button on Research, the profiles on Publications, Download PDF on the CV).
    - `.page-toc`: the page's sections listed in the right margin (wide screens only, from 78rem), kept in view while you scroll, with the section you're reading marked; clicking one scrolls there. The `page` layout's script handles it. Used for the years on Publications.
    - `.dock`: wraps a `.segmented` that sits centred under the page's opening and docks while you read: in the middle of the bar on wide screens, in a full-width strip under the bar on phones (the bar is slimmer there). One per page; the `page` layout's script handles it, and gives a short page just enough space at the bottom to dock.
    - `.page-bar` (sticky bar) and `.page-title` (large title): only ever drawn by the `page` layout. The home page has no bar. The bar's menu, on the right, is Home plus the internal links (`/…`) in `_data/links.yml`, minus the page you're on. The large title sits in the bar's left slot, its top level with the menu, and shrinks in place as you scroll (phones too); if even the compact title doesn't fit beside the menu (a long title on a narrow phone), it stays an ordinary heading under the bar.

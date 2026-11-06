@@ -18,8 +18,8 @@ layout: base
     fill: true   content spans the full width and reaches the bottom of the
                  window, like a document viewer (the CV). There is no large
                  title: the bar shows the compact title from the start.
-    short_title  fill pages: shown in the bar instead of the title when the
-                 title doesn't fit beside the menu (e.g. "CV" on phones)
+    short_title  used instead of the title when the title can't fit beside
+                 the menu, even at the compact size (e.g. "CV" on phones)
 {%- endcomment -%}
 <div class="page-frame{% if page.fill %} page-frame--fill{% endif %}">
   <header class="page-bar{% if page.fill %} is-compact{% endif %}">
@@ -46,7 +46,7 @@ layout: base
   </main>
   {%- else %}
   <main class="page-main page page--narrow">
-    <h1 class="page-title">{{ page.title }}</h1>
+    <h1 class="page-title"{% if page.short_title %} data-short="{{ page.short_title }}" data-full="{{ page.title }}"{% endif %}>{{ page.title }}</h1>
     <hr class="page-rule">
     {% if page.prose %}
       <article class="prose">{{ content }}</article>
@@ -87,7 +87,8 @@ layout: base
   // starts at the largest size that fits (its lost height is taken back with
   // a negative bottom margin, so the text below still follows it). If even
   // the compact size doesn't fit beside the menu (a long title on a phone),
-  // the title stays an ordinary heading under the bar (.page-title--below).
+  // the page's short_title is used instead if it has one; otherwise the
+  // title stays an ordinary heading under the bar (.page-title--below).
   (() => {
     const bar = document.querySelector('.page-bar');
     const nav = bar.querySelector('.page-bar__nav');
@@ -95,7 +96,8 @@ layout: base
     const main = title.parentElement;
     let range = 1, scaleStart = 1, scaleMin = 1, fits = true, ticking = false;
 
-    const measure = () => {
+    const measure = (useShort = false) => {
+      if (title.dataset.short) title.textContent = useShort ? title.dataset.short : title.dataset.full;
       title.style.transform = title.style.marginTop = title.style.marginBottom = title.style.top = '';
       const height = title.offsetHeight;
       const naturalTop = main.getBoundingClientRect().top + scrollY
@@ -106,6 +108,7 @@ layout: base
       const room = nav.getBoundingClientRect().left - title.getBoundingClientRect().left
         - 1.5 * rootSize;                                                            // --space-5 gap
       fits = room >= title.offsetWidth * scaleMin;
+      if (!fits && title.dataset.short && !useShort) return measure(true);
       title.classList.toggle('page-title--below', !fits);
       if (!fits) { update(); return; }
       scaleStart = Math.max(scaleMin, Math.min(1, room / title.offsetWidth));
@@ -129,8 +132,8 @@ layout: base
     addEventListener('scroll', () => {
       if (!ticking) { ticking = true; requestAnimationFrame(update); }
     }, { passive: true });
-    addEventListener('resize', measure);
-    document.fonts.ready.then(measure);
+    addEventListener('resize', () => measure());
+    document.fonts.ready.then(() => measure());
     measure();
   })();
 

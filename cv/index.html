@@ -1,44 +1,139 @@
 ---
 layout: page
 title: Curriculum Vitae
-short_title: CV        # in the bar when the full title doesn't fit (phones)
+short_title: CV        # used instead when the title can't fit beside the menu (phones)
 description: Curriculum Vitae of Tade Marozsak, a PhD candidate at MIT.
-fill: true
-page_width_pt: 595.276 # width of a page of CV.pdf (A4); change it if the paper size changes
 ---
 {%- comment -%}
   To update the CV, replace cv/CV.pdf. The ?v= stamp changes on every build,
   so browsers fetch the new file after each push but cache it otherwise.
-  The viewer spans the window; the script below zooms the page so its width
-  matches the site's column (the bar's content), using page_width_pt above,
-  and hides the thumbnails (#navpanes=0). Chrome, Edge and Firefox follow
-  these; Safari shows the PDF at its own size.
+
+  The pages are drawn by the site itself with PDF.js (Mozilla's PDF library,
+  loaded from cdnjs, version pinned), not by the browser's built-in viewer:
+  white pages on the site's grey, as wide as the column, the same in every
+  browser and on phones. Text can be selected and searched (Cmd+F), and the
+  PDF's links work. It is an ordinary page, so the title shrinks into the bar
+  and the download button docks as you scroll, as on the other pages.
+  Without JavaScript, or if PDF.js can't load, the page offers the download.
 {%- endcomment -%}
 {%- capture cv_url %}{{ '/cv/CV.pdf' | relative_url }}?v={{ site.time | date: '%s' }}{% endcapture -%}
-<div class="pdf-viewer">
-  <div class="pdf-status" aria-hidden="true">
-    {% include icons/spinner.svg %}
-    <p>Loading document…</p>
-  </div>
-
-  <object class="pdf-viewer__object" data="{{ cv_url }}#navpanes=0" type="application/pdf" aria-label="Curriculum Vitae (PDF)">
-    <div class="pdf-fallback">
-      {% include icons/document.svg class="icon--xl" %}
-      <h2>Native PDF viewer not supported</h2>
-      <p>Your device or browser does not support inline PDFs. You can download the file to view it.</p>
-      <a href="{{ cv_url }}" download="Tade_Marozsak_CV.pdf" class="button">Download CV</a>
-    </div>
-  </object>
-  <script>
-    // Runs right after the viewer is created, before it loads: zoom so the
-    // page is as wide as the column (CSS px = pt × 96/72 at 100%).
-    (() => {
-      const viewer = document.querySelector('.pdf-viewer__object');
-      const inner = document.querySelector('.page-bar__inner');
-      const style = getComputedStyle(inner);
-      const column = inner.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
-      const zoom = Math.round(column / ({{ page.page_width_pt }} * 96 / 72) * 1000) / 10;
-      viewer.data = viewer.getAttribute('data').split('#')[0] + '#navpanes=0&zoom=' + zoom;
-    })();
-  </script>
+<div class="dock">
+  <nav class="segmented" aria-label="CV">
+    <a href="{{ cv_url }}" download="Tade_Marozsak_CV.pdf" class="segmented__option">Download PDF</a>
+  </nav>
 </div>
+
+<div class="pdf-pages" data-src="{{ cv_url }}" role="document" aria-label="Curriculum Vitae">
+  <div class="pdf-status" data-pdf-status>
+    {% include icons/spinner.svg %}
+    <p>Loading CV…</p>
+  </div>
+  <div class="pdf-status" data-pdf-fallback hidden>
+    {% include icons/document.svg class="icon--xl" %}
+    <p>The CV couldn't be shown here.</p>
+    <a href="{{ cv_url }}" download="Tade_Marozsak_CV.pdf" class="button">Download CV (PDF)</a>
+  </div>
+  <noscript>
+    <div class="pdf-status">
+      {% include icons/document.svg class="icon--xl" %}
+      <a href="{{ cv_url }}" download="Tade_Marozsak_CV.pdf" class="button">Download CV (PDF)</a>
+    </div>
+  </noscript>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"
+        integrity="sha384-/1qUCSGwTur9vjf/z9lmu/eCUYbpOTgSjmpbMQZ1/CtX2v/WcAIKqRv+U1DUCG6e"
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+  // Draws each page of the PDF as a white sheet the width of the column:
+  //   canvas  the page itself, at the screen's pixel density (a little more,
+  //           so pinch-zoom on phones stays sharp)
+  //   text    PDF.js's invisible text layer on top, for selecting and Cmd+F
+  //   links   the PDF's web links as real links on top
+  // Text and links are placed in percentages, so on resize only the canvas
+  // is drawn again. Each sheet has the page's proportions from the start, so
+  // nothing below it jumps while it draws.
+  (() => {
+    const box = document.querySelector('.pdf-pages');
+    const status = box.querySelector('[data-pdf-status]');
+    const fail = () => { status.hidden = true; box.querySelector('[data-pdf-fallback]').hidden = false; };
+    const lib = window.pdfjsLib;
+    if (!lib) return fail();
+    lib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+    const sheets = [];   // { page, el, canvas, task }
+
+    const draw = (sheet) => {
+      const width = sheet.el.clientWidth;
+      if (!width) return;
+      const scale = width / sheet.page.getViewport({ scale: 1 }).width;
+      sheet.el.style.setProperty('--scale-factor', scale);
+      const density = Math.min(4, (window.devicePixelRatio || 1) * 1.5);
+      const viewport = sheet.page.getViewport({ scale: scale * density });
+      if (sheet.task) sheet.task.cancel();
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.floor(viewport.width);
+      canvas.height = Math.floor(viewport.height);
+      sheet.task = sheet.page.render({ canvasContext: canvas.getContext('2d'), viewport });
+      sheet.task.promise.then(() => {
+        sheet.task = null;
+        sheet.canvas.replaceWith(canvas);   // swap when ready, so a redraw never flashes blank
+        sheet.canvas = canvas;
+      }, () => {});
+    };
+
+    const addLinks = async (sheet, base) => {
+      const layer = document.createElement('div');
+      layer.className = 'pdf-page__links';
+      for (const note of await sheet.page.getAnnotations()) {
+        if (note.subtype !== 'Link' || !note.url) continue;
+        const [x1, y1, x2, y2] = base.convertToViewportRectangle(note.rect);
+        const a = document.createElement('a');
+        a.href = note.url;
+        if (!note.url.startsWith('mailto:')) { a.target = '_blank'; a.rel = 'noopener'; }
+        a.setAttribute('aria-label', note.url.replace(/^mailto:/, ''));
+        Object.assign(a.style, {
+          left: `${100 * Math.min(x1, x2) / base.width}%`,
+          top: `${100 * Math.min(y1, y2) / base.height}%`,
+          width: `${100 * Math.abs(x2 - x1) / base.width}%`,
+          height: `${100 * Math.abs(y2 - y1) / base.height}%`,
+        });
+        layer.append(a);
+      }
+      sheet.el.append(layer);
+    };
+
+    lib.getDocument(box.dataset.src).promise.then(async (pdf) => {
+      for (let n = 1; n <= pdf.numPages; n++) {
+        const page = await pdf.getPage(n);
+        const base = page.getViewport({ scale: 1 });
+        const el = document.createElement('div');
+        el.className = 'pdf-page';
+        el.style.aspectRatio = `${base.width} / ${base.height}`;
+        const canvas = document.createElement('canvas');
+        const text = document.createElement('div');
+        text.className = 'pdf-page__text';
+        el.append(canvas, text);
+        box.append(el);
+        const sheet = { page, el, canvas, task: null };
+        sheets.push(sheet);
+        draw(sheet);
+        if (n === 1) status.hidden = true;
+        const scale = parseFloat(el.style.getPropertyValue('--scale-factor')) || 1;
+        lib.renderTextLayer({ textContentSource: await page.getTextContent(), container: text, viewport: page.getViewport({ scale }) });
+        addLinks(sheet, base);
+      }
+      dispatchEvent(new Event('resize'));   // the page got taller: let the title and dock measure again
+    }).catch(fail);
+
+    let width = box.clientWidth, timer;
+    addEventListener('resize', () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        if (box.clientWidth === width) return;
+        width = box.clientWidth;
+        sheets.forEach(draw);
+      }, 150);
+    });
+  })();
+</script>
