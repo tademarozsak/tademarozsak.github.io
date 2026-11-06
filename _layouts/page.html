@@ -159,5 +159,46 @@ layout: base
     document.fonts.ready.then(makeRoom);
     makeRoom();
   })();
+
+  // Page contents (.page-toc, components.css): marks the section you're
+  // reading, the last one whose top has passed a reading line a quarter of
+  // the way down the window (below the bar). At the very bottom of the page
+  // the last section counts, since it may never reach the line. A clicked
+  // entry stays marked until you scroll yourself: near the end of a short
+  // page its section can't reach the line, and the mark shouldn't jump to
+  // another one.
+  (() => {
+    const toc = document.querySelector('.page-toc');
+    if (!toc) return;
+    const bar = document.querySelector('.page-bar');
+    const links = [...toc.querySelectorAll('a[href^="#"]')];
+    const sections = links.map((a) => document.getElementById(decodeURIComponent(a.hash.slice(1))));
+    let ticking = false, clicked = -1;
+
+    const mark = (current) => links.forEach((a, i) => {
+      if (i === current) a.setAttribute('aria-current', 'location');
+      else a.removeAttribute('aria-current');
+    });
+
+    const update = () => {
+      ticking = false;
+      if (clicked >= 0) return mark(clicked);
+      const line = bar.offsetHeight + (innerHeight - bar.offsetHeight) * 0.25;
+      let current = 0;
+      sections.forEach((section, i) => { if (section.getBoundingClientRect().top <= line) current = i; });
+      const atEnd = scrollY > 0 && scrollY + innerHeight >= document.documentElement.scrollHeight - 2;
+      mark(atEnd ? sections.length - 1 : current);
+    };
+
+    links.forEach((a, i) => a.addEventListener('click', () => { clicked = i; update(); }));
+    const release = () => { if (clicked >= 0) { clicked = -1; update(); } };
+    for (const type of ['wheel', 'touchstart', 'keydown']) addEventListener(type, release, { passive: true });
+
+    addEventListener('scroll', () => {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    }, { passive: true });
+    addEventListener('resize', update);
+    update();
+  })();
 </script>
 {%- endunless %}

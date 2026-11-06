@@ -16,14 +16,14 @@
 {%- if equal > keep %}{% assign keep = equal %}{% endif -%}
 {%- assign last = count | minus: 1 -%}
 <li class="publication">
-  <h2 class="publication__title">
+  <h3 class="publication__title">
     {%- if pub.doi or pub.arxiv -%}
     {%- if pub.doi %}{% assign href = "https://doi.org/" | append: pub.doi %}{% else %}{% assign href = "https://arxiv.org/abs/" | append: pub.arxiv %}{% endif -%}
     <a href="{{ href }}" class="link-inline" target="_blank" rel="noopener">{{ pub.title }}<span class="link-inline__arrow" aria-hidden="true">&#8617;&#xfe0e;</span></a>
     {%- else -%}
     {{ pub.title }}
     {%- endif -%}
-  </h2>
+  </h3>
   <p class="publication__authors">
     {%- assign gap = false -%}
     {%- for author in pub.authors -%}

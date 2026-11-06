@@ -325,6 +325,80 @@ a.segmented__option:focus-visible {
 }
 
 /* --------------------------------------------------------------------------
+   Page contents (.page-toc): the page's sections, listed in the right margin
+   and kept in view while you scroll, with the one you're reading marked
+   (aria-current, set by the script in _layouts/page.html). Clicking one
+   scrolls to it. Only where the margin has room; elsewhere the section
+   headings do the job alone.
+     <div class="page-toc-layout">
+       <aside class="page-toc"><nav class="page-toc__nav" aria-label="…">
+         <ol class="page-toc__list"><li><a class="page-toc__link" href="#id">…</a></li>…</ol>
+       </nav></aside>
+       …the sections, each with an id…
+     </div>
+   -------------------------------------------------------------------------- */
+
+.page-toc {
+  display: none;
+}
+
+@media (min-width: 78rem) {
+  .page-toc-layout {
+    position: relative;
+  }
+
+  /* Spans the sections' height in the margin, so the list inside can stick
+     while they scroll past and stops at their end. */
+  .page-toc {
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(100% + var(--space-7));
+    width: 8rem;
+  }
+
+  .page-toc__nav {
+    position: sticky;
+    top: calc(var(--page-bar-height) + var(--space-5));
+  }
+}
+
+.page-toc__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-left: 1px solid var(--color-border);
+}
+
+.page-toc__link {
+  display: block;
+  margin-left: -1px;
+  padding: var(--space-2) 0 var(--space-2) var(--space-4);
+  border-left: 2px solid transparent;
+  color: var(--color-text-subtle);
+  text-decoration: none;
+  transition:
+    color var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard);
+}
+
+.page-toc__link[aria-current] {
+  color: var(--color-text);
+  border-left-color: var(--color-accent);
+}
+
+.page-toc__link:focus-visible {
+  color: var(--color-accent);
+}
+
+@media (hover: hover) {
+  .page-toc__link:hover {
+    color: var(--color-accent);
+  }
+}
+
+/* --------------------------------------------------------------------------
    Icons: SVGs from _includes/icons/. Colour follows the text (currentColor).
    Modifier: .icon--xl.
    -------------------------------------------------------------------------- */

@@ -6,8 +6,11 @@ permalink: /publications/
 ---
 {%- comment -%}
   The list comes from _data/publications.yml, which _tools/publications.rb
-  fills from ORCID (the ids are in _config.yml).
+  fills from ORCID (the ids are in _config.yml). Papers are grouped by year
+  (newest first); each year is a section (#2026, …) listed in the margin on
+  wide screens (.page-toc, components.css).
 {%- endcomment -%}
+{%- assign years = site.data.publications | group_by: "year" -%}
 <div class="dock">
   <nav class="segmented" aria-label="Publication profiles">
     <a href="https://scholar.google.com/citations?user={{ site.google_scholar }}" class="segmented__option" target="_blank" rel="noopener">Google Scholar</a>
@@ -15,8 +18,25 @@ permalink: /publications/
   </nav>
 </div>
 
-<ul class="publication-list">
-  {%- for pub in site.data.publications %}
-  {% include publication.html pub=pub %}
+<div class="page-toc-layout">
+  <aside class="page-toc">
+    <nav class="page-toc__nav" aria-label="Years">
+      <ol class="page-toc__list">
+        {%- for year in years %}
+        <li><a href="#{{ year.name }}" class="page-toc__link">{{ year.name }}</a></li>
+        {%- endfor %}
+      </ol>
+    </nav>
+  </aside>
+
+  {%- for year in years %}
+  <section class="publication-year" id="{{ year.name }}" aria-labelledby="year-{{ year.name }}">
+    <h2 class="publication-year__heading" id="year-{{ year.name }}">{{ year.name }}</h2>
+    <ul class="publication-list">
+      {%- for pub in year.items %}
+      {% include publication.html pub=pub %}
+      {%- endfor %}
+    </ul>
+  </section>
   {%- endfor %}
-</ul>
+</div>
