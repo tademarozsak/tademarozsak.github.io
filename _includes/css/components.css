@@ -101,26 +101,48 @@
 }
 
 /* Copy link (.link.copy-link, home page Email): copies the address on click.
-   The copy icon turns into an accent tick for a moment (.is-copied, set by
-   the script in index.html). */
+   The copy icon is hidden at rest (the surface colour) and the accent wipe
+   carries on through it after the label: it is a block cut to the icon's
+   shape (mask) and painted with the same kind of gradient, slid a little
+   later than the text on the way in and a little earlier on the way out.
+   After a copy, a solid accent tick replaces it for a moment (.is-copied,
+   set by the script in index.html). */
+/* The hidden icon would leave a wider gap after "Email" than between the
+   other links, so the link gives that space back (negative right margin):
+   the icon sits in the gap, and the gap to the next link looks the same
+   as the others. */
 .copy-link {
   gap: var(--space-1);
+  margin-right: calc(-1 * (0.95em + var(--space-1)));
 }
 
-.copy-link .copy-link__icon {
+.copy-link__icon {
   width: 0.95em;
   height: 0.95em;
-  color: var(--color-text-subtle);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z'/%3E%3C/svg%3E") center / contain no-repeat;
+  background-image: linear-gradient(to right, var(--color-accent) 45%, var(--color-surface) 55%);
+  background-size: 225% 100%;
+  background-position: 100% 0;
+  transition: background-position calc(var(--duration-link) * 0.45) var(--ease-in-out);
 }
 
-.copy-link__icon--done,
+.copy-link:focus-visible .copy-link__icon {
+  background-position: 0 0;
+  transition-delay: calc(var(--duration-link) * 0.5);
+}
+
+@media (hover: hover) {
+  .copy-link:hover .copy-link__icon {
+    background-position: 0 0;
+    transition-delay: calc(var(--duration-link) * 0.5);
+  }
+}
+
 .copy-link.is-copied .copy-link__icon {
-  display: none;
-}
-
-.copy-link.is-copied .copy-link__icon--done {
-  display: block;
-  color: var(--color-accent);
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 13l4 4L19 7'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 13l4 4L19 7'/%3E%3C/svg%3E");
+  background: var(--color-accent);
 }
 
 /* The ↩︎ after an in-text link that leaves the site: the same character as

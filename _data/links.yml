@@ -9,8 +9,8 @@
   url: /publications/
 - label: CV
   url: /cv/
+- label: LinkedIn
+  url: https://www.linkedin.com/in/tademarozsak/
 - label: Email
   url: mailto:marozsak@mit.edu
   copy: true          # a click copies the address instead of opening a mail app
-- label: LinkedIn
-  url: https://www.linkedin.com/in/tademarozsak/

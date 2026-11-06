@@ -18,8 +18,7 @@ description: Personal academic website of Tade Marozsak, a PhD candidate in Elec
           {%- assign address = link.url | remove_first: "mailto:" %}
           <a href="{{ link.url }}" class="link copy-link" data-copy="{{ address }}" title="Copy {{ address }}">
             {{ link.label }}
-            {%- include icons/copy.svg class="copy-link__icon" %}
-            {%- include icons/check.svg class="copy-link__icon copy-link__icon--done" %}
+            <span class="copy-link__icon" aria-hidden="true"></span>
           </a>
           {%- else %}
           <a href="{{ link.url | relative_url }}" class="link"{% if link.url contains "://" %} target="_blank" rel="noopener"{% endif %}>{{ link.label }}</a>
@@ -46,7 +45,7 @@ description: Personal academic website of Tade Marozsak, a PhD candidate in Elec
 
 <script>
   // Copy links (copy: true in _data/links.yml): a click copies the address and
-  // turns the copy icon into a tick for a moment. If copying isn't possible, the
+  // shows a tick in place of the copy icon for a moment. If copying isn't possible, the
   // link opens the mail app as a plain mailto: link would. Without JavaScript
   // it is a plain mailto: link.
   (() => {
