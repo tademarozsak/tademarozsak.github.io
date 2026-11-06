@@ -19,7 +19,10 @@ description: Curriculum Vitae of Tade Marozsak, a PhD candidate at MIT.
 {%- capture cv_url %}{{ '/cv/CV.pdf' | relative_url }}?v={{ site.time | date: '%s' }}{% endcapture -%}
 <div class="dock">
   <nav class="segmented" aria-label="CV">
-    <a href="{{ cv_url }}" download="Tade_Marozsak_CV.pdf" class="segmented__option">Download PDF</a>
+    <button type="button" class="segmented__option segmented__option--icon pdf-zoom" data-zoom="-1" aria-label="Zoom out" title="Zoom out">{% include icons/minus.svg %}</button>
+    <button type="button" class="segmented__option segmented__option--icon pdf-zoom" data-zoom="1" aria-label="Zoom in" title="Zoom in">{% include icons/plus.svg %}</button>
+    <span class="segmented__divider pdf-zoom" aria-hidden="true"></span>
+    <a href="{{ cv_url }}" download="Tade_Marozsak_CV.pdf" class="segmented__option" aria-label="Download CV (PDF)">Download</a>
   </nav>
 </div>
 
@@ -53,6 +56,11 @@ description: Curriculum Vitae of Tade Marozsak, a PhD candidate at MIT.
   // Text and links are placed in percentages, so on resize only the canvas
   // is drawn again. Each sheet has the page's proportions from the start, so
   // nothing below it jumps while it draws.
+  // Zoom (− and + in the pill, from 64rem wide; phones pinch instead):
+  // 100% is the column's width. Larger pages first grow into the side
+  // margins, then the pages scroll sideways. While the top of the pages is
+  // in view, it stays where it is and the pages grow downwards; further
+  // down, the spot in the middle of the window stays in place.
   (() => {
     const box = document.querySelector('.pdf-pages');
     const status = box.querySelector('[data-pdf-status]');
@@ -62,6 +70,27 @@ description: Curriculum Vitae of Tade Marozsak, a PhD candidate at MIT.
     lib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
     const sheets = [];   // { page, el, canvas, task }
+    const LEVELS = [0.5, 0.75, 1, 1.25, 1.5, 2];
+    let level = LEVELS.indexOf(1);
+    const narrow = matchMedia('(max-width: 63.99rem)');   // no zoom here (pages.css)
+    const buttons = [...document.querySelectorAll('button[data-zoom]')];
+
+    // Sets the pages' width for the zoom level; returns true if it changed.
+    const layout = () => {
+      const column = box.parentElement;
+      const style = getComputedStyle(column);
+      const col = column.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+      const pageWidth = Math.round(col * (narrow.matches ? 1 : LEVELS[level]));
+      const side = (document.documentElement.clientWidth - col) / 2;
+      const grow = Math.max(0, Math.min(side, (pageWidth - col) / 2));
+      const before = box.style.getPropertyValue('--page-width');
+      box.style.marginInline = grow ? `${-grow}px` : '';
+      box.style.setProperty('--page-width', `${pageWidth}px`);
+      box.classList.toggle('is-wide', pageWidth > col + 2 * grow);
+      buttons.forEach((b) => { b.disabled = b.dataset.zoom < 0 ? level === 0 : level === LEVELS.length - 1; });
+      return before !== `${pageWidth}px`;
+    };
+    layout();
 
     const draw = (sheet) => {
       const width = sheet.el.clientWidth;
@@ -126,14 +155,31 @@ description: Curriculum Vitae of Tade Marozsak, a PhD candidate at MIT.
       dispatchEvent(new Event('resize'));   // the page got taller: let the title and dock measure again
     }).catch(fail);
 
-    let width = box.clientWidth, timer;
+    const zoom = (step) => {
+      const next = Math.min(LEVELS.length - 1, Math.max(0, level + step));
+      if (next === level) return;
+      const middle = innerHeight / 2;
+      const r = box.getBoundingClientRect();
+      const barBottom = document.querySelector('.page-bar').getBoundingClientRect().bottom;
+      // How far down the pages the middle of the window is; nothing to keep
+      // (top stays put) while the top of the pages is still in view.
+      const fy = r.top >= barBottom ? 0 : (middle - r.top) / r.height;
+      const fx = (box.scrollLeft + box.clientWidth / 2) / box.scrollWidth;
+      level = next;
+      layout();
+      if (fy > 0) {
+        const r2 = box.getBoundingClientRect();
+        scrollTo({ top: scrollY + r2.top + fy * r2.height - middle, behavior: 'instant' });
+      }
+      box.scrollLeft = fx * box.scrollWidth - box.clientWidth / 2;
+      sheets.forEach(draw);
+    };
+    buttons.forEach((b) => b.addEventListener('click', () => zoom(Number(b.dataset.zoom))));
+
+    let timer;
     addEventListener('resize', () => {
       clearTimeout(timer);
-      timer = setTimeout(() => {
-        if (box.clientWidth === width) return;
-        width = box.clientWidth;
-        sheets.forEach(draw);
-      }, 150);
+      timer = setTimeout(() => { if (layout()) sheets.forEach(draw); }, 150);
     });
   })();
 </script>

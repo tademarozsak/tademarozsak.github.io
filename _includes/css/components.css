@@ -246,6 +246,41 @@
   outline-offset: 2px;
 }
 
+/* An option that is only an icon (e.g. the CV's zoom): square, so it is
+   round when highlighted. Give it an aria-label. */
+.segmented__option--icon {
+  justify-content: center;
+  width: calc(var(--tap-target) - 2 * var(--space-1));
+  padding-inline: 0;
+}
+
+/* A thin line between groups of options. */
+.segmented__divider {
+  align-self: center;
+  width: 1px;
+  height: 1.25em;
+  margin-inline: var(--space-1);
+  background-color: var(--color-border);
+}
+
+/* Buttons can be options too (actions, like the CV's zoom): plain, and
+   greyed out when they can't be used. */
+button.segmented__option {
+  border: 0;
+  background: none;
+  font: inherit;
+}
+
+button.segmented__option:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+button.segmented__option:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 2px;
+}
+
 /* Links can be options too (e.g. the profiles on /publications/): no
    selected state, they fill in on hover instead. */
 a.segmented__option {
@@ -258,7 +293,8 @@ a.segmented__option:focus-visible {
 }
 
 @media (hover: hover) {
-  a.segmented__option:hover {
+  a.segmented__option:hover,
+  button.segmented__option:hover:not(:disabled) {
     color: var(--color-button-text);
     background-color: var(--color-button);
   }

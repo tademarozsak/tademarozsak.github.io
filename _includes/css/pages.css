@@ -282,9 +282,19 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-5);
+  padding-block: 2px;   /* room for the first and last page's outline */
 }
 
+/* Zoomed in past the window's width: the pages scroll sideways. */
+.pdf-pages.is-wide {
+  overflow-x: auto;
+}
+
+/* --page-width is set by the script (the column's width × the zoom). */
 .pdf-page {
+  flex: none;
+  width: var(--page-width, 100%);
+  margin-inline: auto;
   position: relative;
   overflow: hidden;
   background-color: var(--color-surface);
@@ -325,6 +335,14 @@
 .pdf-page__links a {
   position: absolute;
   z-index: 1;
+}
+
+/* Zoom is for laptop-width screens and up: narrower, the pill with zoom
+   wouldn't fit in the bar beside the menu, and phones pinch instead. */
+@media (max-width: 63.99rem) {
+  .pdf-zoom {
+    display: none;
+  }
 }
 
 /* Loading, and the download offer if the CV can't be drawn. */
