@@ -18,12 +18,14 @@ layout: base
     fill: true   content spans the full width and reaches the bottom of the
                  window, like a document viewer (the CV). There is no large
                  title: the bar shows the compact title from the start.
+    short_title  fill pages: shown in the bar instead of the title when the
+                 title doesn't fit beside the menu (e.g. "CV" on phones)
 {%- endcomment -%}
 <div class="page-frame{% if page.fill %} page-frame--fill{% endif %}">
   <header class="page-bar{% if page.fill %} is-compact{% endif %}">
     <div class="page page--narrow page-bar__inner">
       {%- if page.fill %}
-      <p class="page-bar__title" aria-hidden="true">{{ page.title }}</p>
+      <p class="page-bar__title" aria-hidden="true"{% if page.short_title %} data-short="{{ page.short_title }}"{% endif %}>{{ page.title }}</p>
       {%- endif %}
       <nav class="page-bar__nav" aria-label="Pages">
         <a href="{{ '/' | relative_url }}" class="link">Home</a>
@@ -55,6 +57,24 @@ layout: base
   {%- endif %}
 </div>
 
+{%- if page.fill and page.short_title %}
+<script>
+  // Compact title: the short title (front matter short_title) when the full
+  // one doesn't fit beside the menu, e.g. "CV" for "Curriculum Vitae" on
+  // phones. Checked again when the window is resized.
+  (() => {
+    const title = document.querySelector('.page-bar__title[data-short]');
+    const full = title.textContent;
+    const fit = () => {
+      title.textContent = full;
+      if (title.scrollWidth > title.clientWidth + 0.5) title.textContent = title.dataset.short;
+    };
+    addEventListener('resize', fit);
+    document.fonts.ready.then(fit);
+    fit();
+  })();
+</script>
+{%- endif %}
 {%- unless page.fill %}
 <script>
   // Large title -> compact title in the bar, tied to the scroll position.

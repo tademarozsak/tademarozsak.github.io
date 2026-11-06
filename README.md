@@ -40,6 +40,7 @@ description: One sentence for search results.
 permalink: /something/
 prose: true               # for long-form text
 fill: true                # instead, for full-width content that reaches the bottom of the window (like the CV)
+short_title: Something    # fill pages: shown in the bar when the title doesn't fit (e.g. CV on phones)
 ---
 ```
 

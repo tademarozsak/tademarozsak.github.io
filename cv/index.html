@@ -1,12 +1,18 @@
 ---
 layout: page
 title: Curriculum Vitae
+short_title: CV        # in the bar when the full title doesn't fit (phones)
 description: Curriculum Vitae of Tade Marozsak, a PhD candidate at MIT.
 fill: true
+page_width_pt: 595.276 # width of a page of CV.pdf (A4); change it if the paper size changes
 ---
 {%- comment -%}
   To update the CV, replace cv/CV.pdf. The ?v= stamp changes on every build,
   so browsers fetch the new file after each push but cache it otherwise.
+  The viewer spans the window; the script below zooms the page so its width
+  matches the site's column (the bar's content), using page_width_pt above,
+  and hides the thumbnails (#navpanes=0). Chrome, Edge and Firefox follow
+  these; Safari shows the PDF at its own size.
 {%- endcomment -%}
 {%- capture cv_url %}{{ '/cv/CV.pdf' | relative_url }}?v={{ site.time | date: '%s' }}{% endcapture -%}
 <div class="pdf-viewer">
@@ -15,7 +21,7 @@ fill: true
     <p>Loading document…</p>
   </div>
 
-  <object class="pdf-viewer__object" data="{{ cv_url }}" type="application/pdf" aria-label="Curriculum Vitae (PDF)">
+  <object class="pdf-viewer__object" data="{{ cv_url }}#navpanes=0" type="application/pdf" aria-label="Curriculum Vitae (PDF)">
     <div class="pdf-fallback">
       {% include icons/document.svg class="icon--xl" %}
       <h2>Native PDF viewer not supported</h2>
@@ -23,4 +29,16 @@ fill: true
       <a href="{{ cv_url }}" download="Tade_Marozsak_CV.pdf" class="button">Download CV</a>
     </div>
   </object>
+  <script>
+    // Runs right after the viewer is created, before it loads: zoom so the
+    // page is as wide as the column (CSS px = pt × 96/72 at 100%).
+    (() => {
+      const viewer = document.querySelector('.pdf-viewer__object');
+      const inner = document.querySelector('.page-bar__inner');
+      const style = getComputedStyle(inner);
+      const column = inner.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+      const zoom = Math.round(column / ({{ page.page_width_pt }} * 96 / 72) * 1000) / 10;
+      viewer.data = viewer.getAttribute('data').split('#')[0] + '#navpanes=0&zoom=' + zoom;
+    })();
+  </script>
 </div>
