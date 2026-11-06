@@ -106,7 +106,8 @@
    shape (mask) and painted with the same kind of gradient, slid a little
    later than the text on the way in and a little earlier on the way out.
    After a copy, a solid accent tick replaces it for a moment (.is-copied,
-   set by the script in index.html). */
+   set by the script in index.html), then the copy icon is back in whatever
+   state the pointer calls for. */
 /* The hidden icon would leave a wider gap after "Email" than between the
    other links, so the link gives that space back (negative right margin):
    the icon sits in the gap, and the gap to the next link looks the same
@@ -142,7 +143,11 @@
 .copy-link.is-copied .copy-link__icon {
   -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 13l4 4L19 7'/%3E%3C/svg%3E");
   mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 13l4 4L19 7'/%3E%3C/svg%3E");
-  background: var(--color-accent);
+  /* Only the image changes, not background-position: the copy icon behind
+     it keeps following the hover state, so when the tick goes it is simply
+     back as it should be (blue while the pointer is still on the link,
+     invisible once it has left) without a sweep playing on its own. */
+  background-image: linear-gradient(var(--color-accent), var(--color-accent));
 }
 
 /* The ↩︎ after an in-text link that leaves the site: the same character as
