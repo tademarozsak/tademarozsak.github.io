@@ -161,55 +161,56 @@
 }
 
 /* Animated figure in a project summary (polarization-multiplexing): the
-   animation, labels under its panels (--x: panel centre as a share of the
-   image width) and a caption. Made by animate.py in the Oxford archive.
+   animation, labels curving under its two circles (an SVG over the image,
+   sized by the script in the page) and a caption. Made by animate.py in the Oxford archive.
    Full width on phones; from 48rem it floats right and the text wraps round it. */
 .pol-figure {
   margin: var(--space-5) 0;
 }
-
 @media (min-width: 48rem) {
   .pol-figure {
     float: right;
     width: 42%;
     margin: var(--space-2) 0 var(--space-4) var(--space-5);
   }
-
   .prose:has(.pol-figure) {
     display: flow-root;   /* keep the float inside the summary */
   }
 }
-
+/* Room under the image for the curved labels: label height plus a little air (1.5em) less the
+   image's own margin below the circles (2.29% of the width). */
+.pol-figure__art {
+  position: relative;
+  font-size: var(--text-sm);   /* label size, same as the caption */
+  padding-bottom: max(0px, calc(1.5em - 2.29%));
+}
 .pol-figure picture,
 .pol-figure img {
   display: block;
   width: 100%;
   height: auto;
 }
-
 .pol-figure__labels {
-  position: relative;
-  height: calc(var(--leading-normal) * 1em);
-  font-size: var(--text-sm);   /* same size as the caption */
-  color: var(--color-text-subtle);
-}
-
-.pol-figure__labels span {
   position: absolute;
-  left: var(--x);
-  transform: translateX(-50%);
-  white-space: nowrap;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1200 / 544;
+  overflow: visible;
+  pointer-events: none;
+  font-family: inherit;
+  font-size: calc(var(--text-sm) * 4);   /* until the script sets it */
+  fill: var(--color-text-subtle);
 }
-
 .pol-figure__caption {
   margin-top: var(--space-2);
   font-size: var(--text-sm);
   line-height: var(--leading-normal);
   color: var(--color-text-muted);
 }
-
 .pol-figure__caption strong {
-  font-weight: inherit;   /* DM Serif Text has no bold: set apart by colour */
+  font-weight: inherit;              /* DM Serif Text has no bold: set apart by colour */
   color: var(--color-text);
 }
 
