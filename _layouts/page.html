@@ -65,13 +65,15 @@ layout: base
   // edge. The bar gains its background once the title is compact.
   // Narrow screens: if the title is too wide to sit beside the menu, it
   // starts at the largest size that fits (its lost height is taken back with
-  // a negative bottom margin, so the text below still follows it).
+  // a negative bottom margin, so the text below still follows it). If even
+  // the compact size doesn't fit beside the menu (a long title on a phone),
+  // the title stays an ordinary heading under the bar (.page-title--below).
   (() => {
     const bar = document.querySelector('.page-bar');
     const nav = bar.querySelector('.page-bar__nav');
     const title = document.querySelector('.page-title');
     const main = title.parentElement;
-    let range = 1, scaleStart = 1, scaleMin = 1, ticking = false;
+    let range = 1, scaleStart = 1, scaleMin = 1, fits = true, ticking = false;
 
     const measure = () => {
       title.style.transform = title.style.marginTop = title.style.marginBottom = title.style.top = '';
@@ -83,6 +85,9 @@ layout: base
       scaleMin = 1.25 * rootSize / parseFloat(getComputedStyle(title).fontSize);   // --text-xl
       const room = nav.getBoundingClientRect().left - title.getBoundingClientRect().left
         - 1.5 * rootSize;                                                            // --space-5 gap
+      fits = room >= title.offsetWidth * scaleMin;
+      title.classList.toggle('page-title--below', !fits);
+      if (!fits) { update(); return; }
       scaleStart = Math.max(scaleMin, Math.min(1, room / title.offsetWidth));
       const top = (bar.offsetHeight - height * scaleMin) / 2;   // compact title centred in the bar
       title.style.top = top + 'px';
@@ -94,6 +99,7 @@ layout: base
 
     const update = () => {
       ticking = false;
+      if (!fits) { bar.classList.toggle('is-compact', scrollY > 0); return; }
       const progress = Math.min(1, Math.max(0, scrollY / range));
       const scale = scaleStart - (scaleStart - scaleMin) * progress;
       title.style.transform = scale < 1 ? `scale(${scale})` : '';
@@ -106,6 +112,52 @@ layout: base
     addEventListener('resize', measure);
     document.fonts.ready.then(measure);
     measure();
+  })();
+
+  // Dock (components.css): marks the page's .dock as docked once its sticky
+  // part (the strip on phones, the control on wide screens) has reached its
+  // place, so the strip can take the bar's background. A short page (a few
+  // publications) gets just enough space at the bottom for the dock to
+  // reach the bar, so it always docks the same way.
+  (() => {
+    const dock = document.querySelector('.dock');
+    if (!dock) return;
+    const control = dock.querySelector('.segmented');
+    const main = dock.closest('main');
+    const sticky = () => getComputedStyle(dock).position === 'sticky' ? dock : control;
+    let ticking = false;
+
+    const update = () => {
+      ticking = false;
+      const el = sticky();
+      const top = el.getBoundingClientRect().top;
+      dock.classList.toggle('is-docked', top <= parseFloat(getComputedStyle(el).top) + 0.5);
+    };
+
+    const makeRoom = () => {
+      main.style.paddingBottom = '';
+      const el = sticky();
+      el.style.position = 'static';   // its place in the page, not where it is stuck
+      const place = el.getBoundingClientRect().top + scrollY;
+      el.style.position = '';
+      // Scrolling it needs to dock, minus the scrolling the page allows. On a
+      // page shorter than the window, part of the added space only fills the
+      // window, so check again.
+      const travel = place - parseFloat(getComputedStyle(el).top);
+      for (let i = 0; i < 3; i++) {
+        const need = Math.ceil(travel - (document.documentElement.scrollHeight - innerHeight));
+        if (need <= 0) break;
+        main.style.paddingBottom = parseFloat(getComputedStyle(main).paddingBottom) + need + 'px';
+      }
+      update();
+    };
+
+    addEventListener('scroll', () => {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    }, { passive: true });
+    addEventListener('resize', makeRoom);
+    document.fonts.ready.then(makeRoom);
+    makeRoom();
   })();
 </script>
 {%- endunless %}

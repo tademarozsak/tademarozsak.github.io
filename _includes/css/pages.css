@@ -79,9 +79,8 @@
 }
 
 /* --------------------------------------------------------------------------
-   Research (_layouts/project.html): project cards, then the introductory /
-   technical versions. Without :has() support both versions simply show one
-   after the other.
+   Research (_layouts/project.html): project cards, then the paper button
+   (.dock, components.css) and the summary.
    -------------------------------------------------------------------------- */
 
 /* Project cards: picture + name + one sentence. As many per row as fit. */
@@ -161,73 +160,6 @@
   color: var(--color-text-muted);
 }
 
-/* The toggle sits centred under the cards and stays reachable while you read.
-   Wide screens: it sticks once it reaches the bar, centred between the
-   docked title and the menu (its strip, .levels__bar, has no box there).
-   Phones: the bar is too narrow to hold it, so the strip docks just under
-   the bar instead, full width, and continues the bar's background
-   (.is-docked, set by the script in _layouts/project.html). */
-.levels__bar > .segmented {
-  display: flex;
-  width: fit-content;
-  margin: 0 auto;
-}
-
-@media (max-width: 47.99rem) {
-  .levels__bar {
-    position: sticky;
-    top: var(--page-bar-height);
-    z-index: 9;  /* under the bar */
-    margin: 0 calc(-1 * var(--page-gutter)) calc(var(--space-6) - var(--space-2));
-    padding: var(--space-2) var(--page-gutter);
-    border-bottom: 1px solid transparent;
-    transition:
-      background-color var(--duration-bar) var(--ease-standard),
-      border-color var(--duration-bar) var(--ease-standard);
-  }
-
-  .levels__bar.is-docked {
-    background-color: var(--color-surface);
-    border-bottom-color: var(--color-border);
-  }
-
-  /* Bar and strip read as one: the line moves to the strip's bottom edge. */
-  .page-frame:has(.levels__bar.is-docked) .page-bar {
-    border-bottom-color: transparent;
-  }
-
-  /* Links to footnotes and headings land below both. */
-  html:has(.levels__bar) {
-    scroll-padding-top: calc(var(--page-bar-height) + var(--levels-bar-height) + var(--space-4));
-  }
-}
-
-@media (min-width: 48rem) {
-  .levels__bar {
-    display: contents;
-  }
-
-  .levels__bar > .segmented {
-    position: sticky;
-    top: calc((var(--page-bar-height) - var(--tap-target)) / 2 - 1px);  /* centred in the bar */
-    z-index: 11;  /* above the bar */
-    margin-bottom: var(--space-6);
-  }
-}
-
-/* Shown only when a research text breaks the one-title rule (see project.html). */
-.build-warning {
-  padding: var(--space-3) var(--space-4);
-  border: 1px solid currentColor;
-  border-radius: var(--radius-md);
-  color: var(--color-danger);
-  font-size: var(--text-sm);
-}
-
-.levels:has(#level-technical:checked) .levels__view--introductory,
-.levels:has(#level-introductory:checked) .levels__view--technical {
-  display: none;
-}
 
 /* --------------------------------------------------------------------------
    Publications (publications.html, _includes/publication.html)
@@ -254,22 +186,33 @@
 }
 
 .publication__title {
-  font-size: clamp(var(--text-xl), 3vw, var(--text-3xl));
+  font-size: clamp(var(--text-xl), 3vw, var(--text-2xl));
   margin: 0 0 var(--space-3);
 }
 
+/* Co-authors quieter; your own name in the text colour. DM Serif Text has
+   no bold, so the contrast does the highlighting. */
 .publication__authors {
   margin: 0 0 var(--space-2);
-  color: var(--color-text-muted);
+  color: var(--color-text-subtle);
+  line-height: var(--leading-normal);
+}
+
+.publication__me {
+  color: var(--color-text);
+}
+
+.publication__mark {
+  font-size: 0.8em;
+}
+
+.publication__note {
+  font-size: var(--text-sm);
+  white-space: nowrap;
 }
 
 .publication__venue {
-  margin: 0 0 var(--space-4);
-  font-style: italic;
-}
-
-.publication__links {
-  --cluster-gap: var(--space-2) var(--space-5);
+  margin: 0;
 }
 
 /* --------------------------------------------------------------------------

@@ -1,21 +1,46 @@
 {%- comment -%}
   One publication entry. Usage: {% include publication.html pub=item %}
-  where item has: title, authors (list), year, venue, links (list of {label, url}).
+  where item is an entry of _data/publications.yml (see the notes there).
+    Authors   a long list (over 8) is shortened to the first three (or all
+              who contributed equally), you, and the last author, with "…"
+              for the rest. Your name (site.author) is set darker.
+    Venue     journal in italics, then volume, article number or pages, year.
+              An accepted paper (status) shows that instead of the numbers.
+    Title     links to the article (via its DOI, new tab, ↩︎ at the end), or
+              to the arXiv preprint until it has one.
 {%- endcomment -%}
 {%- assign pub = include.pub -%}
+{%- assign count = pub.authors | size -%}
+{%- assign equal = pub.equal | default: 0 -%}
+{%- assign keep = 3 -%}
+{%- if equal > keep %}{% assign keep = equal %}{% endif -%}
+{%- assign last = count | minus: 1 -%}
 <li class="publication">
-  <h2 class="publication__title">{{ pub.title }}</h2>
+  <h2 class="publication__title">
+    {%- if pub.doi or pub.arxiv -%}
+    {%- if pub.doi %}{% assign href = "https://doi.org/" | append: pub.doi %}{% else %}{% assign href = "https://arxiv.org/abs/" | append: pub.arxiv %}{% endif -%}
+    <a href="{{ href }}" class="link-inline" target="_blank" rel="noopener">{{ pub.title }}<span class="link-inline__arrow" aria-hidden="true">&#8617;&#xfe0e;</span></a>
+    {%- else -%}
+    {{ pub.title }}
+    {%- endif -%}
+  </h2>
   <p class="publication__authors">
+    {%- assign gap = false -%}
     {%- for author in pub.authors -%}
-      {%- if author == site.author %}<strong>{{ author }}</strong>{% else %}{{ author }}{% endif -%}
-      {%- unless forloop.last %}, {% endunless -%}
-    {%- endfor %} ({{ pub.year }}).
+      {%- assign i = forloop.index0 -%}
+      {%- if count <= 8 or i < keep or i == last or author == site.author -%}
+        {%- if gap %}, …, {% assign gap = false %}{% elsif i > 0 %}, {% endif -%}
+        {%- if author == site.author %}<span class="publication__me">{{ author }}</span>{% else %}{{ author }}{% endif -%}
+        {%- if i < equal %}<span class="publication__mark">†</span>{% endif -%}
+      {%- else -%}
+        {%- assign gap = true -%}
+      {%- endif -%}
+    {%- endfor -%}
+    {%- if equal > 0 %} <span class="publication__note">(† equal contribution)</span>{% endif -%}
   </p>
-  <p class="publication__venue">{{ pub.venue }}</p>
-  {% if pub.links %}
-  <div class="cluster publication__links">
-    {% for link in pub.links %}<a href="{{ link.url }}" class="link">{{ link.label }}</a>
-    {% endfor %}
-  </div>
-  {% endif %}
+  <p class="publication__venue">
+    <i>{{ pub.journal }}</i>
+    {%- if pub.status %} ({{ pub.status }}, {{ pub.year }})
+    {%- else %}{% if pub.volume %} {{ pub.volume }}{% endif %}{% if pub.number %}, {{ pub.number }}{% endif %} ({{ pub.year }}){% endif -%}
+  </p>
 </li>

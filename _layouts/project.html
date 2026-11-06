@@ -4,17 +4,15 @@ layout: page
 {%- comment -%}
   A research project page (one per file in _projects/).
     Cards     every project, in `order`; the current one is highlighted.
-    Toggle    Introductory / Technical. Works without JavaScript (CSS :has);
-              the script adds shareable links (…/#technical), remembers the
-              choice, and docks the toggle while you read: in the bar on wide
-              screens, in a strip under it on phones (.levels__bar).
-    Heading   the project's `heading` (front matter), drawn here once for both
-              versions, so they always share one title. The texts must not
-              have their own: a `##` heading in them shows a warning on the
-              page instead of a second title.
-    Texts     _includes/research/<project file name>/introductory.md and
-              technical.md (Markdown, citations, maths). `###` subheadings
-              (like References) are fine.
+    Paper     a button to the project's paper, docked while you read (.dock,
+              components.css). `paper` in the project's front matter names
+              the paper by its arXiv id or DOI, in quotes ('2512.22980'),
+              or YAML reads the id as a number; the entry in
+              _data/publications.yml with that id decides where it goes: the
+              journal once it has a DOI, otherwise arXiv. No `paper` (or no
+              match): no button.
+    Heading   the project's `heading` (front matter).
+    Summary   the Markdown below the front matter of the project's file.
 {%- endcomment -%}
 {%- assign projects = site.projects | sort: "order" -%}
 <nav class="project-cards" aria-label="Projects">
@@ -23,90 +21,23 @@ layout: page
   {%- endfor %}
 </nav>
 
-<div class="levels">
-  <div class="levels__bar">
-    <div class="segmented" role="radiogroup" aria-label="Level of detail">
-      <input class="segmented__input" type="radio" name="level" id="level-introductory" value="introductory" checked>
-      <label class="segmented__option" for="level-introductory">Introductory</label>
-      <input class="segmented__input" type="radio" name="level" id="level-technical" value="technical">
-      <label class="segmented__option" for="level-technical">Technical</label>
-    </div>
-  </div>
-
-  <div class="prose">
-    <h2 id="{{ page.heading | slugify }}">{{ page.heading }}</h2>
-  </div>
-
-  {%- assign levels = "introductory,technical" | split: "," %}
-  {%- for level in levels %}
-  <article class="prose levels__view levels__view--{{ level }}">
-    {%- capture text %}{% include research/{{ page.slug }}/{{ level }}.md %}{% endcapture %}
-    {%- assign html = text | markdownify %}
-    {%- if html contains "<h2" %}
-    <p class="build-warning">_includes/research/{{ page.slug }}/{{ level }}.md has its own ## heading. Remove it: the title comes from <code>heading</code> in _projects/{{ page.slug }}.md.</p>
+{%- if page.paper %}
+{%- assign paper = site.data.publications | where: "arxiv", page.paper | first %}
+{%- unless paper %}{% assign paper = site.data.publications | where: "doi", page.paper | first %}{% endunless %}
+{%- endif %}
+{%- if paper %}
+<div class="dock">
+  <nav class="segmented" aria-label="Paper">
+    {%- if paper.doi %}
+    <a href="https://doi.org/{{ paper.doi }}" class="segmented__option" target="_blank" rel="noopener"><span>Read in <i>{{ paper.journal }}</i></span></a>
+    {%- else %}
+    <a href="https://arxiv.org/abs/{{ paper.arxiv }}" class="segmented__option" target="_blank" rel="noopener">Read on arXiv</a>
     {%- endif %}
-    {{ html }}
-  </article>
-  {%- endfor %}
+  </nav>
 </div>
+{%- endif %}
 
-<script>
-  // Which version shows:
-  //   1. …/#technical or …/#introductory in the URL (shareable links), else
-  //   2. the version this visitor last chose, on any project (remembered in
-  //      their browser), else
-  //   3. introductory.
-  // Switching keeps the URL in sync and remembers the choice.
-  (() => {
-    const KEY = 'research-level';
-    const remember = (level) => { try { localStorage.setItem(KEY, level); } catch (e) {} };
-    const remembered = () => { try { return localStorage.getItem(KEY); } catch (e) { return null; } };
-    const radioFor = (level) => document.getElementById('level-' + level);
-
-    const showFromUrl = () => {
-      const radio = radioFor(location.hash.slice(1));
-      if (radio) { radio.checked = true; remember(radio.value); }
-      return Boolean(radio);
-    };
-
-    if (!showFromUrl()) {
-      const radio = radioFor(remembered());
-      if (radio && !radio.checked) {
-        radio.checked = true;
-        if (!location.hash) history.replaceState(null, '', '#' + radio.value);
-      }
-    }
-    // Docking (CSS in pages.css): the toggle sticks in the bar (wide screens)
-    // or in a strip under it (phones, .levels__bar). It counts as docked once
-    // it has reached its sticky position.
-    const strip = document.querySelector('.levels__bar');
-    const toggle = strip.querySelector('.segmented');
-    const heading = document.querySelector('.levels .prose h2');
-    const stuck = () => [strip, toggle].find((el) => getComputedStyle(el).position === 'sticky');
-    const docked = () => {
-      const el = stuck();
-      return Boolean(el) && el.getBoundingClientRect().top <= parseFloat(getComputedStyle(el).top) + 0.5;
-    };
-    let ticking = false;
-    const update = () => {
-      ticking = false;
-      strip.classList.toggle('is-docked', stuck() === strip && docked());
-    };
-    addEventListener('scroll', () => {
-      if (!ticking) { ticking = true; requestAnimationFrame(update); }
-    }, { passive: true });
-    addEventListener('resize', update);
-    update();
-
-    window.addEventListener('hashchange', showFromUrl);
-    for (const radio of document.querySelectorAll('input[name="level"]')) {
-      radio.addEventListener('change', () => {
-        // Switching while reading further down: start the other version from
-        // its beginning instead of at a random point in it.
-        if (docked()) heading.scrollIntoView({ block: 'start', behavior: 'instant' });
-        history.replaceState(null, '', '#' + radio.value);
-        remember(radio.value);
-      });
-    }
-  })();
-</script>
+<article class="prose">
+  <h2 id="{{ page.heading | slugify }}">{{ page.heading }}</h2>
+  {{ content }}
+</article>

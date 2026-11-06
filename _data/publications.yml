@@ -1,12 +1,97 @@
-# Publications, newest first. Each entry renders on /publications/.
-# To go live: add entries, remove `published: false` from publications.html,
-# and uncomment the Publications link in _data/links.yml.
-#
-# - title: Title of the paper
-#   authors: [Tade Marozsak, Co-author One]   # the name matching `author` in _config.yml is bolded
-#   year: 2026
-#   venue: Journal of Something, 12(3), 45–67
-#   links:
-#     - { label: PDF, url: https://example.org/paper.pdf }
-#     - { label: DOI, url: https://doi.org/10.0000/example }
-[]
+# Publications, newest first, shown on /publications/.
+# Made by _tools/publications.rb from ORCID and Crossref: run it again after
+# a new paper appears on ORCID. Hand edits that survive a re-run:
+#   equal: N       the first N authors contributed equally (marked †)
+#   arxiv: 'id'    the preprint; the title links to it until there is a DOI
+#   an entry without a doi (e.g. an accepted paper), with title, authors,
+#   year, journal and status; it stays until ORCID lists the same title.
+
+- title: Multiplexed vector beam conversion via nonunitary spatial polarization transformation
+  authors:
+  - Runchen Zhang
+  - Tade Marozsak
+  - Liangyu Deng
+  - Yunqi Zhang
+  - Ruofu Liu
+  - Yifei Ma
+  - Tingxian Gao
+  - Haochuan Geng
+  - Qihao Han
+  - Zhiyi Liu
+  - Ben Dai
+  - Steve J. Elston
+  - Honghui He
+  - Stephen M. Morris
+  - Chao He
+  year: 2026
+  journal: Nature Communications
+  status: accepted
+  arxiv: '2512.22980'
+  equal: 4
+- title: A reconfigurable arbitrary retarder array as complex structured matter
+  authors:
+  - Chao He
+  - Binguo Chen
+  - Zipei Song
+  - Zimo Zhao
+  - Yifei Ma
+  - Honghui He
+  - Lin Luo
+  - Tade Marozsak
+  - An Aloysius Wang
+  - Rui Xu
+  - Peixiang Huang
+  - Jiawen Li
+  - Xuke Qiu
+  - Yunqi Zhang
+  - Bangshan Sun
+  - Jiahe Cui
+  - Yuxi Cai
+  - Yun Zhang
+  - Andong Wang
+  - Mohan Wang
+  - Patrick Salter
+  - Julian AJ Fells
+  - Ben Dai
+  - Shaoxiong Liu
+  - Limei Guo
+  - Yonghong He
+  - Hui Ma
+  - Daniel J. Royston
+  - Steve J. Elston
+  - Qiwen Zhan
+  - Chengwei Qiu
+  - Stephen M. Morris
+  - Martin J. Booth
+  - Andrew Forbes
+  year: 2025
+  date: '2025-05-27'
+  journal: Nature Communications
+  volume: '16'
+  number: '4902'
+  doi: 10.1038/s41467-025-59846-4
+- title: Topological protection of optical skyrmions through complex media
+  authors:
+  - An Aloysius Wang
+  - Zimo Zhao
+  - Yifei Ma
+  - Yuxi Cai
+  - Runchen Zhang
+  - Xiaoyi Shang
+  - Yunqi Zhang
+  - Ji Qin
+  - Zhi-Kai Pong
+  - Tade Marozsak
+  - Binguo Chen
+  - Honghui He
+  - Lin Luo
+  - Martin J. Booth
+  - Steve J. Elston
+  - Stephen M. Morris
+  - Chao He
+  year: 2024
+  date: '2024-11-22'
+  journal: 'Light: Science & Applications'
+  volume: '13'
+  number: '314'
+  doi: 10.1038/s41377-024-01659-z

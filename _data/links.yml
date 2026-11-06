@@ -1,16 +1,16 @@
 # Links in the home page navigation, in display order.
-# Internal pages start with "/" and open in the same tab; external sites (https://) open in a new tab.
+# Internal pages start with "/" and open in the same tab (they also appear in
+# the bar on inner pages); external sites (https://) open in a new tab.
+# copy: true on a mailto: link makes it copy the address (with a copy icon).
+# Google Scholar and ORCID are linked from /publications/ (ids in _config.yml).
 - label: Research
   url: /research/
-# - label: Publications        # uncomment once _data/publications.yml has entries
-#   url: /publications/
-- label: Email
-  url: mailto:marozsak@mit.edu
-- label: LinkedIn
-  url: https://www.linkedin.com/in/tademarozsak/
-- label: Google Scholar
-  url: https://scholar.google.com/citations?user=AH-frOoAAAAJ&hl=en
-- label: ORCID
-  url: https://orcid.org/0009-0008-4144-3920
+- label: Publications
+  url: /publications/
 - label: CV
   url: /cv/
+- label: Email
+  url: mailto:marozsak@mit.edu
+  copy: true          # a click copies the address instead of opening a mail app
+- label: LinkedIn
+  url: https://www.linkedin.com/in/tademarozsak/

@@ -100,6 +100,29 @@
   }
 }
 
+/* Copy link (.link.copy-link, home page Email): copies the address on click.
+   The copy icon turns into an accent tick for a moment (.is-copied, set by
+   the script in index.html). */
+.copy-link {
+  gap: var(--space-1);
+}
+
+.copy-link .copy-link__icon {
+  width: 0.95em;
+  height: 0.95em;
+  color: var(--color-text-subtle);
+}
+
+.copy-link__icon--done,
+.copy-link.is-copied .copy-link__icon {
+  display: none;
+}
+
+.copy-link.is-copied .copy-link__icon--done {
+  display: block;
+  color: var(--color-accent);
+}
+
 /* The ↩︎ after an in-text link that leaves the site: the same character as
    the reference backlinks, right after the word and a little smaller than the
    text around it. */
@@ -196,6 +219,84 @@
   outline-offset: 2px;
 }
 
+/* Links can be options too (e.g. the profiles on /publications/): no
+   selected state, they fill in on hover instead. */
+a.segmented__option {
+  text-decoration: none;
+}
+
+a.segmented__option:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 2px;
+}
+
+@media (hover: hover) {
+  a.segmented__option:hover {
+    color: var(--color-button-text);
+    background-color: var(--color-button);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Dock: a segmented control that sits centred under the page's opening and
+   stays reachable while you read (the research toggle, the publication
+   profiles). One per page.
+     <div class="dock"><div class="segmented">…</div></div>
+   Wide screens: the control sticks once it reaches the bar, centred in it
+   (the .dock wrapper has no box there).
+   Phones: the bar is too narrow to hold it, so the whole .dock docks just
+   under the bar instead, full width, and continues the bar's background
+   once docked (.is-docked, set by the script in _layouts/page.html).
+   -------------------------------------------------------------------------- */
+
+.dock > .segmented {
+  display: flex;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+@media (max-width: 47.99rem) {
+  .dock {
+    position: sticky;
+    top: var(--page-bar-height);
+    z-index: 9;  /* under the bar */
+    margin: 0 calc(-1 * var(--page-gutter)) calc(var(--space-6) - var(--space-2));
+    padding: var(--space-2) var(--page-gutter);
+    border-bottom: 1px solid transparent;
+    transition:
+      background-color var(--duration-bar) var(--ease-standard),
+      border-color var(--duration-bar) var(--ease-standard);
+  }
+
+  .dock.is-docked {
+    background-color: var(--color-surface);
+    border-bottom-color: var(--color-border);
+  }
+
+  /* Bar and strip read as one: the line moves to the strip's bottom edge. */
+  .page-frame:has(.dock.is-docked) .page-bar {
+    border-bottom-color: transparent;
+  }
+
+  /* Links to footnotes and headings land below both. */
+  html:has(.dock) {
+    scroll-padding-top: calc(var(--page-bar-height) + var(--dock-height) + var(--space-4));
+  }
+}
+
+@media (min-width: 48rem) {
+  .dock {
+    display: contents;
+  }
+
+  .dock > .segmented {
+    position: sticky;
+    top: calc((var(--page-bar-height) - var(--tap-target)) / 2 - 1px);  /* centred in the bar */
+    z-index: 11;  /* above the bar */
+    margin-bottom: var(--space-6);
+  }
+}
+
 /* --------------------------------------------------------------------------
    Icons: SVGs from _includes/icons/. Colour follows the text (currentColor).
    Modifier: .icon--xl.
@@ -277,6 +378,14 @@
   margin-left: auto;
 }
 
+/* Phones: tighter (and tighter still on the narrowest), so the links leave
+   the title room and four of them still fit on a 320px screen. */
+@media (max-width: 47.99rem) {
+  .page-bar__nav {
+    gap: clamp(var(--space-4), 5vw, var(--space-5));
+  }
+}
+
 .page-main > .page-title {
   margin: 0;
   font-size: clamp(var(--text-3xl), 5vw, var(--text-5xl));
@@ -295,4 +404,10 @@
   z-index: 11;          /* above the bar */
   width: fit-content;
   transform-origin: left top;
+}
+
+/* Too long to fit beside the menu even when compact (set by the script):
+   an ordinary heading that scrolls away under the bar. */
+.page-main > .page-title--below {
+  position: static;
 }

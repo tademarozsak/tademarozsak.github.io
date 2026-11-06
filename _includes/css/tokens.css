@@ -15,7 +15,6 @@
   --gray-800: #1f2937;
   --gray-900: #111827;
   --brand-500: #2563eb;
-  --red-700: #b91c1c;
 
   /* Semantic colours */
   --color-canvas: var(--gray-50);
@@ -25,7 +24,6 @@
   --color-text-subtle: var(--gray-500);
   --color-border: var(--gray-200);
   --color-accent: var(--brand-500);   /* links on hover, current page */
-  --color-danger: var(--red-700);     /* authoring warnings */
   --color-link: var(--gray-800);      /* links: same as the text; blue only on hover */
   --color-button: var(--gray-800);
   --color-button-hover: var(--gray-900);
@@ -82,7 +80,7 @@
   --viewer-min-height: 32rem;     /* embedded documents (CV) never get shorter than this */
   --page-gutter: clamp(1rem, 3vw, 2rem);
   --page-bar-height: calc(var(--tap-target) + 2 * var(--space-3));  /* sticky bar on inner pages (slimmer on phones, below) */
-  --levels-bar-height: calc(var(--tap-target) + 2 * var(--space-2)); /* research toggle docked under the bar on phones */
+  --dock-height: calc(var(--tap-target) + 2 * var(--space-2));       /* .dock strip under the bar on phones */
 
   /* Motion */
   --duration-fast: 120ms;
