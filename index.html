@@ -43,20 +43,57 @@ description: Personal academic website of Tádé Marozsák, a PhD candidate in E
           // Focus pull (pages.css): the first time the home page is opened in a
           // visit, the photo comes into focus like a microscope image: it drifts
           // a little and goes from blurred, through focus, slightly past it and
-          // back. Added here, right after the photo, so it is blurred from the
-          // first paint; it starts once the image has loaded. Not with reduced
-          // motion, and without JavaScript the photo is simply shown.
+          // back, with a faint colour fringe either side of focus. The blur is
+          // the SVG filter below: it takes the photo's red, green and blue
+          // channels, blurs red and blue a little differently from green, and
+          // adds them back up in sRGB. The animation's two blur values are
+          // copied into it on every frame; it is removed at the end. Added
+          // here, right after the photo, so it is blurred from the first paint;
+          // it starts once the image has loaded. Not with reduced motion, nor
+          // in browsers that can't animate the blur values (@property); without
+          // JavaScript the photo is simply shown.
           (() => {
             try {
-              if (sessionStorage.getItem('focus-pulled') || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+              if (sessionStorage.getItem('focus-pulled') || matchMedia('(prefers-reduced-motion: reduce)').matches || !window.CSSPropertyRule) return;
               sessionStorage.setItem('focus-pulled', '1');
             } catch { return; }
             const frame = document.currentScript.previousElementSibling;
             const img = frame.querySelector('img');
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('aria-hidden', 'true');
+            svg.style.cssText = 'position: absolute; width: 0; height: 0';
+            svg.innerHTML = `
+              <filter id="focus-pull" color-interpolation-filters="sRGB">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="0"/>
+                <feColorMatrix values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="red"/>
+                <feGaussianBlur in="SourceGraphic" stdDeviation="0"/>
+                <feColorMatrix values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="green"/>
+                <feGaussianBlur in="SourceGraphic" stdDeviation="0"/>
+                <feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="blue"/>
+                <feComposite in="red" in2="green" operator="arithmetic" k2="1" k3="1"/>
+                <feComposite in2="blue" operator="arithmetic" k2="1" k3="1"/>
+              </filter>`;
+            frame.append(svg);
+            const [red, green, blue] = svg.querySelectorAll('feGaussianBlur');
+            let done = false;
+            const update = () => {
+              if (done) return;
+              const style = getComputedStyle(img);
+              const fringe = parseFloat(style.getPropertyValue('--focus-fringe')) || 0;
+              green.setAttribute('stdDeviation', parseFloat(style.getPropertyValue('--focus-blur')) || 0);
+              red.setAttribute('stdDeviation', fringe);
+              blue.setAttribute('stdDeviation', fringe);
+              requestAnimationFrame(update);
+            };
             frame.classList.add('is-focusing');
+            update();
             const start = () => frame.classList.add('is-loaded');
             if (img.complete) start(); else img.addEventListener('load', start), img.addEventListener('error', start);
-            frame.addEventListener('animationend', () => frame.classList.remove('is-focusing', 'is-loaded'));
+            img.addEventListener('animationend', () => {
+              done = true;
+              frame.classList.remove('is-focusing', 'is-loaded');
+              svg.remove();
+            });
           })();
         </script>
       </div>
