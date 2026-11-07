@@ -6,7 +6,7 @@ Personal academic website. Plain Jekyll, built automatically by GitHub Pages on 
 
 | To change…                         | Edit                                   |
 | ---------------------------------- | -------------------------------------- |
-| Name, tagline, site description, ORCID and Google Scholar ids | `_config.yml` |
+| Name (`title`; `author` is the spelling on your papers, highlighted in Publications), tagline, site description, ORCID and Google Scholar ids | `_config.yml` |
 | Bio and photo on the home page     | `index.html`, `assets/img/portrait.jpg` (500 px, with a 10% margin around what the circle shows; see `.profile-photo` in `pages.css`) |
 | Home page links (order, add, hide; `copy: true` makes Email copy the address) | `_data/links.yml` |
 | Research projects                  | `_projects/<name>.md`: card, title, paper, and the summary below the front matter |
@@ -37,7 +37,7 @@ Create `something.md` (or `.html`) at the root:
 ```yaml
 ---
 layout: page
-title: Something          # also becomes "Something | Tade Marozsak" in the tab
+title: Something          # also becomes "Something | Tádé Marozsák" in the tab
 description: One sentence for search results.
 permalink: /something/
 prose: true               # for long-form text

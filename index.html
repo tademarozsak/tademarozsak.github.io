@@ -1,12 +1,12 @@
 ---
 layout: base
-description: Personal academic website of Tade Marozsak, a PhD candidate in Electrical Engineering.
+description: Personal academic website of Tádé Marozsák, a PhD candidate in Electrical Engineering.
 ---
 <div class="page page--hero">
   <main>
     <section class="hero" aria-label="Introduction">
       <div class="hero__copy">
-        <h1 class="hero__name">{{ site.author }}</h1>
+        <h1 class="hero__name">{{ site.title }}</h1>
         <p class="hero__bio">
           I'm a PhD student at MIT researching label-free multi-photon microscopy techniques in the
           <a href="https://yougroup.mit.edu" class="link-inline" target="_blank" rel="noopener">Biophotonics Laboratory<span class="link-inline__arrow" aria-hidden="true">&#8617;&#xfe0e;</span></a>.
@@ -32,7 +32,7 @@ description: Personal academic website of Tade Marozsak, a PhD candidate in Elec
         <div class="profile-photo">
           <img
             src="{{ '/assets/img/portrait.jpg' | relative_url }}"
-            alt="Portrait of {{ site.author }}"
+            alt="Portrait of {{ site.title }}"
             width="500"
             height="500"
             draggable="false"

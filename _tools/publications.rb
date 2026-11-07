@@ -26,7 +26,7 @@ SITE = File.expand_path("..", __dir__)
 DATA = File.join(SITE, "_data", "publications.yml")
 CONFIG = YAML.load_file(File.join(SITE, "_config.yml"))
 ORCID = CONFIG.fetch("orcid")
-ME = CONFIG.fetch("author")   # your name as the site writes it
+ME = CONFIG.fetch("author")   # your name as printed on your papers
 HAND_FIELDS = %w[equal arxiv].freeze
 
 HEADER = <<~YAML

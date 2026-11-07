@@ -1,10 +1,10 @@
 # Site-wide settings. Restart `jekyll serve` after editing this file.
-title: Tade Marozsak
+title: Tádé Marozsák              # your name as the site shows it (home page, tab)
 tagline: PhD Candidate            # used in the home page <title>
-author: Tade Marozsak             # highlighted in publication author lists
+author: Tade Marozsak             # as printed on your papers; highlighted in publication author lists
 orcid: 0009-0008-4144-3920        # publications come from here (_tools/publications.rb)
 google_scholar: AH-frOoAAAAJ      # linked from /publications/
-description: Personal academic website of Tade Marozsak, a PhD student at MIT.
+description: Personal academic website of Tádé Marozsák, a PhD student at MIT.
 url: https://tademarozsak.github.io
 lang: en
 
