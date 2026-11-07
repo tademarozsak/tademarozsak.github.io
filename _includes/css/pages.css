@@ -246,6 +246,65 @@
   color: var(--color-text);
 }
 
+/* Animated figure in a project summary (lipid-droplets), built like .pol-figure: the animation,
+   labels as page text over it (curving under the pupil and the detection plot; an SVG sized by
+   the script in the page) and a caption. Made by explainers/thg_bead_animation/animate.py --web
+   in the Mathematica repository. Full width on phones; from 48rem it floats right. */
+.thg-figure {
+  margin: var(--space-5) 0;
+}
+@media (min-width: 48rem) {
+  .thg-figure {
+    float: right;
+    width: 42%;
+    margin: var(--space-2) 0 var(--space-4) var(--space-5);
+  }
+  .prose:has(.thg-figure) {
+    display: flow-root;   /* keep the float inside the summary */
+  }
+}
+/* The figure's box is the column of inputs: the image's faint tails run on above and below it
+   (negative margins, % of the figure's width), and 1.5em below it hold the label under the detection plot. */
+.thg-figure__art {
+  position: relative;
+  font-size: var(--text-sm);   /* label size, same as the caption */
+  margin: -3.06% 0 -0.00%;
+  padding-bottom: 1.5em;
+  pointer-events: none;        /* the faint tails may lie over text */
+}
+.thg-figure picture,
+.thg-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.thg-figure__labels {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 800 / 726;
+  overflow: visible;
+  pointer-events: none;
+  font-family: inherit;
+  font-size: calc(var(--text-sm) * 2.7);   /* until the script sets it */
+  fill: var(--color-text-subtle);
+}
+.thg-figure__small {
+  font-size: 0.8em;
+}
+.thg-figure__caption {
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--color-text-muted);
+}
+.thg-figure__caption strong {
+  font-weight: inherit;              /* DM Serif Text has no bold: set apart by colour */
+  color: var(--color-text);
+}
+
 
 /* --------------------------------------------------------------------------
    Publications (publications.html, _includes/publication.html)
