@@ -11,7 +11,7 @@ permalink: /research/      # the first project is also the Research page itself
 ---
 <figure class="thg-figure">
   <div class="thg-figure__art">
-    <picture>
+    <picture class="media-poster" style="--poster: url('{{ '/assets/img/projects/lipid-droplets-animation-poster.png' | relative_url }}')">
       <source srcset="{{ '/assets/img/projects/lipid-droplets-animation-still.png' | relative_url }}" media="(prefers-reduced-motion: reduce)">
       <source srcset="{{ '/assets/img/projects/lipid-droplets-animation.webp' | relative_url }}" type="image/webp">
       <img src="{{ '/assets/img/projects/lipid-droplets-animation.png' | relative_url }}" width="800" height="726" loading="lazy" decoding="async"
