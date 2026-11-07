@@ -29,15 +29,36 @@ description: Personal academic website of Tade Marozsak, a PhD candidate in Elec
       </div>
 
       <div class="hero__photo">
-        <img
-          class="profile-photo"
-          src="{{ '/assets/img/profile.jpg' | relative_url }}"
-          alt="Portrait of {{ site.author }}"
-          width="208"
-          height="208"
-          draggable="false"
-          oncontextmenu="return false;"
-        >
+        <div class="profile-photo">
+          <img
+            src="{{ '/assets/img/portrait.jpg' | relative_url }}"
+            alt="Portrait of {{ site.author }}"
+            width="500"
+            height="500"
+            draggable="false"
+            oncontextmenu="return false;"
+          >
+        </div>
+        <script>
+          // Focus pull (pages.css): the first time the home page is opened in a
+          // visit, the photo comes into focus like a microscope image: it drifts
+          // a little and goes from blurred, through focus, slightly past it and
+          // back. Added here, right after the photo, so it is blurred from the
+          // first paint; it starts once the image has loaded. Not with reduced
+          // motion, and without JavaScript the photo is simply shown.
+          (() => {
+            try {
+              if (sessionStorage.getItem('focus-pulled') || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+              sessionStorage.setItem('focus-pulled', '1');
+            } catch { return; }
+            const frame = document.currentScript.previousElementSibling;
+            const img = frame.querySelector('img');
+            frame.classList.add('is-focusing');
+            const start = () => frame.classList.add('is-loaded');
+            if (img.complete) start(); else img.addEventListener('load', start), img.addEventListener('error', start);
+            frame.addEventListener('animationend', () => frame.classList.remove('is-focusing', 'is-loaded'));
+          })();
+        </script>
       </div>
     </section>
   </main>

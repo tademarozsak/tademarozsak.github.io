@@ -87,6 +87,7 @@
   --duration-link: 350ms;
   --duration-bar: 250ms;   /* page bar gaining its background */
   --duration-page: 200ms;  /* cross-fade between pages */
+  --duration-focus: 1.1s;  /* home photo coming into focus */
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --ease-in-out: ease-in-out;
 }

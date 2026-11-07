@@ -44,14 +44,46 @@
 }
 
 .profile-photo {
-  display: block;
   width: 9rem;
   height: 9rem;
   border-radius: var(--radius-full);
-  object-fit: cover;
+  overflow: hidden;
+  isolation: isolate;   /* keeps the moving image clipped to the circle in Safari */
   box-shadow: var(--shadow-photo);
   pointer-events: none;
   user-select: none;
+}
+
+/* portrait.jpg has a margin around the framing shown: the image is 120% of
+   the circle, centred, so the focus pull below can move it without its
+   edges coming into view. */
+.profile-photo img {
+  display: block;
+  width: 120%;
+  height: 120%;
+  margin: -10%;
+  max-width: none;
+  object-fit: cover;
+}
+
+/* Focus pull (script in index.html): the circle stays put like the field of
+   view, the image inside drifts and goes blurred -> in focus -> a little
+   past it -> in focus. While blurred it is slightly enlarged, as defocus
+   does. Translations are in % of the image: up to about 8% stays inside
+   its margin. */
+.profile-photo.is-focusing img {
+  animation: focus-pull var(--duration-focus) 0.1s var(--ease-in-out) both paused;
+}
+
+.profile-photo.is-loaded img {
+  animation-play-state: running;
+}
+
+@keyframes focus-pull {
+  0%   { filter: blur(4px);   transform: translate(4%, -3%) scale(1.04); }
+  55%  { filter: blur(0);     transform: translate(-0.8%, 0.6%) scale(1.004); }
+  75%  { filter: blur(1.2px); transform: translate(-0.5%, 0.4%) scale(1.01); }
+  100% { filter: blur(0);     transform: none; }
 }
 
 @media (min-width: 48rem) {

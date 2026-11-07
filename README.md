@@ -7,7 +7,7 @@ Personal academic website. Plain Jekyll, built automatically by GitHub Pages on 
 | To change…                         | Edit                                   |
 | ---------------------------------- | -------------------------------------- |
 | Name, tagline, site description, ORCID and Google Scholar ids | `_config.yml` |
-| Bio and photo on the home page     | `index.html`, `assets/img/profile.jpg` |
+| Bio and photo on the home page     | `index.html`, `assets/img/portrait.jpg` (500 px, with a 10% margin around what the circle shows; see `.profile-photo` in `pages.css`) |
 | Home page links (order, add, hide; `copy: true` makes Email copy the address) | `_data/links.yml` |
 | Research projects                  | `_projects/<name>.md`: card, title, paper, and the summary below the front matter |
 | Publications                       | run `_tools/publications.rb` (see below); hand edits in `_data/publications.yml` |
@@ -84,6 +84,6 @@ Open http://localhost:4000. After any CSS change, check **/styleguide/** (not li
 5. **Focus:** every focusable thing shows `--focus-ring` when reached by keyboard.
 6. **Icons:** Heroicons outline, 24px viewBox, `stroke-width="2"`, one file each in `_includes/icons/`, included with `{% include icons/name.svg %}`. They inherit text colour and are sized by `.icon` (or `.icon--xl`). One meaning per icon.
 7. **Fonts:** one font, DM Serif Text (400 + italic), for everything: text, headings, links and buttons. Load only weights that are used. DM Serif Text has no bold, so headings are 400 (`--font-weight-heading`).
-8. **Motion:** only via `--duration-*` / `--ease-*`. Changing page is a short cross-fade (`base.css`); nothing slides between pages. Reduced-motion users get no animation (handled globally in `base.css`).
+8. **Motion:** only via `--duration-*` / `--ease-*`. Changing page is a short cross-fade (`base.css`); nothing slides between pages. The home photo comes into focus like a microscope image the first time it is shown in a visit (`--duration-focus`; script in `index.html`, keyframes in `pages.css`). Reduced-motion users get no animation (handled globally in `base.css`).
 9. **Links:** pages on this site, email and documents open in the same tab; external sites linked from the home page (the lab and the navigation links with `://`) open in a new tab. Internal URLs start with `/` and go through `relative_url` in templates.
 10. **Pages:** every inner page uses `layout: page` (the home page uses `base`), so the `<head>`, sticky bar and title are never written by hand. If a page needs a different frame, add a front-matter option to `page.html` (like `prose` or `fill`) rather than a new header.
