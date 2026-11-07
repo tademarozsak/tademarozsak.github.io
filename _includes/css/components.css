@@ -462,6 +462,55 @@ a.segmented__option:focus-visible {
   }
 }
 
+/* Loading shimmer: a faint band of light that sweeps across something
+   while it loads, then pauses. A white band, so it only shows over what
+   isn't white. Used by .media-poster and the CV's page skeleton. With
+   reduced motion the band stays out of view. */
+@keyframes shimmer {
+  from { background-position: 110% 0; }
+  70%, to { background-position: -10% 0; }
+}
+
+.shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(100deg, transparent 35%, rgb(255 255 255 / 0.65) 50%, transparent 65%) 110% 0 / 250% 100% no-repeat;
+  animation: shimmer var(--duration-shimmer) var(--ease-in-out) infinite;
+}
+
+/* Media poster: a large image (an animation) that has a small still of its
+   first frame. While the large one loads, the still is shown in its place,
+   with the shimmer over the still's own shapes (masked by it). Put the
+   class and the still on the <picture> (or a wrapper of the <img>):
+     <picture class="media-poster" style="--poster: url('…-still.png')">
+   The script in _layouts/base.html adds .is-loading only if the image isn't
+   loaded yet, and removes it once it is; the switch is instant, since the
+   still is the first frame. Without JavaScript the image loads as usual. */
+.media-poster {
+  position: relative;
+}
+
+.media-poster.is-loading img {
+  opacity: 0;
+}
+
+.media-poster.is-loading::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--poster) center / 100% 100% no-repeat;
+}
+
+.media-poster.is-loading::after {
+  mask: var(--poster) center / 100% 100% no-repeat;
+}
+
+.media-poster.is-failed::after {
+  content: none;   /* the still stays; no shimmer */
+}
+
 /* --------------------------------------------------------------------------
    Page bar + title. Drawn only by _layouts/page.html, so every inner page has
    the same header. Don't rebuild it inside a page. The home page has no bar.

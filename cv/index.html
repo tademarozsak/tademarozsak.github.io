@@ -27,9 +27,38 @@ description: Curriculum Vitae of Tade Marozsak, a PhD candidate at MIT.
 </div>
 
 <div class="pdf-pages" data-src="{{ cv_url }}" role="document" aria-label="Curriculum Vitae">
-  <div class="pdf-status" data-pdf-status>
-    {% include icons/spinner.svg %}
-    <p>Loading CV…</p>
+  {%- comment -%}
+    While the CV loads: a blank page with faint lines where the CV's text
+    goes (name and contact details, then sections of entries), and the
+    shimmer over it. Replaced by the first page once it is drawn.
+  {%- endcomment %}
+  <div class="pdf-page pdf-skeleton shimmer" data-pdf-status>
+    <p class="visually-hidden" role="status">Loading CV…</p>
+    <div class="pdf-skeleton__sheet" aria-hidden="true">
+      <div class="pdf-skeleton__head">
+        <div class="pdf-skeleton__lines">
+          <span class="pdf-skeleton__line pdf-skeleton__line--name" style="--w: 70%"></span>
+          <span class="pdf-skeleton__line" style="--w: 55%"></span>
+        </div>
+        <div class="pdf-skeleton__lines pdf-skeleton__lines--end">
+          <span class="pdf-skeleton__line" style="--w: 22%"></span>
+          <span class="pdf-skeleton__line" style="--w: 45%"></span>
+          <span class="pdf-skeleton__line" style="--w: 38%"></span>
+          <span class="pdf-skeleton__line" style="--w: 90%"></span>
+        </div>
+      </div>
+      {%- for section in (1..3) %}
+      <span class="pdf-skeleton__line pdf-skeleton__line--heading"></span>
+      {%- for entry in (1..2) %}
+      <div class="pdf-skeleton__lines pdf-skeleton__entry">
+        <span class="pdf-skeleton__line" style="--w: {% cycle '52%', '46%', '58%' %}"></span>
+        <span class="pdf-skeleton__line" style="--w: 100%"></span>
+        <span class="pdf-skeleton__line" style="--w: 100%"></span>
+        <span class="pdf-skeleton__line" style="--w: {% cycle '64%', '38%', '81%', '57%' %}"></span>
+      </div>
+      {%- endfor %}
+      {%- endfor %}
+    </div>
   </div>
   <div class="pdf-status" data-pdf-fallback hidden>
     {% include icons/document.svg class="icon--xl" %}
@@ -104,7 +133,7 @@ description: Curriculum Vitae of Tade Marozsak, a PhD candidate at MIT.
       canvas.width = Math.floor(viewport.width);
       canvas.height = Math.floor(viewport.height);
       sheet.task = sheet.page.render({ canvasContext: canvas.getContext('2d'), viewport });
-      sheet.task.promise.then(() => {
+      return sheet.task.promise.then(() => {
         sheet.task = null;
         sheet.canvas.replaceWith(canvas);   // swap when ready, so a redraw never flashes blank
         sheet.canvas = canvas;
@@ -146,8 +175,8 @@ description: Curriculum Vitae of Tade Marozsak, a PhD candidate at MIT.
         box.append(el);
         const sheet = { page, el, canvas, task: null };
         sheets.push(sheet);
-        draw(sheet);
-        if (n === 1) status.hidden = true;
+        const drawn = draw(sheet);
+        if (n === 1) Promise.resolve(drawn).then(() => { status.hidden = true; });   // the skeleton until page 1 is drawn
         const scale = parseFloat(el.style.getPropertyValue('--scale-factor')) || 1;
         lib.renderTextLayer({ textContentSource: await page.getTextContent(), container: text, viewport: page.getViewport({ scale }) });
         addLinks(sheet, base);

@@ -23,6 +23,7 @@
   --color-text-muted: var(--gray-700);
   --color-text-subtle: var(--gray-500);
   --color-border: var(--gray-200);
+  --color-placeholder: var(--gray-100);   /* stand-in shapes while something loads */
   --color-accent: var(--brand-500);   /* links on hover, current page */
   --color-link: var(--gray-800);      /* links: same as the text; blue only on hover */
   --color-button: var(--gray-800);
@@ -88,6 +89,7 @@
   --duration-bar: 250ms;   /* page bar gaining its background */
   --duration-page: 200ms;  /* cross-fade between pages */
   --duration-focus: 1.1s;  /* home photo coming into focus */
+  --duration-shimmer: 2s;  /* one sweep of the loading shimmer, with a pause */
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --ease-in-out: ease-in-out;
 }

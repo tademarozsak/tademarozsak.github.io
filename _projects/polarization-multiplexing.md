@@ -10,7 +10,7 @@ In a vector beam, the polarisation of light changes across the beam, so the beam
 
 <figure class="pol-figure">
   <div class="pol-figure__art">
-    <picture>
+    <picture class="media-poster" style="--poster: url('{{ '/assets/img/projects/polarization-multiplexing-animation-still.png' | relative_url }}')">
       <source srcset="{{ '/assets/img/projects/polarization-multiplexing-animation-still.png' | relative_url }}" media="(prefers-reduced-motion: reduce)">
       <source srcset="{{ '/assets/img/projects/polarization-multiplexing-animation.webp' | relative_url }}" type="image/webp">
       <img src="{{ '/assets/img/projects/polarization-multiplexing-animation.png' | relative_url }}" width="1200" height="544" loading="lazy" decoding="async"

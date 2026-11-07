@@ -78,6 +78,21 @@ sample_project:
 </section>
 
 <section class="sg-section">
+  <h2>Loading (.shimmer)</h2>
+  <div class="pdf-page pdf-skeleton shimmer" style="width: 12rem; margin-inline: 0">
+    <div class="pdf-skeleton__sheet" aria-hidden="true">
+      <span class="pdf-skeleton__line pdf-skeleton__line--name" style="--w: 45%"></span>
+      <span class="pdf-skeleton__line pdf-skeleton__line--heading"></span>
+      <div class="pdf-skeleton__lines pdf-skeleton__entry">
+        <span class="pdf-skeleton__line" style="--w: 52%"></span>
+        <span class="pdf-skeleton__line" style="--w: 100%"></span>
+        <span class="pdf-skeleton__line" style="--w: 64%"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sg-section">
   <h2>Project card</h2>
   <nav class="project-cards" aria-label="Sample projects">
     {% include project-card.html project=page.sample_project %}

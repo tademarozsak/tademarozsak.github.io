@@ -5,5 +5,18 @@
 </head>
 <body>
   {{ content }}
+  <script>
+    // Media posters (.media-poster, components.css): show the still, with the
+    // shimmer, until the large image has loaded and can be drawn.
+    for (const poster of document.querySelectorAll('.media-poster')) {
+      const img = poster.querySelector('img');
+      if (!img || (img.complete && img.naturalWidth)) continue;
+      poster.classList.add('is-loading', 'shimmer');
+      img.addEventListener('load', () => img.decode().catch(() => {}).then(() => {
+        poster.classList.remove('is-loading', 'shimmer');
+      }), { once: true });
+      img.addEventListener('error', () => poster.classList.add('is-failed'), { once: true });
+    }
+  </script>
 </body>
 </html>

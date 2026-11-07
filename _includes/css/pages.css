@@ -436,7 +436,68 @@
   }
 }
 
-/* Loading, and the download offer if the CV can't be drawn. */
+/* Loading: a blank A4 page (the CV's size) with faint lines where the text
+   goes, under the shimmer (.shimmer, components.css). Sizes are in % of the
+   page's width (cqi), so it looks the same at every width and zoom. */
+.pdf-skeleton {
+  aspect-ratio: 595.276 / 841.89;
+  container-type: inline-size;
+}
+
+.pdf-skeleton[hidden] {
+  display: none;
+}
+
+.pdf-skeleton__sheet {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 10cqi 8cqi;
+}
+
+.pdf-skeleton__head {
+  display: flex;
+  justify-content: space-between;
+  align-self: stretch;
+  margin-bottom: 3cqi;
+}
+
+.pdf-skeleton__lines {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1cqi;
+  width: 45%;
+}
+
+.pdf-skeleton__lines--end {
+  align-items: flex-end;
+}
+
+.pdf-skeleton__entry {
+  width: 100%;
+  margin-top: 2.6cqi;
+}
+
+.pdf-skeleton__line {
+  display: block;
+  width: var(--w, 30%);
+  height: 1.3cqi;
+  border-radius: 0.3cqi;
+  background-color: var(--color-placeholder);
+}
+
+.pdf-skeleton__line--name {
+  height: 3.4cqi;
+  margin-bottom: 0.6cqi;
+}
+
+.pdf-skeleton__line--heading {
+  width: 18%;
+  height: 2.4cqi;
+  margin-top: 4.5cqi;
+}
+
+/* The download offer if the CV can't be drawn. */
 .pdf-status {
   display: flex;
   flex-direction: column;
