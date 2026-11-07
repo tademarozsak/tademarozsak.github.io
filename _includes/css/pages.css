@@ -89,10 +89,14 @@
 @media (min-width: 48rem) {
   .hero {
     flex-direction: row;
+    justify-content: center;
     gap: var(--space-7);
   }
 
+  /* Only as wide as the text (the bio stops at --reading-width), so the
+     photo sits a gap's width after it, and the two are centred together. */
   .hero__copy {
+    flex-grow: 0;
     text-align: left;
   }
 
