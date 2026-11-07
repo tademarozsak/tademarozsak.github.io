@@ -15,6 +15,7 @@ Personal academic website. Plain Jekyll, built automatically by GitHub Pages on 
 | `<head>` (fonts, meta, CSS)        | `_includes/head.html`                  |
 | Inner page frame (sticky bar, title) | `_layouts/page.html` |
 | Icons                              | `_includes/icons/*.svg`                |
+| Tab icon (a DM Serif "T")         | `favicon.svg`, `favicon.ico`, `apple-touch-icon.png`, made by `_tools/favicon.py` |
 | Styles                             | `_includes/css/*.css` (see below)      |
 
 ```
@@ -23,9 +24,10 @@ _layouts/            base.html (every page) → page.html (inner pages) → proj
 _includes/           head, project card, publication entry, icons/, css/
 _data/               links.yml, publications.yml
 _projects/           one file per research project (card, title, paper, summary)
-_tools/              scripts: project card images, the publication list (not published)
+_tools/              scripts: project card images, the publication list, the tab icon (not published)
 assets/              css/main.css (joins the partials), img/
 index.html  publications.html  cv/  404.html  styleguide.html
+favicon.svg  favicon.ico  apple-touch-icon.png
 ```
 
 ## Adding a page
